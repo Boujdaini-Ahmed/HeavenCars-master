@@ -1,0 +1,92 @@
+﻿@model HeavenCars.ViewModels.Booking.CreateBookingViewModel
+@inject UserManager<HeavenCars.DataAccessLayer.Models.Account.ApplicationUser> userManager;
+
+@{ ViewData["Title"] = "Create";
+    var user = await userManager.GetUserAsync(Context.User); }
+
+
+<h1>Create</h1>
+
+<h4>Booking</h4>
+<hr />
+
+<div class="row my-auto d-flex justify-content-center text-center">
+    <h1>Create Board for @Model.Car.Name</h1>
+</div>
+<hr />
+<div class="row my-auto d-flex justify-content-center">
+    <div class=" col-md-8 my-auto d-flex justify-content-center">
+        <form asp-action="Create" asp-controller="Booking">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CarId" />
+            <input type="hidden" asp-for="BookingId" />
+
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+
+            <div>
+                @if (await userManager.IsInRoleAsync(user, "Admin"))
+                {
+    <input type="submit" value="Create" class="btn btn-primary mr-1" />
+                    <a asp-action="AdminIndex" asp-controller="Home" class="btn btn-secondary mr-1">Back to overview</a> }
+                else
+                {
+    <input type="submit" value="Create" class="btn btn-primary mr-1" />
+                    <a asp-action="Index" asp-controller="home" class="btn btn-secondary mr-1">Back to List</a>}
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@*<div class="row">
+        <div class="col-md-4">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="StartDate" class="control-label"></label>
+                    <input asp-for="StartDate" class="form-control" />
+                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EndDate" class="control-label"></label>
+                    <input asp-for="EndDate" class="form-control" />
+                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Car id</label>
+                    <select class="form-control" id="CarId" placeholder="CarId" required>
+                        <option>Please Select</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                        <label asp-for="CarId" class="control-label"></label>
+                        <select asp-for="CarId" class="form-control" asp-items="ViewBag.CarId"></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="BookingStatusId" class="control-label"></label>
+                        <select asp-for="BookingStatusId" class="form-control" asp-items="ViewBag.BookingStatusId"></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CarId" class="control-label"></label>
+                        <select asp-for="CarId" class="form-control" asp-items="ViewBag.CarId"></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ApplicationUserId" class="control-label"></label>
+                        <select asp-for="ApplicationUserId" class="form-control" asp-items="ViewBag.ApplicationUserId"></select>
+                    </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>*@
+

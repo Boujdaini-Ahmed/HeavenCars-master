@@ -1,0 +1,57 @@
+﻿@model HeavenCars.ViewModels.Booking.DetailBookingViewModel
+
+
+
+@{ ViewData["Title"] = "Details of Booking";
+    var bookingVehicule = Model.BookingVehicule;
+}
+
+
+<h1>Booking Detail</h1>
+
+<hr />
+
+<div class="jumbotron" style="margin-bottom:0">
+    <div class="row justify-content-center m-3">
+        <div class="col-sm-8">
+            <div class="card">
+                <div class="card-header">
+                    <h1>Booking Succes</h1>
+                </div>
+
+                <div class="card-body text-center">
+
+
+                    <h4>Booking Number: @bookingVehicule.BookingId</h4>
+                    <h4>Start Date: @bookingVehicule.StartDate</h4>
+                    <h4>End Date: @bookingVehicule.EndDate</h4>
+
+                    @if (User.IsInRole("Admin"))
+                    {
+        <h4>User: @bookingVehicule.CreateBy</h4>}
+
+
+                </div>
+
+                <div class="card-footer text-center">
+
+
+
+
+                    @if (User.IsInRole("Admin"))
+                    {
+        <a asp-controller="Booking" asp-action="BookingsList" class="btn btn-info">Back To List</a>}
+                    else
+                    {
+
+                    <a asp-controller="Cars" asp-action="ListCars" class="btn btn-info">Back</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/CustomScript.js"></script>
+}

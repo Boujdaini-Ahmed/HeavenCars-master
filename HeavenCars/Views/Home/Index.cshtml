@@ -1,0 +1,63 @@
+﻿
+@{
+
+        ViewBag.Title = "Get Started";
+
+    }
+
+    <div class="container">
+        <img src="~/images/Gamg.jpg" alt="Notebook" style="width:100%;">
+        <div class="content">
+            <h1> Heaven Cars</h1>
+            <p>
+                Heaven Cars is an expert in prestigious luxury car rental! We have an extensive fleet of models from the legendary world brands.
+                Only here you will find the most current modifications and new items. In Rent Luxe Car you can order a car rental in any city in Europe, and at the most attractive rates.
+            </p>
+        </div>
+    </div>
+    <div class="jumbotron">
+        <h3 class="display-5">
+            RENT YOUR DREAM CAR
+        </h3>
+
+        <p class="lead">CAR FROM 149€</p>
+        <hr class="my-4">
+        <p class="lead">
+            <a asp-controller="Cars" asp-action="ListCars" class="btn btn-info m-1">All Cars</a>
+        </p>
+    </div>
+
+    <div class="jumbotron">
+        <p class="lead">Get a quote</p>
+        <hr class="my-4">
+        <p class="lead">
+            <a asp-controller="Home" asp-action="Contact" class="btn btn-info m-1">Offerte</a>
+        </p>
+    </div>
+
+
+    <div class="container section-plan">
+        <div class="row">
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="row plan-box plan-success text-center">
+                    <div class="col-md-12 section1">
+                        <h2>Basic Plan</h2>
+                    </div>
+                    <div class="col-md-12 section2">
+                        <h3>$ 120 / Month</h3>
+                    </div>
+                    <div class="col-md-12 section3">
+                        <p>Personal use</p>
+                        <p>Unlimited project</p>
+                        <p>20/2 support</p>
+                    </div>
+                    <div class="col-md-12 section4">
+                        <button class="btn btn-danger btn-block">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+

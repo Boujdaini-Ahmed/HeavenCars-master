@@ -1,0 +1,61 @@
+﻿@model IEnumerable<HeavenCars.DataAccessLayer.Models.Cars.Car>
+
+@{ ViewBag.Title = "List Of All Cars"; }
+
+<h1>Cars</h1>
+
+<hr />
+
+<div class="row">
+
+    <div class="jumbotron" style="margin-bottom:0">
+
+        <form asp-action="ListCars" method="POST">
+
+            <div class="row input-group">
+                <input type="text" name="search" id="search" class="form-control" />
+                <div class="input-group-btn">
+                    <input type="submit" value="Search" class="btn btn-primary" />
+                    <input type="submit" value="Reset" class="btn btn-warning" />
+                </div>
+            </div>
+        </form>
+
+        <div class="col-6 text-right">
+            <a class="btn btn-info" asp-action="Create"><i class="fas fa-car"></i> &nbsp; Add Car</a>
+        </div>
+        <br />
+        <div class="col-12">
+            <table class="table table-striped border">
+                <tr class="table-info">
+                    <th>Photo</th>
+                    <th>
+                        <a asp-action="ListCars" asp-route-sortOrder="@ViewData["NameSortParm"]"> <span class="glyphicon glyphicon-sort"> Name</span>  </a>
+                    </th>
+                    <th>
+                        <a asp-action="ListCars" asp-route-sortOrder="@ViewData["PrijsSortParm"]"> <span class="glyphicon glyphicon-sort"> Prijs</span>  </a>
+                    </th>
+                    <th>Information</th>
+                </tr>
+                @foreach (var car in Model)
+                {
+                    var photoCar = $"~/images/{car.PhotoCar ?? "noimage.png"}";
+    <tr>
+        <td><img class="card-img-top" alt="Cinque Terre" src="@photoCar" asp-append-version="true" /></td>
+
+        <td>@car.Name</td>
+        <td>@car.Prijs</td>
+
+        <td>
+            <a asp-action="Details" asp-controller="Cars" asp-route-id="@car.CarId" class="btn btn-secondary mr-1">Details</a>
+        </td>
+    </tr>
+   }
+
+            </table>
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,125 @@
+﻿@model IEnumerable<HeavenCars.DataAccessLayer.Models.Bookings.BookingVehicule>
+@inject UserManager<HeavenCars.DataAccessLayer.Models.Account.ApplicationUser> userManager;
+@{ ViewBag.Title = "Booking List";
+    var user = await userManager.GetUserAsync(Context.User); }
+
+@*
+    <div class="row-cols-1 mt-lg-5 mb-lg-5 text-center">
+        <h1>Overview of all bookings of car</h1>
+    </div>
+
+    <div class="row justify-content-center m-3">
+        <table class="table table-striped bg-light text-center col-8">
+            <thead>
+                <tr>
+
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+
+                </tr>
+            </thead>
+            <tbody class="">
+                @foreach (var booking in Model)
+                {
+
+    <tr>
+
+        <td>@booking.BookingId</td>
+        <td>@booking.Car.Name</td>
+
+
+
+
+    </tr>
+
+
+
+
+
+            <a asp-action="Details" asp-controller="Booking" asp-route-id="@booking.BookingId" class="btn btn-success"> View Details</a>
+
+
+
+
+
+                }
+
+
+
+
+        </table>
+    </div>*@
+
+@*@model IEnumerable<HeavenCars.DataAccessLayer.Models.Bookings.BookingVehicule>
+
+    @{ ViewBag.Title = "List Of All Cars"; }
+
+    <h1>List Of Cars</h1>
+
+    <hr />
+
+    <div class="jumbotron" style="margin-bottom:0">
+
+        <form asp-action="BookingsList" method="POST">
+
+            <div class="row input-group">
+                <input type="text" name="search" id="search" class="form-control" />
+                <div class="input-group-btn">
+                    <input type="submit" value="Search" class="btn btn-primary" />
+                    <input type="submit" value="Reset" class="btn btn-warning" />
+                </div>
+            </div>
+        </form>
+
+        <div class="card-deck">
+            @foreach (var booking in Model)
+            {
+
+
+    <div class="card m-3" style="min-width: 18rem; max-width: 30.5%;">
+
+        <div class="card-header">
+            <h3>@booking.CarId</h3>
+            <h3>@booking.BookingId</h3>
+        </div>
+        <div class="card-footer text-center">
+            <a asp-action="Details" asp-controller="Cars" asp-route-id="@booking.BookingId">
+                <img src="~/images/loupe.jpg" height="70" width="70" asp-append-version="false" />
+            </a>
+            @if (User.IsInRole("Admin"))
+            {
+    <a asp-action="Delete" asp-controller="Cars" asp-route-id="@booking.BookingId" class="btn btn-danger">Delete</a>}
+        </div>
+    </div>}
+        </div>
+    </div>*@
+
+<div class="row">
+    <div class="col-12">
+        <table class="table table-sm table-striped table-hover border-bottom">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">End Date</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var booking in Model)
+                {
+    <tr>
+
+        <td>@booking.BookingId</td>
+        <td>@booking.StartDate</td>
+        <td>@booking.EndDate</td>
+
+        <td>
+            <a asp-action="Details" asp-controller="Booking" asp-route-id="@booking.BookingId" class="btn btn-secondary mr-1">Details</a>
+        </td>
+    </tr>}
+            </tbody>
+        </table>
+    </div>
+</div>
