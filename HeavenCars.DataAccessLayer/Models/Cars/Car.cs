@@ -11,13 +11,13 @@ namespace HeavenCars.DataAccessLayer.Models.Cars
         public int CarId { get; set; }
         public string Name { get; set; }
 
-        public string MinLeeftijd { get; set; }
+        public int MinLeeftijd { get; set; }
 
-        public string Prijs { get; set; }
+        public int Prijs { get; set; }
 
         public string PhotoCar { get; set; }
 
-        public string Kw { get; set; }
+        public int Kw { get; set; }
 
         public string Content { get; set; }
 

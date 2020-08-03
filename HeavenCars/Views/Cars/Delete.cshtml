@@ -15,15 +15,15 @@
 
                 <img class="card-img-top imageThumbnail" asp-append-version="true" src="@photoCar" />
 
-                <h4>Employee ID: @Model.CarId</h4>
-                <h4>Email: @Model.MinLeeftijd</h4>
-                <h4>Department: @Model.Prijs</h4>
-                <h4>Bank Account Number: @Model.Kw</h4>
+                <h4>Car ID: @Model.CarId</h4>
+                <h4>Leeftijd: @Model.MinLeeftijd</h4>
+                <h4>Prijs: @Model.Prijs</h4>
+                <h4>KW: @Model.Kw</h4>
 
             </div>
             <div class="card-footer text-center">
 
-                <form asp-action="Delete" asp-controller="Cars">
+                <form asp-action="DeleteShure" asp-controller="Cars">
                     <input hidden asp-for="@Model.CarId" />
                     <button class="btn btn-danger">Shure to Delete</button>
                 </form>

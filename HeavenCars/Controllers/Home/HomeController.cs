@@ -13,18 +13,25 @@ using HeavenCars.DataAccessLayer.Models.Account;
 using Microsoft.AspNetCore.Identity;
 using HeavenCars.DataAccesLayer.Context;
 using Microsoft.EntityFrameworkCore;
+using NLog.LayoutRenderers.Wrappers;
+using Microsoft.AspNetCore.Authorization;
+using System.Diagnostics;
+using System.Security.Claims;
 
 namespace HeavenCars.Controllers.Home
 {
+    [Authorize]
     public class HomeController : Controller
     {
         public readonly AppDbContext _context;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
 
 
-        public HomeController(AppDbContext context, UserManager<ApplicationUser> userManager)
+        public HomeController(AppDbContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _context = context;
+            _signInManager = signInManager;
             _userManager = userManager;
         }
         public IActionResult Index()
@@ -32,9 +39,34 @@ namespace HeavenCars.Controllers.Home
             return View();
         }
 
-        public IActionResult Chat()
+        public async Task<IActionResult> Chat()
         {
-            return View();
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (User.Identity.IsAuthenticated)
+            {
+                ViewBag.CurrentUserName = currentUser.UserName;
+            }
+            var messages = await _context.Messages.ToListAsync();
+            return View(messages);
+        }
+
+        public async Task<IActionResult> Create(Message message)
+        {
+            if (ModelState.IsValid)
+            {
+                message.UserName = User.Identity.Name;
+                var zender = await _userManager.GetUserAsync(User);
+                message.UserID = zender.Id;
+                await _context.Messages.AddAsync(message);
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            return Error();
+        }
+
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
 
@@ -83,5 +115,206 @@ namespace HeavenCars.Controllers.Home
             }
             return View();
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"User with Id = {id} cannot be found";
+                return View("NotFound");
+            }
+
+
+
+
+            var model = new PersoInformationViewModel
+            {
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                EmailConfirmed = user.EmailConfirmed,
+                PhoneNumber = user.PhoneNumber,
+                Address = user.Address
+
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(PersoInformationViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByIdAsync(model.Id);
+
+                if (user == null)
+                {
+                    ViewBag.ErrorMessage = $"User with Id = {model.Id} cannot be found";
+                    return View("NotFound");
+                }
+
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.Email = model.Email;
+                user.PhoneNumber = model.PhoneNumber;
+                user.Address = model.Address;
+
+
+
+                var result = await _userManager.UpdateAsync(user);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+
+            return View(model);
+        }
+
+        public IActionResult Intro()
+        {
+            return View();
+        }
+
+
+        public async Task<IActionResult> CreateRoom(string name)
+        {
+
+
+            _context.Chats.Add(new Chat
+            {
+                Name = name,
+                Type = ChatType.Room
+            });
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Intro");
+        }
+
+
+        //public IActionResult Find()
+        //{
+        //    var users = _context.Users
+        //        .Where(x => x.Id != User.FindFirst(ClaimTypes.NameIdentifier).Value)
+        //        .ToList();
+
+        //    return View(users);
+        //}
+
+        //public IActionResult CreatePrivateRoom(string userId)
+        //{
+        //    var chat = new Chat
+        //    {
+        //        Type = ChatType.Private
+        //    };
+
+        //    chat.ApplicationUsers.Add(new ChatUser{})
+
+        //    return View(users);
+        //}
+        //    [HttpGet]
+        //    public async Task<IActionResult> Edit()
+        //    {
+        //        var user = await _userManager.GetUserAsync(User);
+        //        if (user == null)
+        //        {
+        //            throw new ApplicationException($"Unable to load user with ID ' { _userManager.GetUserId(User)} '.");
+        //        }
+        //        var model = new PersoInformationViewModel
+        //        {
+        //            UserName = user.UserName,
+        //            Email = user.Email,
+        //            EmailConfirmed = user.EmailConfirmed,
+        //            PhoneNumber = user.PhoneNumber,
+        //            Address = user.Address
+
+        //        };
+
+        //        return View(model);
+        //    }
+
+        //    [HttpPost]
+        //    [ValidateAntiForgeryToken]
+        //    public async Task<IActionResult> Edit(PersoInformationViewModel model)
+        //    {
+        //    //    if (ModelState.IsValid)
+        //    //    {
+        //    //        return View(model);
+        //    //    }
+
+        //    //    var user = await _userManager.GetUserAsync(User);
+        //    //    user.Address = model.Address;
+        //    //    if (user == null)
+        //    //    {
+        //    //        throw new ApplicationException($"Unable to load user with ID ' { _userManager.GetUserId(User)} '.");
+        //    //    }
+
+        //    //    var email = model.Email;
+        //    //    if (model.Email != email)
+        //    //    {
+        //    //        var setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
+        //    //        if (!setEmailResult.Succeeded)
+        //    //        {
+        //    //            throw new ApplicationException($"Unexpected error occured setting email' {user.Id} '.");
+        //    //        }
+
+        //    //    }
+
+        //    //    var phoneNumber = model.PhoneNumber;
+        //    //    if (model.PhoneNumber != phoneNumber)
+        //    //    {
+        //    //        var setPhoneNumberResult = await _userManager.SetPhoneNumberAsync(user, model.PhoneNumber);
+        //    //        if (!setPhoneNumberResult.Succeeded)
+        //    //        {
+        //    //            throw new ApplicationException($"Unexpected error occured setting phone number with user with ID' {user.Id} '.");
+        //    //        }
+
+        //    //    }
+        //    //    await _userManager.UpdateAsync(user);
+
+        //    //    return RedirectToAction("Edit", "Home");
+        //    //}
+
+        //    //    if (user == null)
+        //    //    {
+        //    //        ViewBag.ErrorMessage = $"User with Id = {model.Id} cannot be found";
+        //    //        return View("NotFound");
+        //    //    }
+        //    //    user.FirstName = model.FirstName;
+        //    //    user.LastName = model.LastName;
+        //    //    user.Email = model.Email;
+        //    //    user.EmailConfirmed = model.EmailConfirmed;
+        //    //    user.UserName = model.UserName;
+        //    //    user.City = model.City;
+
+        //    //    var result = await _userManager.UpdateAsync(user);
+
+        //    //    if (result.Succeeded)
+        //    //    {
+        //    //        return RedirectToAction("Index", "Home");
+        //    //    }
+
+        //    //    foreach (var error in result.Errors)
+        //    //    {
+        //    //        ModelState.AddModelError(string.Empty, error.Description);
+        //    //    }
+        //    //}
+
+
+        //}
     }
 }
+
+    

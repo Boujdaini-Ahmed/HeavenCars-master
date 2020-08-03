@@ -21,6 +21,11 @@
     {
       "library": "font-awesome@5.13.1",
       "destination": "wwwroot/lib/font-awesome/"
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "fullcalendar@5.2.0",
+      "destination": "wwwroot/fullcalendar/"
     }
   ]
 }

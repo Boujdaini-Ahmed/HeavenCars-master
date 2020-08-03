@@ -1,0 +1,64 @@
+﻿@model HeavenCars.ViewModels.Booking.EditBookingViewModel
+@{ ViewData["Title"] = "Update Booking ";
+ }
+
+
+
+<div class="row my-auto d-flex justify-content-center text-center">
+    <h1>Update task @Model.BookingId</h1>
+</div>
+<hr />
+<div class="row my-auto d-flex justify-content-center ">
+    <div class="col-md-6 mx-auto">
+
+        <form asp-action="Edit" asp-controller="Booking" method="post">
+            <input type="hidden" asp-for="BookingId" />
+
+
+            <div class="form-group row">
+                <label asp-for="BookingId" class="col-sm-6 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input asp-for="BookingId" class="form-control" placeholder="Id" />
+                    <span asp-validation-for="BookingId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="StartDate" class="col-sm-6 col-form-label"></label>
+                <div class="col-sm-10">
+                    <textarea asp-for="StartDate" class="form-control" rows="3" cols="20" placeholder="Start Date"> </textarea>
+                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="EndDate" class="col-sm-6 col-form-label"></label>
+                <div class="col-sm-10">
+                    <textarea asp-for="EndDate" class="form-control" rows="3" cols="20" placeholder="End Date"> </textarea>
+                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="BookingVanStatus" class="col-sm-6 col-form-label"></label>
+                <div class="col-sm-10">
+                    <select asp-for="BookingVanStatus" asp-items="Html.GetEnumSelectList<HeavenCars.DataAccessLayer.Models.Bookings.BookingStatus>()" class="custom-select mr-sm-2">
+                        <option value="">Select Status</option>
+                    </select>
+                    <span asp-validation-for="BookingVanStatus" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="form-group row ">
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-success">Update</button>
+                    <a asp-action="BookingsList" asp-controller="Booking" asp-route-boardid="@Model.BookingId" class="btn btn-secondary">Back</a>
+                </div>
+            </div>
+        </form>
+            </div>
+    </div>
+

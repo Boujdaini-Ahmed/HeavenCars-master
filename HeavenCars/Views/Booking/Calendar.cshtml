@@ -1,5 +1,240 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewBag.Title = "Calendar";
 }
+
+<h2>Calendar</h2>
+
+<div id="calendar"></div>
+
+<link href="~/fullcalendar/main.css" rel="stylesheet" />
+
+
+
+@*<link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css" rel="stylesheet" />*@
+@*<link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.print.css" rel="stylesheet" />*@
+
+@section Scripts{
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>*@
+<script src="~/fullcalendar/main.js"></script>
+   
+    @*<script>
+            $(document).ready(function () {
+                var events = [];
+                $.ajax({
+                    type: "GET",
+                    url: "/Booking/Calendar",
+                    success: function (listbookings) {
+                        $.each(listbookings, function (i, v) {
+                            console.log("test");
+                            console.log(listbookings);
+                            events.push({
+                                bookingId: v.BookingId,
+                                start: moment(v.StartDate),
+                                end: v.EndDate != null ? moment(v.EndDate) : null,
+                            });
+                        })
+
+                        GenerateCalender(events);
+                    },
+                    error: function (error) {
+                        alert('failed');
+                    }
+                })
+
+
+                function GenerateCalender(events) {
+                    $('#calender').fullCalendar('destroy');
+                    $('#calender').fullCalendar({
+                        contentHeight: 400,
+                        defaultDate: new Date(),
+                        timeFormat: 'h(:mm)a',
+                        header: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'month,basicWeek,basicDay,agenda'
+                        },
+                        eventLimit: true,
+                        eventColor: '#378006',
+                        events: events
+                    })
+                }
+
+        </script>*@
+
+    <script>
+
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+
+
+
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                businessHours: true,
+              events: [
+                    {
+                        title: 'simple event',
+                        start: '2020-08-02' 02-08-2020
+                    },
+                    {
+                        title: 'event with URL',
+                        url: 'https://www.google.com/',
+                        start: '2020-08-03'
+                    }
+                ],
+                eventDisplay: 'auto',
+
+            });
+
+
+
+            calendar.render();
+        });
+    </script>
+}
+
+@*$(document).ready(function () {
+                console.log('test');
+                var events = [];
+                //var formatOptions = {
+                //    day: '2-digit',
+                //    month: '2-digit',
+                //    year: 'numeric',
+                //    hour: '2-digit',
+                //    minute: '2-digit',
+                //    seconde: '2-digit',
+                //    hour12: true
+                //}
+                $.ajax({
+                    type: "GET",
+                    url: "/booking/bookingcalendar",
+                    success: function (listBookings) {
+
+                        $.each(listBookings, function (i, v) {
+                            events.push({
+                                id: v["bookingId"],
+                                title: 'test',
+                                description: 'testing',
+                                start: v["startDate"],
+                                end: v["endDate"],
+
+                                // find way to format date in DD-MM-YYYY HH:mm A
+                            });
+
+
+
+
+
+                        })
+                        console.log(events);
+
+                        GenerateCalender(events);
+                    },
+                    error: function (error) {
+                        console.log('failed');
+                        console.log(events);
+                    }
+                })
+
+                function GenerateCalender() {
+                    $('#calender').fullCalendar('destroy'); // detruit clandar
+                    $('#calender').fullCalendar({ // reconstruit calendar
+                        contentHeight: 400,
+                        defaultDate: new Date(),
+                        timeFormat: 'h(:mm)a',
+                        header: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'month,basicWeek,basicDay,agenda'
+                        },
+                        eventLimit: true,
+                        eventColor: '#378006',
+                        events: events,
+                        eventClick: function (calEvent, jsEvent, view) {
+                            $('#myModal #eventTitle').text(calEvent.title);
+                            var $description = $('<div/>');
+                            $description.append($('<p/>').html('<b>Start:</b>' + calEvent.start.format("DD-MMM-YYYY HH:mm:ss a")));
+                            if (calEvent.end != null) {
+                                $description.append($('<p/>').html('<b>End:</b>' + calEvent.end.format("DD-MMM-YYYY HH:mm:ss a")));
+                            }
+                            $description.append($('<p/>').html('<b>Description:</b>' + calEvent.description));
+                            $('#myModal #pDetails').empty().html($description);
+
+                            $('#myModal').modal();
+                        }
+                    })
+
+                }
+            })
+        </script>
+    }*@
+
+
+@*success: function (listBookings) {
+    $.each(listBookings, function (i, v) {
+        console.log(listBookings);
+        events.push({
+            bookingId: v.BookingId,
+            start: moment(v.StartDate),
+            end: v.EndDate != null ? moment(v.EndDate) : null,
+
+        });*@
+
+@*<!DOCTYPE html>
+    <html lang='en'>
+    <head>
+        <meta charset='utf-8' />
+
+        <link href="~/lib/fullcalendar/main.css" rel="stylesheet" />
+
+        <script src="~/lib/fullcalendar/main.js"></script>
+        <script>
+
+            $(document).ready(function () {
+                var events = [];
+                $.ajax({
+                    type: "GET",
+                    url: "/Booking/BookingCalendar",
+                    success: function () {
+                        console.log("1");
+
+                    },
+                    error: function (error) {
+                        alert('failed');
+                    }
+                })
+
+                    //function GenerateCalendar(events) {
+                    //    $('#calender').fullCalendar('destroy');
+                    //    $('#calender').fullCalendar({
+                    //        contentHeight: 400,
+                    //        defaultDate: new Date(),
+                    //        timeFormat: 'h(:mm)a',
+                    //        header: {
+                    //            left: 'prev,next today',
+                    //            center: 'title',
+                    //            right: 'month,basicWeek,basicDay,agenda'
+                    //        },
+                    //        eventLimit: true,
+                    //        eventColor: '#378006',
+                    //        events: events
+                    //    })
+                    //}
+
+                // function GenerateCalendar (events) {
+                //    var calendarEl = document.getElementById('calendar');
+                //    var calendar = new FullCalendar.Calendar(calendarEl, {
+                //        initialView: 'dayGridMonth'
+                //    });
+                //    calendar.render();
+                //});
+
+        </script>
+    </head>
+    <body>
+        <div id='calendar'></div>
+    </body>
+    </html>*@

@@ -12,10 +12,23 @@ namespace HeavenCars.DataAccessLayer.Models.Bookings
     {
         [Key]
         public int BookingId { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Date")]
+        [Required(ErrorMessage = "Date is mandatory")]
+  
         public DateTime StartDate { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Date")]
+        [Required(ErrorMessage = "Date is mandatory")]
+        
         public DateTime EndDate { get; set; }
 
         public string CreateBy { get; set; }
+        public BookingStatus BookingVanStatus { get; set; }
 
         //[ForeignKey("BookingStatus")]
 
@@ -30,5 +43,14 @@ namespace HeavenCars.DataAccessLayer.Models.Bookings
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
+
+
+        //public BookingStatus StatusVanBooking { get; set; }
+
+        public BookingVehicule()
+        {
+            StartDate = DateTime.Now;
+            EndDate = DateTime.Now;
+        }
     }
 }

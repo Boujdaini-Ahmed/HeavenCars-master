@@ -78,27 +78,55 @@ namespace HeavenCars.DataAccessLayer.Repositories
             //return context.BookingVehicules;
         }
 
-        public BookingVehicule GetBooking(int GetBookingId)
+        public BookingVehicule GetBooking(int id)
         {
-            var booking = context.BookingVehicules
-               .Include(x => x.ApplicationUser)
-               .Where(x => x.BookingId == GetBookingId).FirstOrDefault();
 
+            var booking = context.BookingVehicules.Find(id);
             return booking;
+            //var booking = context.BookingVehicules
+            //   .Include(x => x.ApplicationUser)
+            //   .Where(x => x.BookingId == id).FirstOrDefault();
+
+            //return booking;
         }
 
-        public BookingVehicule GetBooking(int? BookingId)
-        {
-            var booking = context.BookingVehicules
-               .Include(x => x.ApplicationUser)
-               .Where(x => x.BookingId == BookingId).FirstOrDefault();
-
-            return booking;
-        }
+  
+   
 
         public async Task<BookingVehicule> GetByIdAsync(int id)
         {
             return await context.BookingVehicules.FindAsync(id);
         }
+
+        public BookingVehicule Update(BookingVehicule booking)
+        {
+            try
+            {
+                if (booking != null)
+                {
+                    var updateBookingEntityEntry = context.BookingVehicules.Update(booking);
+
+                    if (updateBookingEntityEntry != null &&
+                        updateBookingEntityEntry.State == EntityState.Modified)
+                    {
+                        var affectedRows = context.SaveChanges();
+
+                        if (affectedRows > 0)
+                        {
+                            _logger.LogInformation($"The {booking.BookingId} was updated.");
+                            return updateBookingEntityEntry.Entity;
+                        }
+                    }
+                }
+                _logger.LogInformation($"The booking given as null.");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"When updating a booking Failed.");
+                throw;
+            }
+        }
     }
-}
+    }
+

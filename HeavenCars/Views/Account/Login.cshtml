@@ -88,7 +88,7 @@
                 <div class="section-title  text-center">
                     <h2>Login</h2>
                     <span class="title-line"><i class="fa fa-car"></i></span>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                    <p>Login To Your Account.</p>
                 </div>
             </div>
             <!-- Page Title End -->
@@ -98,68 +98,74 @@
 <!--== Page Title Area End ==-->
 <!--== Login Page Content Start ==-->
 <section id="lgoin-page-wrap" class="section-padding">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-8 m-auto">
-                    <div class="login-page-content">
-                        <div class="login-form">
-                            <h3>Welcome Back!</h3>
-                            <form method="post">
-                                <div class="username">
-                                    <input asp-for="Email" class="form-control" placeholder="Email" />
-                                    <span asp-validation-for="Email" class="text-danger"></span>
-                                </div>
-                                <div class="password">
-                                    <input asp-for="Password" class="form-control" placeholder="Password" />
-                                    <span asp-validation-for="Password" class="text-danger"></span>
-                                </div>
-                                <div class="log-btn">
-                                    <button type="submit"><i class="fa fa-sign-in"></i> Log In</button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="login-other">
-                            <span class="or">or</span>
-                            @{ if (Model.ExternalLogins.Count == 0)
-                                {
-                        <div>No external logins conf</div> }
-                    else
-                    {
-
-                        <form method="post" asp-action="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl">
-                            <div>
-                                @foreach (var provider in Model.ExternalLogins)
-                                {
-                        <button type="submit" class="login-with-btn facebook" style="width:auto"
-                                name="provider" value="@provider.Name"
-                                title="Login usin your @provider.DisplayName account"><i class=" fa fa-facebook"></i>
-                            @provider.DisplayName
-                        </button>}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-8 m-auto">
+                <div class="login-page-content">
+                    <div class="login-form">
+                        <h3>Welcome Back!</h3>
+                        <form method="post">
+                            <div class="email">
+                                <input asp-for="Email" class="form-control" placeholder="Email" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
-                        </form> } }
-                        </div>
-                            @*<a href="#" class="login-with-btn facebook"><i class="fa fa-facebook"></i> Login With Facebook</a>
-                            <a href="#" class="login-with-btn google"><i class="fa fa-google"></i> Login With Google</a>*@
-                        </div>
-                        <div>
-                            <a asp-action="ForgotPassword">Forgot Password?</a>
-                        </div>
-                        <div class="create-ac">
-                            <p>Don't have an account? <a asp-action="Register">Sign Up</a></p>
-                        </div>
-                        <div class="login-menu">
-                            <a href="about.html">About</a>
-                            <span>|</span>
-                            <a asp-action="Index">Home</a>
-                        </div>
+                            <div class="password">
+                                <input asp-for="Password" class="form-control" placeholder="Password" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="log-btn">
+                                <button type="submit" class="btn btn-primary">Login</button>
+                            </div>
+                        </form>
                     </div>
-                
+
+                    <div class="login-other">
+                        <span class="or">or</span>
+                        @{ if (Model.ExternalLogins.Count == 0)
+                            {
+                <div>No external logins conf</div> }
+            else
+            {
+
+<form method="post" asp-action="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl">
+    <div>
+        @foreach (var provider in Model.ExternalLogins)
+        {
+<button type="submit" class="login-with-btn facebook" style="width:auto"
+        name="provider" value="@provider.Name"
+        title="Login usin your @provider.DisplayName account">
+    <i class=" fa fa-facebook"></i>
+    @provider.DisplayName
+</button>}
+    </div>
+</form> } }
+                    </div>
+                    @*<a href="#" class="login-with-btn facebook"><i class="fa fa-facebook"></i> Login With Facebook</a>
+                        <a href="#" class="login-with-btn google"><i class="fa fa-google"></i> Login With Google</a>*@
+
+
+                    <div class="create-ac">
+                        <p>Don't have an account? <a asp-action="Register">Sign Up</a></p>
+                        <a asp-action="ForgotPassword">Forgot Password?</a>
+                    </div>
+                    <div class="login-menu">
+                        <a href="about.html">About</a>
+                        <span>|</span>
+                        <a asp-action="Index">Home</a>
+                    </div>
                 </div>
-            
             </div>
-    
-     
-    
+
+        </div>
+
+    </div>
+
+
+
 </section>
 <!--== Login Page Content End ==-->
+<!--== Scroll Top Area Start ==-->
+<div class="scroll-top">
+    <img src="~/images/Icons/scroll-top.jpg" alt="JSOFT">
+</div>
+<!--== Scroll Top Area End ==-->

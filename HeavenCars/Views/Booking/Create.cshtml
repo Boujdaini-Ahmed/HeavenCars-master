@@ -36,11 +36,11 @@
                 @if (await userManager.IsInRoleAsync(user, "Admin"))
                 {
     <input type="submit" value="Create" class="btn btn-primary mr-1" />
-                    <a asp-action="AdminIndex" asp-controller="Home" class="btn btn-secondary mr-1">Back to overview</a> }
+                    <a asp-action="ListCars" asp-controller="Cars" class="btn btn-secondary mr-1">Back to overview</a> }
                 else
                 {
     <input type="submit" value="Create" class="btn btn-primary mr-1" />
-                    <a asp-action="Index" asp-controller="home" class="btn btn-secondary mr-1">Back to List</a>}
+                    <a asp-action="ListCars" asp-controller="Cars" class="btn btn-secondary mr-1">Back to List</a>}
             </div>
 
         </form>

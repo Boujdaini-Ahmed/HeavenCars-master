@@ -123,12 +123,12 @@ namespace HeavenCars.Controllers.Cars
 
         [Authorize]
         [HttpGet]
-        public ViewResult Edit(int id)
+        public ViewResult Edit(int Carid) /*Return Type attend comme reponse */
         {
-            var car = _carRepository.GetCar(id);
+            var car = _carRepository.GetCarById(Carid);
             var editCarViewModel = new EditCarViewModel
             {
-                Id = car.CarId,
+                CarId = car.CarId,
                 Name = car.Name,
                 MinLeeftijd = car.MinLeeftijd,
                 Prijs = car.Prijs,
@@ -148,7 +148,7 @@ namespace HeavenCars.Controllers.Cars
         {
             if (ModelState.IsValid)
             {
-                Car car = _carRepository.GetCar(model.Id);
+                Car car = _carRepository.GetCarById(model.CarId);
                 car.Name = model.Name;
                 car.MinLeeftijd = model.MinLeeftijd;
                 car.Prijs = model.Prijs;
@@ -176,15 +176,25 @@ namespace HeavenCars.Controllers.Cars
             return View();
 
         }
-
-        private string ProcessUploadFile(CreateCarViewModel model)
+       // public ViewResult Edit(int id)
+       // private string Processupload(datatype du parameter nom du parameter)
+        private string ProcessUploadFile(CreateCarViewModel model) // return type
         {
-            string uniqueFileName = null;
-            if (model.Photo != null)
+            string uniqueFileName = null; // creer var comme type string dont la valeur et nul.
+            if (model.Photo != null) // objet model avec property photo/ je check si la valeur de ma property photo qui se trouve dans l'objet model existe.
+
+            /*
+             object objectname :
+            Prop = value
+            Id = 1
+            Name = 'test'
+
+            if(objectname.Name (==)== 'custom')
+             */
             {
-                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                string pathnameofuploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
                 uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                string filePath = Path.Combine(pathnameofuploadsFolder, uniqueFileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
                     model.Photo.CopyTo(fileStream);
@@ -195,9 +205,17 @@ namespace HeavenCars.Controllers.Cars
             return uniqueFileName;
         }
 
-
-        [Authorize]
+        [HttpGet]
         public IActionResult Delete(int Id)
+        {
+            Car car = _carRepository.GetCar(Id);
+
+            return View(car);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult DeleteShure(int Id)
         {
             var car = _carRepository.GetCar(Id);
 

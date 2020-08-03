@@ -2,16 +2,78 @@
 
 @{ ViewBag.Title = "List Of All Cars"; }
 
-<h1>Cars</h1>
+@*<h1>Cars</h1>
 
-<hr />
+    <hr />
 
-<div class="row">
+    <div class="row">
 
-    <div class="jumbotron" style="margin-bottom:0">
+        <div class="jumbotron" style="margin-bottom:0">
+
+            <form asp-action="ListCars" method="POST">
+
+                <div class="row input-group">
+                    <input type="text" name="search" id="search" class="form-control" />
+                    <div class="input-group-btn">
+                        <input type="submit" value="Search" class="btn btn-primary" />
+                        <input type="submit" value="Reset" class="btn btn-warning" />
+                    </div>
+                </div>
+            </form>
+
+            <div class="col-6 text-right">
+                <a class="btn btn-info" asp-action="Create"><i class="fas fa-car"></i> &nbsp; Add Car</a>
+            </div>
+            <br />
+            <div class="col-12">
+                <table class="table table-striped border">
+                    <tr class="table-info">
+                        <th>Photo</th>
+                        <th>
+                            <a asp-action="ListCars" asp-route-sortOrder="@ViewData["NameSortParm"]"> <span class="glyphicon glyphicon-sort"> Name</span>  </a>
+                        </th>
+                        <th>
+                            <a asp-action="ListCars" asp-route-sortOrder="@ViewData["PrijsSortParm"]"> <span class="glyphicon glyphicon-sort"> Prijs</span>  </a>
+                        </th>
+                        <th>Information</th>
+                    </tr>
+                    @foreach (var car in Model)
+                    {
+                        var photoCar = $"~/images/{car.PhotoCar ?? "noimage.png"}";
+        <tr>
+            <td><img class="card-img-top" alt="Cinque Terre" src="@photoCar" asp-append-version="true" /></td>
+
+            <td>@car.Name</td>
+            <td>@car.Prijs</td>
+
+            <td>
+                <a asp-action="Details" asp-controller="Cars" asp-route-id="@car.CarId" class="btn btn-secondary mr-1">Details</a>
+            </td>
+        </tr>
+       }
+
+                </table>
+            </div>
+        </div>
+    </div>*@
+
+
+<!--== Choose Car Area Start ==-->
+<section id="choose-car" class="section-padding">
+    <div class="container">
+        <div class="row">
+            <!-- Section Title Start -->
+            <div class="col-lg-12">
+                <div class="section-title  text-center">
+                    <h2>Choose your Car</h2>
+                    <span class="title-line"><i class="fa fa-car"></i></span>
+                    <p>Choose a premium rental car right now.</p>
+                </div>
+            </div>
+            <!-- Section Title End -->
+        </div>
 
         <form asp-action="ListCars" method="POST">
-
             <div class="row input-group">
                 <input type="text" name="search" id="search" class="form-control" />
                 <div class="input-group-btn">
@@ -21,41 +83,94 @@
             </div>
         </form>
 
-        <div class="col-6 text-right">
-            <a class="btn btn-info" asp-action="Create"><i class="fas fa-car"></i> &nbsp; Add Car</a>
-        </div>
-        <br />
-        <div class="col-12">
-            <table class="table table-striped border">
-                <tr class="table-info">
-                    <th>Photo</th>
-                    <th>
-                        <a asp-action="ListCars" asp-route-sortOrder="@ViewData["NameSortParm"]"> <span class="glyphicon glyphicon-sort"> Name</span>  </a>
-                    </th>
-                    <th>
-                        <a asp-action="ListCars" asp-route-sortOrder="@ViewData["PrijsSortParm"]"> <span class="glyphicon glyphicon-sort"> Prijs</span>  </a>
-                    </th>
-                    <th>Information</th>
-                </tr>
-                @foreach (var car in Model)
-                {
-                    var photoCar = $"~/images/{car.PhotoCar ?? "noimage.png"}";
-    <tr>
-        <td><img class="card-img-top" alt="Cinque Terre" src="@photoCar" asp-append-version="true" /></td>
+        @*<form asp-action="ListCars" method="POST">
 
-        <td>@car.Name</td>
-        <td>@car.Prijs</td>
+            <div class="row input-group">
+                <input type="text" name="search" id="search" class="form-control" />
+                <div class="input-group-btn">
+                    <input type="submit" value="Search" class="btn btn-primary" />
+                    <input type="submit" value="Reset" class="btn btn-warning" />
+                </div>
+            </div>
+        </form>*@
 
-        <td>
-            <a asp-action="Details" asp-controller="Cars" asp-route-id="@car.CarId" class="btn btn-secondary mr-1">Details</a>
-        </td>
-    </tr>
-   }
+        @*<form asp-action="ListCars" method="POST">
 
-            </table>
+            <div class="row input-group">
+                <input type="text" name="search" id="search" class="form-control" />
+                <div class="input-group-btn">
+                    <input type="submit" value="Search" class="btn btn-primary" />
+                    <input type="submit" value="Reset" class="btn btn-warning" />
+                </div>
+            </div>
+        </form>*@
+
+        <div class="row">
+            <!-- Choose Area Content Start -->
+            <div class="col-lg-12">
+                <div class="choose-ur-cars">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <!-- Choose Filtering Menu Start -->
+                            <div class="p-car-thumbnails">
+
+                                <a asp-action="ListCars" asp-route-sortOrder="@ViewData["NameSortParm"]"> <span class="glyphicon glyphicon-sort"><i class=" fa fa-sort-desc"></i> Name</span>  </a>
+                                <a asp-action="ListCars" asp-route-sortOrder="@ViewData["PrijsSortParm"]"> <span class="glyphicon glyphicon-sort"><i class=" fa fa-sort-desc"></i> Prijs</span>  </a>
+
+                            </div>
+                            <!-- Choose Filtering Menu End -->
+                        </div>
+
+                        <div class="col-lg-9">
+                            <!-- Choose Cars Content-wrap -->
+                            <div class="row popular-car-gird">
+
+                                <!-- Single Popular Car Start -->
+                                <div class="col-lg-6 col-md-6 con suv mpv">
+                                    <div class="single-popular-car">
+                                        <div class="p-car-thumbnails">
+
+                                            @foreach (var car in Model)
+                                            {
+                                                var photoCar = $"~/images/{car.PhotoCar ?? "noimage.png"}";
+
+                                <a class="car-hover" href="@photoCar">
+                                    <img class="card-img-top" alt="Cinque Terre" src="@photoCar" asp-append-version="true" />
+
+                                </a>
+
+
+                                <div class="p-car-content">
+                                    <h3>
+                                        <a>@car.Name</a>
+                                        <span class="price"><i class="fa fa-tag"></i>@car.Prijs€</span>
+                                    </h3>
+
+                                    <h5>HATCHBACK</h5>
+
+                                    <div class="p-car-feature">
+                                        <a>@car.MinLeeftijd years</a>
+                                        <a>@car.Kw KW</a>
+                                        <a>AIR CONDITION</a>
+                                    </div>
+                                            <br />
+                                            <div class="book-button text-center">
+                                                <a asp-action="Details" asp-controller="Cars" asp-route-id="@car.CarId" class="book-now-btn">Details</a>
+                                                <a asp-action="Delete" asp-controller="Cars" asp-route-id="@car.CarId" class="delete-now-btn">Delete</a>
+                                            </div>
+                                </div>}
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Single Popular Car End -->
+                            </div>
+                            <!-- Choose Cars Content-wrap -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Choose Area Content End -->
         </div>
     </div>
-</div>
-
-
-
+</section>
+<!--== Choose Car Area End ==-->

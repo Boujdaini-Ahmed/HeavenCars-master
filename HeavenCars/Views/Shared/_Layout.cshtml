@@ -1,6 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<HeavenCars.DataAccessLayer.Models.Account.ApplicationUser> signInManager;
-
+﻿<!DOCTYPE html>
 
 <html>
 <head>
@@ -12,7 +10,7 @@
 
     <environment include="Development">
 
-        <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
+        @*<link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />*@
 
         <link href="~/css/site.css" rel="stylesheet" asp-append-version="true" />
         <!--=== Bootstrap CSS ===-->
@@ -26,15 +24,14 @@
         <!--=== Gijgo CSS ===-->
         <link href="~/css/plugins/gijgo.css" rel="stylesheet">
         <!--=== FontAwesome CSS ===-->
-        <link href="~/css/font-awesome.css" rel="stylesheet">
+        <link href="~/fonts/font-awesome.css" rel="stylesheet">
         <!--=== Theme Reset CSS ===-->
         <link href="~/css/reset.css" rel="stylesheet">
         <!--=== Main Style CSS ===-->
-        <link href="~/css/style.css" rel="stylesheet">
+        <link href="~/style.css" rel="stylesheet">
         <!--=== Responsive CSS ===-->
         <link href="~/css/responsive.css" rel="stylesheet">
-
-
+        <link href="~/css/site.css" rel="stylesheet" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet"
@@ -46,231 +43,175 @@
               asp-fallback-test-property="position"
               asp-fallback-test-value="absolute"
               asp-suppress-fallback-integrity="true">
-        <link href="~/css/site.css" rel="stylesheet" asp-append-version="true" />
+        @*<link href="~/css/site.css" rel="stylesheet" asp-append-version="true" />*@
     </environment>
 
     @RenderSection("Style", required: false)
 </head>
-<body>
-    <div class="container">
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-            <a asp-action="Index" asp-controller="Home" class="navbar-brand">
-                <img src="~/images/HCLogoo.jpg" height="40" width="40" asp-append-version="false" />
-            </a>
+<body class="loader-active">
 
-            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#collapsibleNavbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarColor01">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            List
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" asp-controller="Cars" asp-action="ListCars">Cars</a>
-                        </div>
-                    </li>
-
-
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Create
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" asp-controller="Cars" asp-action="Create">Car</a>
-                        </div>
-                    </li>
-
-                    @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin") || User.IsInRole("User"))
-
-                    {
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Account
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" asp-controller="Account" asp-action="ChangePassword">Change Password</a>
-                            </div>
-                        </li>
-                    }
-
-
-                    @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin")@*|| User.IsInRole("SubAdmin")*@)
-{
-<li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
-       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Manage
-    </a>
-    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-        <a class="dropdown-item" asp-controller="Administration" asp-action="ListUsers">Users</a>
-        <a class="dropdown-item" asp-controller="Administration" asp-action="ListRoles">Roles</a>
-        <a class="dropdown-item" asp-controller="Booking" asp-action="BookingsList">Bookings</a>
-    </div>
-</li>
-}
-                </ul>
-
-
-
-                <ul class="navbar-nav ml-auto">
-                    @if (signInManager.IsSignedIn(User))
-                    {
-                        <li class="nav-item">
-                            <form method="post" asp-action="logout" asp-controller="Account">
-                                <button type="submit" class="nav-link btn btn-link py-0" style="width:auto;">
-                                    Logout @User.Identity.Name
-                                </button>
-                            </form>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="nav-item">
-                            <a asp-action="register" asp-controller="account" class="nav-link">Register</a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-action="Login" asp-controller="account" class="nav-link">Login</a>
-                        </li>
-                    }
-                </ul>
+    <!--== Preloader Area Start ==-->
+    <div class="preloader">
+        <div class="preloader-spinner">
+            <div class="loader-content">
+                <img src="~/images/Icons/preloader.gif" alt="JSOFT">
             </div>
+        </div>
+    </div>
+    <!--== Preloader Area End ==-->
+    <div class="col-lg-10 d-none d-xl-block">
+        <partial name="_NavigationBar" />
+    </div>
 
-        </nav>
-
-        <div>
+    @*<div class="main">
+        <div class="side-menu">
+            <a class="room-button" href="#">
+                Room
+            </a>
+            <a class="room-button" id="create-room-btn" href="#">
+                <strong>+</strong>
+            </a>
+        </div>
+        <div class="chat">
             @RenderBody()
         </div>
+    </div>
 
-        <div class="jumbotron " style="margin-bottom:0">
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                <h4> In the Heaven of Your Dream Car </h4>
+    <div class="modal" id="create-room-modal">
+        <form asp-controller="Home" asp-action="CreateRoom" class="modal-body">
+            <button type="button" class="close" onclick="closeModal()">X</button>
+            <header>Create Room</header>
+            <div>
+                <input>
             </div>
+            <footer>
+                <button>Create</button>
+            </footer>
+        </form>
 
-            <!--== Footer Area Start ==-->
-            <section id="footer-area">
-                <!-- Footer Widget Start -->
-                <div class="footer-widget-area">
-                    <div class="container">
-                        <div class="row">
-                            <!-- Single Footer Widget Start -->
-                            <div class="col-lg-4 col-md-6">
-                                <div class="single-footer-widget">
-                                    <h2>About Us</h2>
-                                    <div class="widget-body">
-                                        <img src="~/images/Icons/cartransparants.png" alt="JSOFT">
-                                        <p>Lorem ipsum dolored is a sit ameted consectetur adipisicing elit. Nobis magni assumenda distinctio debitis, eum fuga fugiat error reiciendis.</p>
+    </div>*@
+    <div>
+        @RenderBody()
+    </div>
 
-                                        <div class="newsletter-area">
-                                            <form action="index.html">
-                                                <input type="email" placeholder="Subscribe Our Newsletter">
-                                                <button type="submit" class="newsletter-btn"><i class="fa fa-send"></i></button>
-                                            </form>
-                                        </div>
+    @*<div class="jumbotron " style="margin-bottom:0">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+            <h4> In the Heaven of Your Dream Car </h4>
+        </div>*@
 
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Single Footer Widget End -->
-                            <!-- Single Footer Widget Start -->
-                            <div class="col-lg-4 col-md-6">
-                                <div class="single-footer-widget">
-                                    <h2>Recent Posts</h2>
-                                    <div class="widget-body">
-                                        <ul class="recent-post">
-                                            <li>
-                                                <a href="#">
-                                                    Hello Bangladesh!
-                                                    <i class="fa fa-long-arrow-right"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    Lorem ipsum dolor sit amet
-                                                    <i class="fa fa-long-arrow-right"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    Hello Bangladesh!
-                                                    <i class="fa fa-long-arrow-right"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    consectetur adipisicing elit?
-                                                    <i class="fa fa-long-arrow-right"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Single Footer Widget End -->
-                            <!-- Single Footer Widget Start -->
-                            <div class="col-lg-4 col-md-6">
-                                <div class="single-footer-widget">
-                                    <h2>get touch</h2>
-                                    <div class="widget-body">
-                                        <p>Lorem ipsum doloer sited amet, consectetur adipisicing elit. nibh auguea, scelerisque sed</p>
-
-                                        <ul class="get-touch">
-                                            <li><i class="fa fa-map-marker"></i> 800/8, Kazipara, Dhaka</li>
-                                            <li><i class="fa fa-mobile"></i> +880 01 86 25 72 43</li>
-                                            <li><i class="fa fa-envelope"></i> kazukamdu83@gmail.com</li>
-                                        </ul>
-                                        <a href="https://goo.gl/maps/b5mt45MCaPB2" class="map-show" target="_blank">Show Location</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Single Footer Widget End -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Footer Widget End -->
-                <!-- Footer Bottom Start -->
-                <div class="footer-bottom-area">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-12 text-center">
+    @*== Footer Area Start ==
+    <section id="footer-area">
+         Footer Widget Start 
+        <div class="footer-widget-area">
+            <div class="container">
+                <div class="row">
+                     Single Footer Widget Start 
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-footer-widget">
+                            <h2>About Us</h2>
+                            <div class="widget-body">
+                                <img src="~/images/Icons/cartransparants.png" alt="JSOFT">
                                 <p>
-                                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                                    Copyright &copy;
-                                    <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                    Heaven Cars is an expert in prestigious luxury car rental! We have an extensive fleet of models from the legendary world brands.
+                                    Only here you will find the most current modifications and new items.
                                 </p>
                             </div>
                         </div>
                     </div>
+                     Single Footer Widget End 
+                     Single Footer Widget Start 
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-footer-widget">
+                            <h2>Recent Posts</h2>
+                            <div class="widget-body">
+                                <ul class="recent-post">
+                                    <li>
+                                        <a href="#">
+                                            TEST
+                                            <i class="fa fa-long-arrow-right"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            Lorem ipsum dolor sit amet
+                                            <i class="fa fa-long-arrow-right"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            TEST2
+                                            <i class="fa fa-long-arrow-right"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            TEST3
+                                            <i class="fa fa-long-arrow-right"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                     Single Footer Widget End 
+                     Single Footer Widget Start 
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-footer-widget">
+                            <h2>LOCATION & CONTACTS</h2>
+                            <div class="widget-body">
+
+
+                                <ul class="get-touch">
+                                    <li><i class="fa fa-map-marker"></i> Portugeesstraat 2, Affligem, België</li>
+                                    <li><i class="fa fa-mobile"></i> 02/055.54.54</li>
+                                    <li><i class="fa fa-envelope"></i> ict-slap@gmail.com</li>
+                                </ul>
+                                <a href="https://goo.gl/maps/vyTtrvGaVkZrL2W77" class="map-show" target="_blank">Show Location</a>
+                            </div>
+                        </div>
+                    </div>
+                     Single Footer Widget End 
                 </div>
-                <!-- Footer Bottom End -->
-            </section>
-            <!--== Footer Area End ==-->
-
-
-
-            @*<div class="footer-bottom">
-                <div class="container">
-                    <p class="pull-left copyright"> Copyright © HeavenCars by Ahmed Boujdaini 2020. All right reserved. </p>
-
-                </div>
-            </div>*@
-
+            </div>
         </div>
-    </div>
+         Footer Widget End 
+         Footer Bottom Start 
+        <div class="footer-bottom-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <p>
+                             Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. 
+                            Copyright &copy;
+                            <script>document.write(new Date().getFullYear());</script> HeavenCars by Ahmed Boujdaini. All right reserved.
+                             Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. 
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+         Footer Bottom End 
+    </section>*@
+    <!--== Footer Area End ==-->
+    @*<div class="footer-bottom">
+            <div class="container">
+                <p class="pull-left copyright"> Copyright © HeavenCars by Ahmed Boujdaini 2020. All right reserved. </p>
+
+            </div>
+        </div>*@
+
+    @*</div>*@
+
+<script src="~/js/site.js"></script>
 
 
     <environment include="Development">
 
-        <script src="~/lib/jquery/jquery.js"></script>
-        <script src="~/js/jquery-3.2.1.min.js"></script>
+        @*<script src="~/lib/jquery/jquery.js"></script>*@
 
+        <!--=======================Javascript============================-->
+        <!--=== Jquery Min Js ===-->
+        <script src="~/js/jquery-3.2.1.min.js"></script>
         <!--=== Jquery Migrate Min Js ===-->
         <script src="~/js/jquery-migrate.min.js"></script>
         <!--=== Popper Min Js ===-->
@@ -298,9 +239,11 @@
 
         <!--=== Mian Js ===-->
         <script src="~/js/main.js"></script>
+
+
         <script src="~/lib/jquery-validate/jquery.validate.js"></script>
         <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-        <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+        @*<script src="~/lib/bootstrap/js/bootstrap.js"></script>*@
         @*<script src="~/js/CustomScript.js"></script>*@
     </environment>
     <environment exclude="Development">
@@ -323,7 +266,6 @@
         @*<script src="~/js/CustomScript.js"></script>*@
     </environment>
 
- 
 
 
     @if (IsSectionDefined("Scripts"))

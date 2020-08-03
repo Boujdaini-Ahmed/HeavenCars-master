@@ -102,6 +102,7 @@
                     <th scope="col">Id</th>
                     <th scope="col">Start Date</th>
                     <th scope="col">End Date</th>
+                    <th scope="col">Status</th>
 
                 </tr>
             </thead>
@@ -109,16 +110,19 @@
 
                 @foreach (var booking in Model)
                 {
-    <tr>
+                <tr>
 
-        <td>@booking.BookingId</td>
-        <td>@booking.StartDate</td>
-        <td>@booking.EndDate</td>
+                    <td>@booking.BookingId</td>
+                    <td>@booking.StartDate</td>
+                    <td>@booking.EndDate</td>
+                    <td>@booking.BookingVanStatus</td>
 
-        <td>
-            <a asp-action="Details" asp-controller="Booking" asp-route-id="@booking.BookingId" class="btn btn-secondary mr-1">Details</a>
-        </td>
-    </tr>}
+
+                    <td>
+                        <a asp-action="Details" asp-controller="Booking" asp-route-id="@booking.BookingId" class="btn btn-secondary mr-1">Details</a>
+
+                    </td>
+                </tr>}
             </tbody>
         </table>
     </div>

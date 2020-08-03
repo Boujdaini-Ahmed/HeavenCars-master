@@ -1,0 +1,212 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<HeavenCars.DataAccessLayer.Models.Account.ApplicationUser> UserManager;
+@inject SignInManager<HeavenCars.DataAccessLayer.Models.Account.ApplicationUser> signInManager;
+@*
+
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <a asp-action="Index" asp-controller="Home" class="navbar-brand">
+            <img src="~/images/HCLogoo.jpg" height="40" width="40" asp-append-version="false" />
+        </a>
+
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        List
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" asp-controller="Cars" asp-action="ListCars">Cars</a>
+                    </div>
+                </li>
+
+                @if (signInManager.IsSignedIn(User))
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Profile
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" asp-controller="Home" asp-action="Edit" asp-route-id="@UserManager.GetUserId(User)">My Profile</a>
+                            <a class="dropdown-item" asp-controller="Account" asp-action="ChangePassword">Change Password</a>
+                        </div>
+                    </li>
+                }
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Create
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" asp-controller="Cars" asp-action="Create">Car</a>
+                    </div>
+                </li>
+
+
+
+                @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin")@*|| User.IsInRole("SubAdmin")*@  @*)
+    {
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Manage
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" asp-controller="Administration" asp-action="ListUsers">Users</a>
+            <a class="dropdown-item" asp-controller="Administration" asp-action="ListRoles">Roles</a>
+            <a class="dropdown-item" asp-controller="Booking" asp-action="BookingsList">Bookings</a>
+
+        </div>
+    </li>
+    }
+            </ul>
+
+
+
+            <ul class="navbar-nav ml-auto">
+                @if (signInManager.IsSignedIn(User))
+                {
+                    <li class="nav-item">
+                        <form method="post" asp-action="logout" asp-controller="Account">
+                            <button type="submit" class="nav-link btn btn-link py-0" style="width:auto;">
+                                Logout
+                            </button>
+                        </form>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a asp-action="register" asp-controller="account" class="nav-link">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-action="Login" asp-controller="account" class="nav-link">Login</a>
+                    </li>
+                }
+            </ul>
+
+        </div>
+
+    </nav> *@
+
+
+                <!--== Header Area Start ==-->
+                <header id="header-area" class="fixed-top">
+                    <!--== Header Top Start ==-->
+                    <div id="header-top" class="d-none d-xl-block">
+                        <div class="container">
+                            <div class="row">
+                                <!--== Single HeaderTop Start ==-->
+                                <div class="col-lg-3 text-left">
+                                    <i class="fa fa-map-marker"></i> Portugeesstraat 2, Affligem
+                                </div>
+                                <!--== Single HeaderTop End ==-->
+                                <!--== Single HeaderTop Start ==-->
+                                <div class="col-lg-3 text-center">
+                                    <i class="fa fa-mobile"></i>  02/055.54.54
+                                </div>
+                                <!--== Single HeaderTop End ==-->
+                                <!--== Single HeaderTop Start ==-->
+                                <div class="col-lg-3 text-center">
+                                    <i class="fa fa-clock-o"></i>  Ma-Zat 8.00u-18.00u
+                                </div>
+                                <!--== Single HeaderTop End ==-->
+                                <!--== Social Icons Start ==-->
+                                <div class="col-lg-3 text-right">
+                                    <div class="header-social-icons">
+                                        <a href="#"><i class="fa fa-behance"></i></a>
+                                        <a href="#"><i class="fa fa-pinterest"></i></a>
+                                        <a href="#"><i class="fa fa-facebook"></i></a>
+                                        <a href="#"><i class="fa fa-linkedin"></i></a>
+                                    </div>
+                                </div>
+                                <!--== Social Icons End ==-->
+                            </div>
+                        </div>
+                    </div>
+                    <!--== Header Top End ==-->
+                    <!--== Header Bottom Start ==-->
+                    <div id="header-bottom">
+                        <div class="container">
+                            <div class="row">
+                                <!--== Logo Start ==-->
+                                <div class="col-lg-1">
+                                    <a asp-action="Index" asp-controller="Home" class="navbar-brand">
+                                        <img src="~/images/HCLogoo.jpg" height="40" width="40" asp-append-version="false" />
+                                    </a>
+                                </div>
+                                <!--== Logo End ==-->
+                                <!--== Main Menu Start ==-->
+                                @*<div class="col-lg-10 d-none d-xl-block">*@
+                                    <nav class="mainmenu aligncenter">
+                                        <ul>
+                                            @if (signInManager.IsSignedIn(User))
+                                            {
+                                                <li>
+                                                    <a>Profile</a>
+                                                    <ul>
+                                                        <li><a class="dropdown-item" asp-controller="Home" asp-action="Edit" asp-route-id="@UserManager.GetUserId(User)">My Profile</a></li>
+                                                        <li><a class="dropdown-item" asp-controller="Account" asp-action="ChangePassword">Change Password</a></li>
+                                                    </ul>
+                                                </li>
+                                            }
+
+
+
+                                            <li>
+                                                <a>Cars</a>
+                                                <ul>
+                                                    <li><a class="dropdown-item" asp-controller="Cars" asp-action="Create">Add Car</a></li>
+                                                </ul>
+                                            </li>
+
+                                            @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin")@*|| User.IsInRole("SubAdmin")*@)
+{
+                                        <li>
+                                            <a> Manage</a>
+                                            <ul>
+                                                <li><a class="dropdown-item" asp-controller="Administration" asp-action="ListUsers">Users</a></li>
+                                                <li><a class="dropdown-item" asp-controller="Administration" asp-action="ListRoles">Roles</a></li>
+                                                <li><a class="dropdown-item" asp-controller="Booking" asp-action="BookingsList">Bookings</a></li>
+                                            </ul>
+                                        </li>
+                                    }
+                                           
+
+                                            
+                                                @if (signInManager.IsSignedIn(User))
+                                                {
+                                                    <li>
+                                                        <form method="post" asp-action="logout" asp-controller="Account">
+                                                            <a asp-action="logout" asp-controller="account" class="nav-link">Logout</a>
+                                                        </form>
+                                                    </li>
+                                                }
+                                                else
+                                                {
+                                                    <li>
+                                                        <a asp-action="register" asp-controller="account" class="nav-link">Register</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a asp-action="Login" asp-controller="account" class="nav-link">Login</a>
+                                                    </li>
+                                                }
+
+                                        </ul>
+                                    </nav>
+                                </div>
+
+                               
+                                    <!--== Main Menu End ==-->
+                                </div>
+                            </div>
+                        @*</div>*@
+                        <!--== Header Bottom End ==-->
+                    </header>
+                    <!--== Header Area End ==-->

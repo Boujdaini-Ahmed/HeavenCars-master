@@ -9,8 +9,7 @@ namespace HeavenCars.ViewModels.Cars
 {
     public class CreateCarViewModel : Car
     {
-        public int Id { get; set; }
-
+        
         //public string Name { get; set; }
 
         //public string MinLeeftijd { get; set; }

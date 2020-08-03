@@ -3,55 +3,170 @@
 
 
 @{ ViewData["Title"] = "Details of Booking";
-    var bookingVehicule = Model.BookingVehicule;
-}
+    var bookingVehicule = Model.BookingVehicule; }
 
 
-<h1>Booking Detail</h1>
+@*<h1>Booking Detail</h1>
 
-<hr />
+    <hr />
 
-<div class="jumbotron" style="margin-bottom:0">
-    <div class="row justify-content-center m-3">
-        <div class="col-sm-8">
-            <div class="card">
-                <div class="card-header">
-                    <h1>Booking Succes</h1>
-                </div>
+    <div class="jumbotron" style="margin-bottom:0">
+        <div class="row justify-content-center m-3">
+            <div class="col-sm-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h1>Booking Succes</h1>
+                    </div>
 
-                <div class="card-body text-center">
-
-
-                    <h4>Booking Number: @bookingVehicule.BookingId</h4>
-                    <h4>Start Date: @bookingVehicule.StartDate</h4>
-                    <h4>End Date: @bookingVehicule.EndDate</h4>
-
-                    @if (User.IsInRole("Admin"))
-                    {
-        <h4>User: @bookingVehicule.CreateBy</h4>}
+                    <div class="card-body text-center">
 
 
-                </div>
+                        <h4>Booking Number: @bookingVehicule.BookingId</h4>
+                        <h4>Start Date: @bookingVehicule.StartDate</h4>
+                        <h4>End Date: @bookingVehicule.EndDate</h4>
 
-                <div class="card-footer text-center">
+                        @if (User.IsInRole("Admin"))
+                        {
+            <h4>User: @bookingVehicule.CreateBy</h4>}
+
+
+                    </div>
+
+                    <div class="card-footer text-center">
 
 
 
 
-                    @if (User.IsInRole("Admin"))
-                    {
-        <a asp-controller="Booking" asp-action="BookingsList" class="btn btn-info">Back To List</a>}
-                    else
-                    {
+                        @if (User.IsInRole("Admin"))
+                        {
+            <a asp-controller="Booking" asp-action="BookingsList" class="btn btn-info">Back To List</a>}
+                        else
+                        {
 
-                    <a asp-controller="Cars" asp-action="ListCars" class="btn btn-info">Back</a>
-                    }
+                        <a asp-controller="Cars" asp-action="ListCars" class="btn btn-info">Back</a>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </div>*@
 
-@section Scripts{
-    <script src="~/js/CustomScript.js"></script>
+@if (User.IsInRole("Admin"))
+{
+<section id="page-title-area-sec" class="section-padding overlay">
+    <div class="container">
+        <div class="row">
+            <!-- Page Title Start -->
+            <div class="col-lg-12">
+                <div class="section-title  text-center">
+                    <h2>Reservation of @bookingVehicule.CreateBy.</h2>
+                    <span class="title-line"><i class="fa fa-car"></i></span>
+                    <p>Reservation @bookingVehicule.BookingId</p>
+                </div>
+            </div>
+            <!-- Page Title End -->
+        </div>
+    </div>
+</section>
 }
+else
+{
+
+
+
+
+                <section id="page-title-area-sec" class="section-padding overlay">
+                    <div class="container">
+                        <div class="row">
+                            <!-- Page Title Start -->
+                            <div class="col-lg-12">
+                                <div class="section-title  text-center">
+                                    <h2>Our Reservation.</h2>
+                                    <span class="title-line"><i class="fa fa-car"></i></span>
+                                    <p>Reservation succesfully.</p>
+                                </div>
+                            </div>
+                            <!-- Page Title End -->
+                        </div>
+                    </div>
+                </section> 
+}
+                <!--== Choose Car Area Start ==-->
+                                                <section id="choose-car" class="section-padding">
+                                                    <div class="container">
+
+
+                                                        <div class="row">
+                                                            <!-- Choose Area Content Start -->
+                                                            <div class="col-lg-12">
+                                                                <div class="choose-ur-cars">
+                                                                    <div class="row">
+
+
+                                                                        <div class="col-lg-6">
+                                                                            <!-- Choose Cars Content-wrap -->
+                                                                            <div class="row popular-car-gird">
+
+                                                                                <!-- Single Popular Car Start -->
+                                                                                <div class="col-lg-6 col-md-6 con suv mpv">
+                                                                                    <div class="single-popular-car">
+                                                                                        <div class="p-car-thumbnails">
+
+                                                                                            <div class="p-car-content">
+
+                                                                                                @if (User.IsInRole("Admin"))
+                                                                                                {
+                                                                                <h3>
+                                                                                    <a>Booking ID : @bookingVehicule.BookingId</a>
+
+                                                                                </h3>}
+
+                                                                                                <div class="p-car-content">
+                                                                                                    <h5>- Start Date : @bookingVehicule.StartDate</h5>
+                                                                                                    <h5>- End Date : @bookingVehicule.EndDate</h5>
+                                                                                                    <h5>- Status : @bookingVehicule.BookingVanStatus</h5>
+                                                                                                    @if (User.IsInRole("Admin"))
+                                                                                                    {
+                                                                                    <h5>- User : @bookingVehicule.ApplicationUser</h5>}
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="card-footer text-center">
+
+
+
+
+                                                                                                @if (User.IsInRole("Admin"))
+                                                                                                {
+                                                                                <a asp-controller="Booking" asp-action="BookingsList" class="btn btn-info">Back To List</a>
+                                                                                                    <a asp-action="Edit" asp-controller="Booking" asp-route-id="@Model.BookingVehicule.BookingId" class="btn btn-secondary mr-1">Edit</a>}
+                                                                                                else
+                                                                                                {
+
+                                                                                <a asp-controller="Cars" asp-action="ListCars" class="btn btn-info">Back</a>}
+
+                                                                                                <div class="form-group">
+                                                                                                    <input id="btnSubmit" type="submit" name="submit" class="btn btn-success" value="Approve" />
+                                                                                                    <input id="btnReject" type="submit" name="submit" class="btn btn-success" value="Reject" />
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <!-- Single Popular Car End -->
+                                                                            </div>
+                                                                            <!-- Choose Cars Content-wrap -->
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Choose Area Content End -->
+                                                        </div>
+                                                    </div>
+                                                </section> <!--== Choose Car Area End ==-->
+
+
+
+                                                                                @section Scripts{
+                                                                                    <script src="~/js/CustomScript.js"></script>
+                                                                                }

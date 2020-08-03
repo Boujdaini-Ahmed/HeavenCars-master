@@ -42,11 +42,16 @@ namespace HeavenCars.DataAccessLayer.Repositories.Cars
             return context.Cars;
         }
 
-      
 
-        public Car GetCar(int? Id)
+        public Car GetCar(int Id)
         {
-            var car = context.Cars.Include(x => x.Utilisateurs).Where(x => x.CarId == Id).FirstOrDefault();
+            var car = context.Cars.Find(Id);
+            return car;
+        }
+
+        public Car GetCarById(int id)
+        {
+            var car = context.Cars.Find(id);
             return car;
         }
 

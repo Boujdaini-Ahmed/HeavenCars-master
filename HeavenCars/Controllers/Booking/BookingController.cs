@@ -54,7 +54,8 @@ namespace HeavenCars.Controllers.Bookings
 
             {
                 var listBookings = _context.BookingVehicules.ToList();
-                return new JsonResult(listBookings);
+                
+                return new JsonResult (listBookings);
             }
 
         }
@@ -74,7 +75,7 @@ namespace HeavenCars.Controllers.Bookings
         //public async Task<IActionResult> BookingsListAsync()
         //{
 
-        //    var currentuser = await _userManager.GetUserAsync(HttpContext.User);
+        //    var currentuser = await _userManager.GetUserAsync(HttpContext.User); Cookiepolicy (UseriD username) -> MSDN official cookie setting. 
 
         //    try
         //    {
@@ -107,6 +108,7 @@ namespace HeavenCars.Controllers.Bookings
 
         //}
 
+  
         public async Task<IActionResult> Details(int id)
 
         {
@@ -140,38 +142,45 @@ namespace HeavenCars.Controllers.Bookings
             }
         }
 
+
+
+
         [HttpGet]
 
         public async Task<IActionResult> CreateAsync(int carid)
         {
-
-            {
-                var car = _carRepository.GetCar(carid);
-                var currentuser = await _userManager.GetUserAsync(HttpContext.User);
-
-                // var dispnibilité : repository.get.booking(voiture x). -> viewmodel
-                // Viewmodel =>calander avec les dates et heurres -> les dates et heures deja present dans banque de données pour voiture x => viewmodel calender et dropdown heures soit grisés.
-
-                //if (car == null)
-                //{
-                //    Response.StatusCode = 404;
-                //    return View("../Cars/CarNotFound", carid);
-                //}
-                //else if (User.IsInRole("SuperAdmin") ||
-                //   User.IsInRole("Admin") && carid == currentuser.CarId)
-
+            
                 {
-                    CreateBookingViewModel createBookingViewModel = new CreateBookingViewModel()
+                    var car = _carRepository.GetCar(carid);
+                    var currentuser = await _userManager.GetUserAsync(HttpContext.User);
+
+                    // var dispnibilité : repository.get.booking(voiture x). -> viewmodel
+                    // Viewmodel =>calander avec les dates et heurres -> les dates et heures deja present dans banque de données pour voiture x => viewmodel calender et dropdown heures soit grisés.
+
+                    //if (car == null)
+                    //{
+                    //    Response.StatusCode = 404;
+                    //    return View("../Cars/CarNotFound", carid);
+                    //}
+                    //else if (User.IsInRole("SuperAdmin") ||
+                    //   User.IsInRole("Admin") && carid == currentuser.CarId)
+
+
+                  
+
                     {
+                        CreateBookingViewModel createBookingViewModel = new CreateBookingViewModel()
+                        {
 
-                        Car = car,
+                            Car = car,
 
-                    };
-                    return View(createBookingViewModel);
+                        };
+                        return View(createBookingViewModel);
+                    }
+                    //return View("NotAuthorized");
+
                 }
-                //return View("NotAuthorized");
-
-            }
+            
         }
 
         [HttpPost]
@@ -192,6 +201,7 @@ namespace HeavenCars.Controllers.Bookings
                     // -> Gargae 1 et garage 3 => admin de garage 1 , rajouter une voiture dans garage 1 , que il est bien admin de garage 1.
                     // -> naviger vers http/local/garage2
 
+               
                     BookingVehicule nouveaubookingquidoitallerdansbanquededonnees = new BookingVehicule
                     {
                        
@@ -218,5 +228,60 @@ namespace HeavenCars.Controllers.Bookings
             }
 
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+
+            
+                var booking = _bookingRepository.GetBooking(id);
+                var currentuser = await _userManager.GetUserAsync(HttpContext.User);
+
+
+
+                var editBookingViewModel = new EditBookingViewModel
+                {
+                    BookingId = booking.BookingId,
+                    StartDate = booking.StartDate,
+                    EndDate = booking.EndDate,
+                    BookingVanStatus = booking.BookingVanStatus
+
+
+
+                };
+
+                return View(editBookingViewModel);
+
+            }
+        
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(EditBookingViewModel editModel)
+        {
+            
+
+                    if (ModelState.IsValid)
+                    {
+                        BookingVehicule booking = _bookingRepository.GetBooking(editModel.BookingId);
+                        var currentuser = await _userManager.GetUserAsync(HttpContext.User);
+
+                        booking.StartDate = editModel.StartDate;
+                        booking.EndDate = editModel.EndDate;
+                        booking.BookingVanStatus = editModel.BookingVanStatus;
+
+
+
+                         _bookingRepository.Update(booking);
+
+                       
+                            return RedirectToAction("BookingsList", new { id = booking.BookingId });
+                        
+                      
+                    
+                }
+                return View();
+            }
+        
+        }
     }
-}

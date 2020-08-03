@@ -233,6 +233,7 @@ namespace HeavenCars.Controllers.Account
                     var confirmationLink = Url.Action("ConfirmEmail", "Account",
                                             new { userId = user.Id, token = token }, Request.Scheme);
 
+
                     logger.Log(LogLevel.Warning, confirmationLink);
 
                     ViewBag.ErrorTitle = "Registration successful";

@@ -1,0 +1,40 @@
+﻿@*@model IEnumerable<HeavenCars.DataAccessLayer.Models.Account.ApplicationUser>
+
+    @{ ViewBag.Title = "All Users";}
+
+    <h1>All Users</h1>
+
+    <hr />
+
+
+
+    <div class="card-footer">
+        @foreach (var user in Model)
+        {
+        <a asp-action="Edit" asp-controller="Home"
+           asp-route-id="@user.Id" class="btn btn-warning">Edit</a>
+        }
+        <button type="submit" class="btn btn-danger">Delete</button>
+
+    </div>*@
+
+<div class="chat-body">
+    <div class="message">
+        <header>Ahmed</header>
+        <p>C'est le message</p>
+        <footer>16:00</footer>
+    </div>
+
+    <div class="message">
+        <header>Ahbel</header>
+        <p>C'est le message d'abdel</p>
+        <footer>16:50</footer>
+    </div>
+</div>
+<div class="chat-input">
+    <input type="text">
+    <button>Send</button>
+
+</div>
+
+

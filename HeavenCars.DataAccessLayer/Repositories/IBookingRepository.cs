@@ -8,7 +8,7 @@ namespace HeavenCars.DataAccessLayer.Repositories
 {
     public interface IBookingRepository
     {
-        BookingVehicule GetBooking(int? BookingId);
+        BookingVehicule GetBooking(int id);
         IEnumerable<BookingVehicule> GetAllBookings();
 
         Task<BookingVehicule> GetByIdAsync(int id);
@@ -16,5 +16,7 @@ namespace HeavenCars.DataAccessLayer.Repositories
         BookingVehicule Create(BookingVehicule bookingVehicule);
 
         BookingVehicule AddBooking(BookingVehicule booking);
+
+        BookingVehicule Update(BookingVehicule booking);
     }
 }

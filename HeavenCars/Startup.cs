@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,6 +6,8 @@ using HeavenCars.DataAccesLayer.Context;
 using HeavenCars.DataAccessLayer.Models.Account;
 using HeavenCars.DataAccessLayer.Repositories;
 using HeavenCars.DataAccessLayer.Repositories.Cars;
+using HeavenCars.Hubs;
+//using HeavenCars.Hubs;
 //using HeavenCars.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,92 +22,103 @@ namespace HeavenCars
 {
     public class Startup
     {
-            public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; }
 
-            public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+
+            services.Configure<CookiePolicyOptions>(options =>
             {
-                Configuration = configuration;
-            }
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
 
-            public void ConfigureServices(IServiceCollection services)
+            services.AddDbContextPool<AppDbContext>(
+           options =>
+                 options.UseSqlServer(Configuration.GetConnectionString("HeavenCarsDBConnection"))
+             );
+
+           
+
+
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
-                services.AddDbContextPool<AppDbContext>(
-               options =>
-                     options.UseSqlServer(Configuration.GetConnectionString("HeavenCarsDBConnection"))
-                 );
+                options.Password.RequiredLength = 10;
+                options.Password.RequiredUniqueChars = 3;
 
-                services.AddSignalR();
+                options.SignIn.RequireConfirmedEmail = true;
 
+                //options.Tokens.EmailConfirmationTokenProvider = "CustomEmailConfirmation";
+            }).AddEntityFrameworkStores<AppDbContext>()
+            .AddDefaultTokenProviders();
 
-                services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            //.AddTokenProvider<CustomEmailConfirmationTokenProvider
+            //<ApplicationUser>>("CustomEmailConfirmation");
+            services.AddSignalR();
+            //services.Configure<CustomEmailConfirmationTokenProviderOptions>(o =>
+            //o.TokenLifespan = TimeSpan.FromHours(5)); // Lors de l'envoie de TOUT les types de token confirmation la durée est de 5 heures avant son expiration
+
+            services.Configure<DataProtectionTokenProviderOptions>(o =>
+            o.TokenLifespan = TimeSpan.FromDays(3)); // changes le delai de temps de la confirmation d'addresse mail uniquement
+
+            services.AddControllersWithViews().AddXmlSerializerFormatters();
+
+            services.AddScoped<ICarRepository, CarRepository>();
+            services.AddScoped<IBookingRepository, BookingRepository>();
+
+            services.AddAuthentication()
+                .AddGoogle(options =>
                 {
-                    options.Password.RequiredLength = 10;
-                    options.Password.RequiredUniqueChars = 3;
+                    options.ClientId = "932998242076-20t42dfguqd29a04gutpj6j5ckt1pbns.apps.googleusercontent.com";
+                    options.ClientSecret = "2sVC0Qews71oIOajW1QpTjzA";
 
-                    options.SignIn.RequireConfirmedEmail = true;
-
-                    //options.Tokens.EmailConfirmationTokenProvider = "CustomEmailConfirmation";
-                }).AddEntityFrameworkStores<AppDbContext>()
-                .AddDefaultTokenProviders();
-                //.AddTokenProvider<CustomEmailConfirmationTokenProvider
-                //<ApplicationUser>>("CustomEmailConfirmation");
-
-                //services.Configure<CustomEmailConfirmationTokenProviderOptions>(o =>
-                //o.TokenLifespan = TimeSpan.FromHours(5)); // Lors de l'envoie de TOUT les types de token confirmation la dur�e est de 5 heures avant son expiration
-
-                services.Configure<DataProtectionTokenProviderOptions>(o =>
-                o.TokenLifespan = TimeSpan.FromDays(3)); // changes le delai de temps de la confirmation d'addresse mail uniquement
-
-                services.AddControllersWithViews().AddXmlSerializerFormatters();
-
-                services.AddScoped<ICarRepository, CarRepository>();
-                services.AddScoped<IBookingRepository, BookingRepository>();
-
-                services.AddAuthentication()
-                    .AddGoogle(options =>
-                    {
-                        options.ClientId = "932998242076-20t42dfguqd29a04gutpj6j5ckt1pbns.apps.googleusercontent.com";
-                        options.ClientSecret = "2sVC0Qews71oIOajW1QpTjzA";
-
-                    })
-                    .AddFacebook(options =>
-                    {
-                        options.AppId = "1114496678906037";
-                        options.AppSecret = "cec2fb15a9f7c66145e7ae180c6179e9";
-                    });
-
-            }
-
-
-            public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-            {
-                if (env.IsDevelopment())
+                })
+                .AddFacebook(options =>
                 {
-                    app.UseDeveloperExceptionPage();
-                }
-                else
-                {
-                    app.UseExceptionHandler("/Error");
-                    app.UseStatusCodePagesWithReExecute("/Error/{0}");
-                }
-
-                app.UseStaticFiles();
-                app.UseAuthentication();
-
-                app.UseRouting();
-                app.UseAuthorization();
-                //app.UseSignalR(routes =>
-                //{
-                //    routes.MapHub<ChatHub>("/chathub");
-                //});
-
-                app.UseEndpoints(endpoints =>
-                {
-                    endpoints.MapControllerRoute(
-                        name: "default",
-                        pattern: "{controller=Home}/{action=Index}/{id?}"
-                        );
+                    options.AppId = "1114496678906037";
+                    options.AppSecret = "cec2fb15a9f7c66145e7ae180c6179e9";
                 });
+
+        }
+
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseStatusCodePagesWithReExecute("/Error/{0}");
+            }
+
+            app.UseStaticFiles();
+            app.UseAuthentication();
+
+          
+
+            app.UseRouting();
+           
+            app.UseAuthorization();
+
+       
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<ChatHub>("/Chat");
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}"
+                    );
+            });
         }
     }
+}

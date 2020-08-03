@@ -11,6 +11,13 @@ namespace HeavenCars.DataAccessLayer.Models.Account
     public class ApplicationUser : IdentityUser
 
     {
+        public ApplicationUser()
+        {
+            Messages = new HashSet<Message>();
+        }
+        // one to many pour applicationUser || message
+        public virtual ICollection<Message> Messages { get; set; }
+
         [ForeignKey("Car")]
         public int? CarId { get; set; }
 
@@ -22,6 +29,7 @@ namespace HeavenCars.DataAccessLayer.Models.Account
         public string LastName { get; set; }
 
         public string City { get; set; }
+        public string Address { get; set; }
 
         public bool Delete { get; set; }
 
