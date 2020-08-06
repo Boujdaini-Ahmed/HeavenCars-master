@@ -18,23 +18,36 @@
 
     </div>*@
 
-<div class="chat-body">
-    <div class="message">
-        <header>Ahmed</header>
-        <p>C'est le message</p>
-        <footer>16:00</footer>
+@*@model IEnumerable<HeavenCars.DataAccessLayer.Models.Chat>
+
+    @{ ViewBag.Title = "Chat";
+        }
+
+    <div class="chat-body">
+        @foreach (var chat in Model)
+        {
+            <a class="room-button" asp-controller="Home" asp-action="Intro" asp-route-id="@chat.Id">
+                @chat.Name
+            </a>
+        }
+    </div>*@
+
+@model IEnumerable<HeavenCars.DataAccessLayer.Models.Account.ApplicationUser>
+
+@{ ViewBag.Title = "All Users"; }
+
+<h1>All Users</h1>
+
+<hr />
+
+ @foreach (var user in Model)
+                {
+<div class="card mb-3">
+  
+    <div class="card-body">
+        <h5 class="card-title">@user.UserName</h5>
     </div>
-
-    <div class="message">
-        <header>Ahbel</header>
-        <p>C'est le message d'abdel</p>
-        <footer>16:50</footer>
-    </div>
-</div>
-<div class="chat-input">
-    <input type="text">
-    <button>Send</button>
-
-</div>
-
+  
+</div> }
+          
 

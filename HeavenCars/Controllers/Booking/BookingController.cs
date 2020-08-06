@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HeavenCars.DataAccesLayer.Context;
 using HeavenCars.DataAccessLayer.Models.Account;
 using HeavenCars.DataAccessLayer.Models.Bookings;
+using HeavenCars.DataAccessLayer.Models.Cars;
 using HeavenCars.DataAccessLayer.Repositories;
 using HeavenCars.DataAccessLayer.Repositories.Cars;
 using HeavenCars.ViewModels.Booking;
@@ -71,42 +72,7 @@ namespace HeavenCars.Controllers.Bookings
             return View(booking);
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> BookingsListAsync()
-        //{
-
-        //    var currentuser = await _userManager.GetUserAsync(HttpContext.User); Cookiepolicy (UseriD username) -> MSDN official cookie setting. 
-
-        //    try
-        //    {
-        //        if (User.IsInRole("SuperAdmin"))
-        //        {
-        //            var bookingList = _bookingRepository.GetAllBookings();
-        //            return View(bookingList);
-        //        }
-        //        else if (User.IsInRole("Admin"))
-        //        {
-        //            var bookingList = _bookingRepository.GetAllBookings().Where(x => x.CarId == currentuser.CarId);
-
-        //            return View(bookingList);
-        //        }
-        //        else
-        //        {
-        //            var bookingList = _bookingRepository.GetAllBookings();
-        //            ////.Where(x => x.BoardUsers.Any(x => x.ApplicationUserId == currentuser.Id))
-        //            ////.ToList();
-
-        //            return View(bookingList);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        _logger.LogError(ex, $"When getting the list of boards.");
-        //        throw;
-        //    }
-
-        //}
+     
 
   
         public async Task<IActionResult> Details(int id)
@@ -116,22 +82,12 @@ namespace HeavenCars.Controllers.Bookings
             {
                 var booking = _bookingRepository.GetBooking(id);
                 var currentuser = await _userManager.GetUserAsync(HttpContext.User);
-                //var UserBoards = _boardRepository.GetAllBoardsfromcompany(currentuser.CompanyId).Where(x => x.BoardUsers.Any(x => x.ApplicationUserId == currentuser.Id && x.IsDeleted == false)).ToList();
-
-                //if (booking == null )
-                //{
-                //    Response.StatusCode = 404;
-                //    return View("BookingNotFound", id);
-                //}
-                //else if (User.IsInRole("SuperAdmin") ||
-                //    User.IsInRole("Admin") && booking.CarId == currentuser.CarId
-                //    || User.IsInRole("User") && booking.CarId == currentuser.CarId
-                //    )
+             
                 {
 
                     DetailBookingViewModel detailBookingViewModel = new DetailBookingViewModel()
                     {
-                        BookingVehicule = booking
+                        BookingVehicule = booking,
 
 
                     };
@@ -182,6 +138,7 @@ namespace HeavenCars.Controllers.Bookings
                 }
             
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -235,12 +192,14 @@ namespace HeavenCars.Controllers.Bookings
 
             
                 var booking = _bookingRepository.GetBooking(id);
+               
                 var currentuser = await _userManager.GetUserAsync(HttpContext.User);
 
 
 
                 var editBookingViewModel = new EditBookingViewModel
                 {
+                    Car = booking.Car,
                     BookingId = booking.BookingId,
                     StartDate = booking.StartDate,
                     EndDate = booking.EndDate,

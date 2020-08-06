@@ -33,9 +33,6 @@ namespace HeavenCars.DataAccessLayer.Migrations
                     b.Property<int?>("CarId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ChatId")
-                        .HasColumnType("int");
-
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
@@ -99,8 +96,6 @@ namespace HeavenCars.DataAccessLayer.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CarId");
-
-                    b.HasIndex("ChatId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -189,24 +184,6 @@ namespace HeavenCars.DataAccessLayer.Migrations
                     b.ToTable("Cars");
                 });
 
-            modelBuilder.Entity("HeavenCars.DataAccessLayer.Models.Chat", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Chats");
-                });
-
             modelBuilder.Entity("HeavenCars.DataAccessLayer.Models.Message", b =>
                 {
                     b.Property<int>("Id")
@@ -233,32 +210,6 @@ namespace HeavenCars.DataAccessLayer.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("Messages");
-                });
-
-            modelBuilder.Entity("HeavenCars.DataAccessLayer.Models.Msg", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ChatId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Timestamp")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ChatId");
-
-                    b.ToTable("Msgs");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -397,10 +348,6 @@ namespace HeavenCars.DataAccessLayer.Migrations
                     b.HasOne("HeavenCars.DataAccessLayer.Models.Cars.Car", "Car")
                         .WithMany("Utilisateurs")
                         .HasForeignKey("CarId");
-
-                    b.HasOne("HeavenCars.DataAccessLayer.Models.Chat", null)
-                        .WithMany("ApplicationUsers")
-                        .HasForeignKey("ChatId");
                 });
 
             modelBuilder.Entity("HeavenCars.DataAccessLayer.Models.Bookings.BookingVehicule", b =>
@@ -421,13 +368,6 @@ namespace HeavenCars.DataAccessLayer.Migrations
                     b.HasOne("HeavenCars.DataAccessLayer.Models.Account.ApplicationUser", "Verzender")
                         .WithMany("Messages")
                         .HasForeignKey("UserID");
-                });
-
-            modelBuilder.Entity("HeavenCars.DataAccessLayer.Models.Msg", b =>
-                {
-                    b.HasOne("HeavenCars.DataAccessLayer.Models.Chat", null)
-                        .WithMany("Msgs")
-                        .HasForeignKey("ChatId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

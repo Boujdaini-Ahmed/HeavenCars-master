@@ -61,6 +61,7 @@ namespace HeavenCars
             //.AddTokenProvider<CustomEmailConfirmationTokenProvider
             //<ApplicationUser>>("CustomEmailConfirmation");
             services.AddSignalR();
+            
             //services.Configure<CustomEmailConfirmationTokenProviderOptions>(o =>
             //o.TokenLifespan = TimeSpan.FromHours(5)); // Lors de l'envoie de TOUT les types de token confirmation la durée est de 5 heures avant son expiration
 
@@ -71,6 +72,7 @@ namespace HeavenCars
 
             services.AddScoped<ICarRepository, CarRepository>();
             services.AddScoped<IBookingRepository, BookingRepository>();
+            //services.AddScoped<IChatRepository, ChatRepository>();
 
             services.AddAuthentication()
                 .AddGoogle(options =>
@@ -103,7 +105,7 @@ namespace HeavenCars
             app.UseStaticFiles();
             app.UseAuthentication();
 
-          
+            
 
             app.UseRouting();
            
@@ -114,6 +116,8 @@ namespace HeavenCars
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<ChatHub>("/Chat");
+
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}"

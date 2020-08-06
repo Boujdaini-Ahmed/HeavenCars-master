@@ -10,5 +10,9 @@ namespace HeavenCars.ViewModels.Cars
     {
         public Car Car { get; set; }
         public string PageTitle { get; set; }
+
+       public double Price1 { get; set; }
+        public double Price2 { get; set; }
+        public double Price3 { get; set; }
     }
 }

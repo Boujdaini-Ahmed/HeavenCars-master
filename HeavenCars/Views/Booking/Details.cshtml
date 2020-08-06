@@ -3,7 +3,8 @@
 
 
 @{ ViewData["Title"] = "Details of Booking";
-    var bookingVehicule = Model.BookingVehicule; }
+    var bookingVehicule = Model.BookingVehicule;
+    var car = Model.Car;}
 
 
 @*<h1>Booking Detail</h1>
@@ -59,9 +60,9 @@
             <!-- Page Title Start -->
             <div class="col-lg-12">
                 <div class="section-title  text-center">
-                    <h2>Reservation of @bookingVehicule.CreateBy.</h2>
+                    <h2>Reservation of @bookingVehicule.CreateBy</h2>
                     <span class="title-line"><i class="fa fa-car"></i></span>
-                    <p>Reservation @bookingVehicule.BookingId</p>
+                    <p>Reservation @bookingVehicule.Car.Name</p>
                 </div>
             </div>
             <!-- Page Title End -->
@@ -117,7 +118,7 @@ else
                                                                                                 @if (User.IsInRole("Admin"))
                                                                                                 {
                                                                                 <h3>
-                                                                                    <a>Booking ID : @bookingVehicule.BookingId</a>
+                                                                                    <a> @bookingVehicule.Car.Name</a>
 
                                                                                 </h3>}
 
@@ -138,17 +139,14 @@ else
 
                                                                                                 @if (User.IsInRole("Admin"))
                                                                                                 {
-                                                                                <a asp-controller="Booking" asp-action="BookingsList" class="btn btn-info">Back To List</a>
-                                                                                                    <a asp-action="Edit" asp-controller="Booking" asp-route-id="@Model.BookingVehicule.BookingId" class="btn btn-secondary mr-1">Edit</a>}
+                                                                                <a asp-controller="Booking" asp-action="BookingsList" class="rent-btn"> Back To List <i class="fa fa-arrow-left"></i></a>
+                                                                                                    <a asp-action="Edit" asp-controller="Booking" asp-route-id="@Model.BookingVehicule.BookingId" class="readmore-btn">Edit<i class="fa fa-pencil"></i></a>}
                                                                                                 else
                                                                                                 {
 
-                                                                                <a asp-controller="Cars" asp-action="ListCars" class="btn btn-info">Back</a>}
+                                                                                <a asp-controller="Cars" asp-action="ListCars" class="rent-btn"> Back <i class="fa fa-arrow-left"></i></a>}
 
-                                                                                                <div class="form-group">
-                                                                                                    <input id="btnSubmit" type="submit" name="submit" class="btn btn-success" value="Approve" />
-                                                                                                    <input id="btnReject" type="submit" name="submit" class="btn btn-success" value="Reject" />
-                                                                                                </div>
+                                                                                           
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>

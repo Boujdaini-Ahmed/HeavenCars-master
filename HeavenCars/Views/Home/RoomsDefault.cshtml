@@ -1,0 +1,54 @@
+﻿@*@model IEnumerable<Msg>
+
+
+
+<div class="main">
+    <div class="side-menu">
+
+
+        @foreach (var chat in Model)
+
+        {
+            <a class="room-button" href="#">
+                @chat.Name
+            </a>
+
+        }
+
+        <a class="room-button" id="create-room-btn" href="#">
+            <strong>+</strong>
+        </a>
+    </div>
+</div>
+
+<div class="modal" id="create-room-modal">
+    <form asp-controller="Home" asp-action="CreateRoom" class="modal-body">
+        <button type="button" class="close" onclick="closeModal()">X</button>
+        <header>Create Room</header>
+        <div>
+            <input name="name">
+        </div>
+        <footer>
+            <button>Create</button>
+        </footer>
+    </form>
+
+</div>
+
+<div class="chat-body">
+    @foreach (var msg in Model)
+    {
+        <div class="message">
+            <header>@msg.Name</header>
+            <p>@msg.Text</p>
+            <footer>@msg.Timestamp</footer>
+        </div>
+    }
+
+
+</div>
+<div class="chat-input">
+    <input type="text">
+    <button>Send</button>
+
+</div>*@

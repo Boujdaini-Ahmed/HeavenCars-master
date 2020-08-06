@@ -11,6 +11,15 @@ namespace HeavenCars.DataAccessLayer.Models.Cars
         public int CarId { get; set; }
         public string Name { get; set; }
 
+        // marque et le model > dropdown de valuers deja dans la banque de données car  one to one  one to one-> Marque one to many > Modele
+
+        // Class de Marque
+        // Class de modele
+
+        // class car one to one vers Marque
+        // class car one to one vers modele
+        //class marque one to many vers modele
+
         public int MinLeeftijd { get; set; }
 
         public int Prijs { get; set; }

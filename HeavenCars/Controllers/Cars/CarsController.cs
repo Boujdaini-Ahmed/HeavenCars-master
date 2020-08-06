@@ -82,7 +82,10 @@ namespace HeavenCars.Controllers.Cars
             DetailCarViewModel detailCarViewModel = new DetailCarViewModel()
             {
                 Car = car,
-                PageTitle = "Car Detail"
+                PageTitle = "Car Detail",
+                Price1 = Math.Round((car.Prijs * 0.9),0),
+                Price2 = Math.Round((car.Prijs * 0.8), 0),
+                Price3 = Math.Round((car.Prijs * 0.7), 0),
             };
             return View(detailCarViewModel);
         }

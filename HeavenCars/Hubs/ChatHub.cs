@@ -20,5 +20,20 @@ namespace HeavenCars.Hubs
 
     //}
 
+
+    //        public async Task SendMessage(string userId)
+    //    {
+    //        var message = $"send message to you with user id {userId }";
+    //        await Clients.Client(userId).SendAsync("ReceiveMessage", message);
+    //}
+
+    //    public string GetConnectionId()
+    //    {
+    //        return Context.ConnectionId;
+    //    }
+
 }
+
+
+
 

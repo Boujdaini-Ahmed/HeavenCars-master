@@ -153,6 +153,7 @@
                                                     <ul>
                                                         <li><a class="dropdown-item" asp-controller="Home" asp-action="Edit" asp-route-id="@UserManager.GetUserId(User)">My Profile</a></li>
                                                         <li><a class="dropdown-item" asp-controller="Account" asp-action="ChangePassword">Change Password</a></li>
+                                                        <li><a class="dropdown-item" asp-controller="Home" asp-action="Private">Private</a></li>
                                                     </ul>
                                                 </li>
                                             }
@@ -177,27 +178,28 @@
                                             </ul>
                                         </li>
                                     }
-                                           
 
-                                            
-                                                @if (signInManager.IsSignedIn(User))
-                                                {
-                                                    <li>
-                                                        <form method="post" asp-action="logout" asp-controller="Account">
-                                                            <a asp-action="logout" asp-controller="account" class="nav-link">Logout</a>
-                                                        </form>
-                                                    </li>
-                                                }
-                                                else
-                                                {
-                                                    <li>
-                                                        <a asp-action="register" asp-controller="account" class="nav-link">Register</a>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <a asp-action="Login" asp-controller="account" class="nav-link">Login</a>
-                                                    </li>
-                                                }
 
+
+                                            @if (signInManager.IsSignedIn(User))
+                                            {
+                                                <li>
+                                                    <form method="post" asp-action="logout" asp-controller="Account">
+                                                        <button type="submit" class="nav-link btn btn-link py-0" style="width:auto;">
+                                                            Logout
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li>
+                                                    <a asp-action="register" asp-controller="account" class="nav-link">Register</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a asp-action="Login" asp-controller="account" class="nav-link">Login</a>
+                                                </li>
+                                            }
                                         </ul>
                                     </nav>
                                 </div>

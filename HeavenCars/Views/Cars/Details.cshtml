@@ -165,20 +165,20 @@
                                         <table class="table table-bordered">
                                             <tr>
                                                 <th>Dag</th>
-                                                <td> @(Model.Car.Prijs)€</td> 
+                                                <td> @(Model.Car.Prijs)€</td>
                                             </tr>
                                             <tr>
                                                 <th>Week-end</th>
-                                                <td>@((Model.Car.Prijs*3)*0.8)€</td> @*Changer le datatype en int au lieu de string et faire diviser par deux (/2) pour avoir le prix (pour que le prix soit diviser par deux). 180 EUR*@
+                                                <td>@Model.Price2 €</td> @*Changer le datatype en int au lieu de string et faire diviser par deux (/2) pour avoir le prix (pour que le prix soit diviser par deux). 180 EUR*@
                                             </tr>
                                             <tr>
                                                 <th>1 Week</th>
-                                                <td>@Model.Car.Prijs€</td>
+                                                <td>@Model.Price3 €</td>
                                                 @*Changer le datatype en int au lieu de string et multiplier par 0.8 ( 20pourcent reduction) pour avoir le prix (pour que le prix soit diviser par deux). 160 EUR*@
                                             </tr>
                                             <tr>
                                                 <th>1 Maand</th>
-                                                <td>@Model.Car.Prijs€</td>
+                                                <td><a href="~/Home/Contact">Quote</a></td>
                                                 @*Changer le datatype en int au lieu de string et faire diviser par deux (/2) pour avoir le prix (pour que le prix soit diviser par deux). 100 EUR*@
                                                 @*Changer le datatype en int au lieu de string et multiplier par 0.6 ( 40pourcent reduction) pour avoir le prix (pour que le prix soit diviser par deux). 120 EUR*@
                                             </tr>
@@ -222,19 +222,16 @@
                             </div>
                             <div class="review-form">
                                 <form action="index.html">
-                                   
 
                                     <div class="input-submit">
                                         @if (car.IsAvailableForRent == false)
                                         {
-                                    <a asp-controller="Booking" asp-action="Create" asp-route-carid="@Model.Car.CarId" class="btn btn-success">Booking</a> 
-                                                }
-                                                else
-                                                {
-                                    <a asp-controller="Booking" asp-action="Create" asp-route-carid="@Model.Car.CarId" class="btn btn-success disabled">Booking</a>
-                                    }
-                                    <a asp-controller="Cars" asp-action="Edit" asp-route-carid="@Model.Car.CarId" class="btn btn-success">Edit</a>
-                                    <a asp-controller="Cars" asp-action="ListCars" class="btn btn-info">Back</a>
+                            <a asp-controller="Booking" asp-action="Create" asp-route-carid="@Model.Car.CarId" class="rent-btn"> Booking <i class="fa fa-long-arrow-right"></i></a> }
+                        else
+                        {
+            <a asp-controller="Booking" asp-action="Create" asp-route-carid="@Model.Car.CarId" class="readmore-btn"> Booking <i class="fa fa-long-arrow-right"></i></a>}
+                                        <a asp-controller="Cars" asp-action="Edit" asp-route-carid="@Model.Car.CarId" class="readmore-btn">Edit<i class="fa fa-pencil"></i></a>
+                                        <a asp-controller="Cars" asp-action="ListCars" class="btn btn-info">Back</a>
 
                                     </div>
                                 </form>
@@ -254,55 +251,46 @@
                         <div class="sidebar-body">
                             <p><i class="fa fa-mobile"></i> +32/484.82.13.09</p>
                             <p><i class="fa fa-clock-o"></i> Maandag - Zaterdag 8.00u - 18.00u</p>
-                          
+
                         </div>
                     </div>
                     <!-- Single Sidebar End -->
                     <!-- Single Sidebar Start -->
                     <div class="single-sidebar">
-                        <h3>Rental Tips</h3>
+                        <h3>Discount</h3>
 
                         <div class="sidebar-body">
                             <ul class="recent-tips">
                                 <li class="single-recent-tips">
                                     <div class="recent-tip-thum">
-                                        <a href="#"><img src="assets/img/we-do/service1-img.png" alt="JSOFT"></a>
+                                        <p> <i class="fa fa-percent"></i></p>
                                     </div>
                                     <div class="recent-tip-body">
-                                        <h4><a href="#">How to Enjoy Losses Angeles Car Rentals</a></h4>
-                                        <span class="date">February 5, 2018</span>
+                                        <h6>GET 5% FOR A WEEKEND </h6>
+                                        <span class="date"></span>
                                     </div>
                                 </li>
 
                                 <li class="single-recent-tips">
                                     <div class="recent-tip-thum">
-                                        <a href="#"><img src="assets/img/we-do/service3-img.png" alt="JSOFT"></a>
+                                        <p> <i class="fa fa-percent"></i></p>
                                     </div>
                                     <div class="recent-tip-body">
-                                        <h4><a href="#">How to Enjoy Losses Angeles Car Rentals</a></h4>
-                                        <span class="date">February 5, 2018</span>
+                                        <h6>GET 10% FOR A WEEK </h6>
+                                        <span class="date"></span>
                                     </div>
                                 </li>
 
                                 <li class="single-recent-tips">
                                     <div class="recent-tip-thum">
-                                        <a href="#"><img src="assets/img/we-do/service2-img.png" alt="JSOFT"></a>
+                                        <p> <i class="fa fa-percent"></i></p>
                                     </div>
                                     <div class="recent-tip-body">
-                                        <h4><a href="#">How to Enjoy Losses Angeles Car Rentals</a></h4>
-                                        <span class="date">February 5, 2018</span>
+                                        <h6>GET 20% FOR A MONTH </h6>
+                                        <span class="date"></span>
                                     </div>
                                 </li>
 
-                                <li class="single-recent-tips">
-                                    <div class="recent-tip-thum">
-                                        <a href="#"><img src="assets/img/we-do/service3-img.png" alt="JSOFT"></a>
-                                    </div>
-                                    <div class="recent-tip-body">
-                                        <h4><a href="#">How to Enjoy Losses Angeles Car Rentals</a></h4>
-                                        <span class="date">February 5, 2018</span>
-                                    </div>
-                                </li>
                             </ul>
                         </div>
                     </div>
@@ -328,9 +316,3 @@
     </div>
 </section>
 <!--== Car List Area End ==-->
-
-<!--== Scroll Top Area Start ==-->
-<div class="scroll-top">
-    <img src="~/images/Icons/scroll-top.jpg" alt="JSOFT">
-</div>
-<!--== Scroll Top Area End ==-->

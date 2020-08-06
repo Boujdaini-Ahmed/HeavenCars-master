@@ -1,0 +1,25 @@
+﻿@*@model IEnumerable<HeavenCars.DataAccessLayer.Models.Msg>
+
+
+
+<div class="chat-body">
+    @foreach (var msg in Model)
+    {
+        <div class="message">
+            <header>@msg.Name</header>
+            <p>@msg.Text</p>
+            <footer>@msg.Timestamp</footer>
+        </div>
+    }
+
+
+</div>
+<div class="chat-input">
+    <form asp-controller="Home" asp-action="CreateMessage">
+        <input type="hidden" name="chatId" value="id">
+        <input type="text" name="message">
+        <button type="submit">Send</button>
+
+    </form>
+</div>*@
+

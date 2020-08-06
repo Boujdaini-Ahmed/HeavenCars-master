@@ -81,13 +81,15 @@ namespace HeavenCars.DataAccessLayer.Repositories
         public BookingVehicule GetBooking(int id)
         {
 
-            var booking = context.BookingVehicules.Find(id);
-            return booking;
-            //var booking = context.BookingVehicules
-            //   .Include(x => x.ApplicationUser)
-            //   .Where(x => x.BookingId == id).FirstOrDefault();
-
+            //var booking = context.BookingVehicules.Find(id);
             //return booking;
+            var booking = context.BookingVehicules
+               .Include(x => x.ApplicationUser)
+               .Where(x => x.BookingId == id)
+               .Include(x => x.Car)
+               .FirstOrDefault();
+
+            return booking;
         }
 
   

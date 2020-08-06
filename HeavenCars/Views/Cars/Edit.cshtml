@@ -25,6 +25,8 @@
                 <div class="col-lg-12">
                     <div class="book-a-car">
                         <form enctype="multipart/form-data" asp-action="Edit" asp-controller="Cars" method="post" class="mt-3">
+                            <input hidden asp-for="CarId" />
+                            <input hidden asp-for="ExistingPhotoCar" />
                             <!--== Pick Up Location ==-->
                             <div class="pickup-location book-item">
                                 <h4>NAME:</h4>

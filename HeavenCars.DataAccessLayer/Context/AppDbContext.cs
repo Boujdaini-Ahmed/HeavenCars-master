@@ -17,8 +17,8 @@ namespace HeavenCars.DataAccesLayer.Context
 
         }
 
-        public DbSet<Chat> Chats { get; set; }
-        public DbSet<Msg> Msgs { get; set; }
+        //public DbSet<Chat> Chats { get; set; }
+        //public DbSet<Msg> Msgs { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Car> Cars { get; set; }
         public DbSet<BookingVehicule> BookingVehicules { get; set; }
@@ -26,6 +26,8 @@ namespace HeavenCars.DataAccesLayer.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            //modelBuilder.Entity<ChatUser>()
+            //    .HasKey(x => new { x.ChatId, x.UserId });
             modelBuilder.Entity<Message>()
                 .HasOne<ApplicationUser>(a => a.Verzender)
                 .WithMany(d => d.Messages)

@@ -1,0 +1,24 @@
+﻿@*@model IEnumerable<HeavenCars.DataAccessLayer.Models.Chat>
+
+
+@{
+    var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value;
+}
+
+<div class="chat-body">
+    @foreach (var chat in Model)
+    {
+        <a class="room-button" asp-controller="Home" asp-action="Intro" asp-route-id="@chat.Id">
+            @chat.ApplicationUsers.FirstOrDefault(x => x.UserId != userId).User.UserName
+        </a>
+    }
+</div>*@
+
+
+
+
+@*@section scripts {
+
+    <script src="~/js/site.js"></script>
+
+}*@

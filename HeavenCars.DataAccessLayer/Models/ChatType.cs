@@ -1,8 +1,8 @@
-﻿namespace HeavenCars.DataAccessLayer.Models
-{
-    public enum ChatType
-    {
-        Room,
-        Private
-    }
-}
+﻿//namespace HeavenCars.DataAccessLayer.Models
+//{
+//    public enum ChatType
+//    {
+       
+//        Private
+//    }
+//}

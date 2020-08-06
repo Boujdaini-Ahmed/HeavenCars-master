@@ -17,6 +17,8 @@ using NLog.LayoutRenderers.Wrappers;
 using Microsoft.AspNetCore.Authorization;
 using System.Diagnostics;
 using System.Security.Claims;
+using HeavenCars.DataAccessLayer.Repositories;
+using MimeKit.Encodings;
 
 namespace HeavenCars.Controllers.Home
 {
@@ -26,13 +28,14 @@ namespace HeavenCars.Controllers.Home
         public readonly AppDbContext _context;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        //private readonly IChatRepository _chatRepository;
 
-
-        public HomeController(AppDbContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public HomeController(AppDbContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager/*, IChatRepository chatRepository*/)
         {
             _context = context;
             _signInManager = signInManager;
             _userManager = userManager;
+            //_chatRepository = chatRepository;
         }
         public IActionResult Index()
         {
@@ -183,27 +186,65 @@ namespace HeavenCars.Controllers.Home
             return View(model);
         }
 
-        public IActionResult Intro()
-        {
-            return View();
-        }
+        //public IActionResult Intro()
+        //{
+        //    var users = _userManager.Users.ToList();
+        //    return View(users);
+        //}
 
 
-        public async Task<IActionResult> CreateRoom(string name)
-        {
+        //[HttpPost]
+        //public async Task<IActionResult> CreateRoom(string name)
+        //{
 
 
-            _context.Chats.Add(new Chat
-            {
-                Name = name,
-                Type = ChatType.Room
-            });
+        //    _context.Chats.Add(new Chat
+        //    {
+        //        Name = name,
+        //        Type = ChatType.Private
+        //    });
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Intro");
-        }
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction("Intro");
+        //}
+
+        //[HttpGet]
+
+        //public IActionResult Chatter(int id)
+        //{
+        //    var chat = _context.Chats
+        //        .Include(x => x.Msgs)
+        //        .FirstOrDefault(x => x.Id == id);
+            
+        //    return View(chat);
+        //}
+
+        //[HttpPost]
+
+        //public async Task<IActionResult> CreateMessage(int chatId, string message)
+        //{
+        //    var Message = new Msg
+        //    {
+        //        ChatId = chatId,
+        //        Text = message,
+        //        Name = "Default",
+        //        Timestamp = DateTime.Now
+        //    };
+
+        //    _context.Msgs.Add(Message);
+        //    await _context.SaveChangesAsync();
+
+        //    return RedirectToAction("Chatter", new { id = chatId });
+        //}
 
 
+
+        //public IActionResult RoomsDefault()
+        //{
+
+        //    var chats = _chatRepository.GetAllChat();
+        //    return View(chats);
+        //}
         //public IActionResult Find()
         //{
         //    var users = _context.Users
@@ -213,6 +254,15 @@ namespace HeavenCars.Controllers.Home
         //    return View(users);
         //}
 
+        //public IActionResult Private()
+        //{
+        //    var chats = _context.Chats
+        //        .Include(x => x.ApplicationUsers)
+        //        .ThenInclude(x => x.User)
+        //        .ToList();
+
+        //    return View(chats);
+        }
         //public IActionResult CreatePrivateRoom(string userId)
         //{
         //    var chat = new Chat
@@ -220,7 +270,10 @@ namespace HeavenCars.Controllers.Home
         //        Type = ChatType.Private
         //    };
 
-        //    chat.ApplicationUsers.Add(new ChatUser{})
+        //    chat.ApplicationUsers.Add(new ChatUser
+        //    {
+        //        UserId = userId
+        //    });
 
         //    return View(users);
         //}
@@ -315,6 +368,7 @@ namespace HeavenCars.Controllers.Home
 
         //}
     }
-}
+
+
 
     

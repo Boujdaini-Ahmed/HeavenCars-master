@@ -17,6 +17,7 @@ namespace HeavenCars.DataAccessLayer.Models.Account
         }
         // one to many pour applicationUser || message
         public virtual ICollection<Message> Messages { get; set; }
+        //public virtual ICollection<ChatUser> Chats { get; set; }
 
         [ForeignKey("Car")]
         public int? CarId { get; set; }
