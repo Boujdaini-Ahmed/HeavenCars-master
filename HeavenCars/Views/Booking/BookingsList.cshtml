@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<HeavenCars.DataAccessLayer.Models.Bookings.BookingVehicule>
 @inject UserManager<HeavenCars.DataAccessLayer.Models.Account.ApplicationUser> userManager;
 @{ ViewBag.Title = "Booking List";
-    var user = await userManager.GetUserAsync(Context.User); }
+    var user = await userManager.GetUserAsync(Context.User);
+    Layout = "~/Views/Shared/_AdminPanelLayout.cshtml";}
 
 @*
     <div class="row-cols-1 mt-lg-5 mb-lg-5 text-center">
@@ -94,37 +95,65 @@
         </div>
     </div>*@
 
-<div class="row">
-    <div class="col-12">
-        <table class="table table-sm table-striped table-hover border-bottom">
-            <thead>
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Start Date</th>
-                    <th scope="col">End Date</th>
-                    <th scope="col">Status</th>
+    <div class="main-content">
+        <div class="section__content section__content--p30">
+            <div class="container-fluid">
 
-                </tr>
-            </thead>
-            <tbody>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="overview-wrap">
+                            <h2 class="title-1"><i class="fa fa-users fa-2x"></i> Users</h2>
+                        </div>
+                    </div>
+                </div>
 
-                @foreach (var booking in Model)
-                {
-                <tr>
+                <table class="table table-hover ">
+                    <thead>
+                        <tr>
 
-                    <td>@booking.BookingId</td>
-                    <td>@booking.StartDate</td>
-                    <td>@booking.EndDate</td>
-                    <td>@booking.BookingVanStatus</td>
+                            <th>
+                                Email
+                            </th>
+
+                            <th>
+                                Start Date
+                            </th>
+
+                            <th>
+                                End Date
+                            </th>
+                            <th>
+                                Status
+                            </th>
+
+                            <th>Edit</th>
+
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var booking in Model)
+                        {
+                        <tr>
+
+                            <td>@booking.ApplicationUser.Email</td>
+                            <td>@booking.StartDate</td>
+                            <td>@booking.EndDate</td>
+                            <td>@booking.BookingVanStatus</td>
 
 
 
-                    <td>
-                        <a asp-action="Details" asp-controller="Booking" asp-route-id="@booking.BookingId" class="btn btn-secondary mr-1">Details</a>
+                            <td>
+                                <a asp-action="Details" asp-controller="Booking" asp-route-id="@booking.BookingId"><i style="color:#4272d7;" class="fa fa-info-circle fa-2x"></i></a>
 
-                    </td>
-                </tr>}
-            </tbody>
-        </table>
-    </div>
-</div>
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-controller="Booking" asp-route-id="@booking.BookingId"><i style="color:#4272d7;" class="fa fa-info-circle fa-2x"></i></a>
+
+                            </td>
+                        </tr>}
+                    </tbody>
+                </table>
+            </div>
+        </div>

@@ -39,28 +39,34 @@ namespace HeavenCars.DataAccessLayer.Repositories.Cars
 
         public IEnumerable<Car> GetAllCars()
         {
-            return context.Cars;
+            var car = context.Cars
+                .Include(x => x.CarModel).ThenInclude(x => x.Brand)
+                
+                .ToList();
+
+
+            return car;
         }
 
 
         public Car GetCar(int Id)
         {
-            var car = context.Cars.Find(Id);
+            var car = context.Cars
+                .Include(x => x.CarModel).ThenInclude(x => x.Brand)
+                .Where(x => x.CarId == Id).FirstOrDefault();
+                
             return car;
         }
 
-        public Car GetCarById(int id)
-        {
-            var car = context.Cars.Find(id);
-            return car;
-        }
+
 
         public List<Car> SearchCars(string search)
         {
             
 
             return context.Cars
-                .Where(p => p.Name.Contains(search))
+                .Include(x => x.CarModel).ThenInclude(x => x.Brand)
+                .Where(p => p.CarModel.Brand.BrandName.Contains(search))
                 
 
                 .ToList();

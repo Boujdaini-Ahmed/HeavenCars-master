@@ -86,7 +86,9 @@ namespace HeavenCars.DataAccessLayer.Repositories
             var booking = context.BookingVehicules
                .Include(x => x.ApplicationUser)
                .Where(x => x.BookingId == id)
-               .Include(x => x.Car)
+               .Include(x => x.Car).ThenInclude(x => x.CarModel).ThenInclude(x => x.Brand)
+               
+               
                .FirstOrDefault();
 
             return booking;

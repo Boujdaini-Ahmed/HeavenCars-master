@@ -7,7 +7,7 @@
     <div class="col-sm-8">
         <div class="card">
             <div class="card-header">
-                <h1>@Model.Name</h1>
+                <h1>@Model.CarModel.Brand.BrandName</h1>
             </div>
 
             <div class="card-body text-center">
@@ -16,9 +16,9 @@
                 <img class="card-img-top imageThumbnail" asp-append-version="true" src="@photoCar" />
 
                 <h4>Car ID: @Model.CarId</h4>
-                <h4>Leeftijd: @Model.MinLeeftijd</h4>
+                @*<h4>Leeftijd: @Model.MinLeeftijd</h4>*@
                 <h4>Prijs: @Model.Prijs</h4>
-                <h4>KW: @Model.Kw</h4>
+                @*<h4>KW: @Model.Kw</h4>*@
 
             </div>
             <div class="card-footer text-center">

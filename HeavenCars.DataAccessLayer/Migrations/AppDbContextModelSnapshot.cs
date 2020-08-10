@@ -133,6 +133,12 @@ namespace HeavenCars.DataAccessLayer.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<double>("TotalAmount")
+                        .HasColumnType("float");
+
+                    b.Property<double>("TotalPrijs")
+                        .HasColumnType("float");
+
                     b.HasKey("BookingId");
 
                     b.HasIndex("ApplicationUserId");
@@ -142,12 +148,30 @@ namespace HeavenCars.DataAccessLayer.Migrations
                     b.ToTable("BookingVehicules");
                 });
 
+            modelBuilder.Entity("HeavenCars.DataAccessLayer.Models.Cars.Brand", b =>
+                {
+                    b.Property<int>("BrandId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BrandName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("BrandId");
+
+                    b.ToTable("Brands");
+                });
+
             modelBuilder.Entity("HeavenCars.DataAccessLayer.Models.Cars.Car", b =>
                 {
                     b.Property<int>("CarId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CarModelId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
@@ -161,15 +185,6 @@ namespace HeavenCars.DataAccessLayer.Migrations
                     b.Property<bool>("IsAvailableForRent")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Kw")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MinLeeftijd")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PhotoCar")
                         .HasColumnType("nvarchar(max)");
 
@@ -181,7 +196,35 @@ namespace HeavenCars.DataAccessLayer.Migrations
 
                     b.HasKey("CarId");
 
+                    b.HasIndex("CarModelId");
+
                     b.ToTable("Cars");
+                });
+
+            modelBuilder.Entity("HeavenCars.DataAccessLayer.Models.Cars.CarModel", b =>
+                {
+                    b.Property<int>("ModelId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("BrandId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Kw")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MinLeeftijd")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ModelName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ModelId");
+
+                    b.HasIndex("BrandId");
+
+                    b.ToTable("CarModels");
                 });
 
             modelBuilder.Entity("HeavenCars.DataAccessLayer.Models.Message", b =>
@@ -210,6 +253,34 @@ namespace HeavenCars.DataAccessLayer.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("HeavenCars.DataAccessLayer.Models.Transaction", b =>
+                {
+                    b.Property<string>("TransactionId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("TransactionId");
+
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -361,6 +432,20 @@ namespace HeavenCars.DataAccessLayer.Migrations
                         .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("HeavenCars.DataAccessLayer.Models.Cars.Car", b =>
+                {
+                    b.HasOne("HeavenCars.DataAccessLayer.Models.Cars.CarModel", "CarModel")
+                        .WithMany()
+                        .HasForeignKey("CarModelId");
+                });
+
+            modelBuilder.Entity("HeavenCars.DataAccessLayer.Models.Cars.CarModel", b =>
+                {
+                    b.HasOne("HeavenCars.DataAccessLayer.Models.Cars.Brand", "Brand")
+                        .WithMany()
+                        .HasForeignKey("BrandId");
                 });
 
             modelBuilder.Entity("HeavenCars.DataAccessLayer.Models.Message", b =>

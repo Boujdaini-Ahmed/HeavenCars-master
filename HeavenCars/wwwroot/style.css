@@ -734,7 +734,11 @@ a.slicknav_btn {
 /*== Choose Car Area CSS Start ==*/
 
 #choose-car.section-padding {
-	padding-bottom: 70px;
+	background-image: url(/images/AMGRED.jpg);
+	background-position: center center;
+	background-size: cover;
+	padding-top: 220px;
+	
 }
 
 .choose-content-wrap .nav-tabs {

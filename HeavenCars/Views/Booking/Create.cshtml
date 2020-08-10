@@ -11,7 +11,7 @@
 <hr />
 
 <div class="row my-auto d-flex justify-content-center text-center">
-    <h1>Create Board for @Model.Car.Name</h1>
+    <h1>Create Board for @Model.Car.CarModel.Brand.BrandName @Model.Car.CarModel.ModelName</h1>
 </div>
 <hr />
 <div class="row my-auto d-flex justify-content-center">
@@ -23,12 +23,12 @@
 
             <div class="form-group">
                 <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" />
+                <input asp-for="StartDate" class="form-control" type="date" id="startDate" placeholder="Pick Up Date" min="@DateTime.Now.ToString("yyyy-MM-dd")"/>
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="EndDate" class="control-label"></label>
-                <input asp-for="EndDate" class="form-control" />
+                <input asp-for="EndDate" class="form-control" type="date" id="startDate" placeholder="Pick Up Date" min="" max="@DateTime.Now.AddDays(30).ToString("yyyy-MM-dd")" />
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
 
@@ -46,6 +46,22 @@
         </form>
     </div>
 </div>
+
+@section scripts{ 
+
+    <scripts>
+        Jquery / javascript = 
+        function on chnage datedepart(){
+        var datedepart = valuer de Datedepart.
+
+        var datime min de fin = datededepart
+        => append valuer vers html
+        
+        }
+    </scripts>
+
+}
+
 
 @*<div class="row">
         <div class="col-md-4">

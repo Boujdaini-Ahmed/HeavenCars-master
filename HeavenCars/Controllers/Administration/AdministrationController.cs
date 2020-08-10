@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HeavenCars.DataAccesLayer.Context;
 using HeavenCars.DataAccessLayer.Models.Account;
 using HeavenCars.ViewModels.Administration;
 using Microsoft.AspNetCore.Authorization;
@@ -14,13 +15,32 @@ namespace HeavenCars.Controllers.Administration
     //[Authorize(Roles = "Admin, SubAdmin")]
     public class AdministrationController : Controller
     {
+        private readonly AppDbContext _context;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public AdministrationController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
+        public AdministrationController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager, AppDbContext context)
         {
             _roleManager = roleManager;
             _userManager = userManager;
+            _context = context;
+        }
+
+        public IActionResult Index()
+        {
+            //Last 24 Hours
+            DateTime Last24Hours = DateTime.Now.Date.AddHours(-24);
+            AdminPanelViewModel model = new AdminPanelViewModel()
+            {
+
+                NumberOfBookings = _context.BookingVehicules.Count(),
+                NumberOfUsers = _context.Users.Count(),
+                NumberOfCars = _context.Cars.Count(),
+               
+             
+            };
+
+            return View(model);
         }
 
         [HttpGet]

@@ -114,7 +114,7 @@
                                 <span asp-validation-for="Password" class="text-danger"></span>
                             </div>
                             <div class="log-btn">
-                                <button type="submit" class="btn btn-primary">Login</button>
+                                <button type="submit"><i class="fa fa-sign-in"></i> Login</button>
                             </div>
                         </form>
                     </div>
@@ -131,12 +131,19 @@
     <div>
         @foreach (var provider in Model.ExternalLogins)
         {
-<button type="submit" class="login-with-btn facebook" style="width:auto"
-        name="provider" value="@provider.Name"
-        title="Login usin your @provider.DisplayName account">
-    <i class=" fa fa-facebook"></i>
-    @provider.DisplayName
-</button>}
+            if (provider.DisplayName == "Facebook")
+            {
+    <button type="submit" class="book-now-btn" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"> <i class="fa fa-facebook fa-2x"></i>acebook</button> }
+                        if (provider.DisplayName == "Google")
+                        {
+    <button type="submit" class="book-now-btn" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">  <i class="fa fa-google fa-2x"></i>oogle</button> }
+
+    @*<button type="submit" class="login-with-btn facebook" style="width:auto"
+            name="provider" value="@provider.Name"
+            title="Login usin your @provider.DisplayName account">
+        <i class=" fa fa-facebook"></i>
+        @provider.DisplayName
+    </button>*@}
     </div>
 </form> } }
                     </div>

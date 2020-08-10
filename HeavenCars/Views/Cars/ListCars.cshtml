@@ -57,9 +57,8 @@
         </div>
     </div>*@
 
-
 <!--== Choose Car Area Start ==-->
-<section id="choose-car" class="section-padding">
+<section id="choose-car" class="section-padding overlay">
     <div class="container">
         <div class="row">
             <!-- Section Title Start -->
@@ -72,116 +71,118 @@
             </div>
             <!-- Section Title End -->
         </div>
-
-        <form asp-action="ListCars" method="POST">
-            <div class="row input-group">
-                <input type="text" name="search" id="search" class="form-control" />
-                <div class="input-group-btn">
-                    <input type="submit" value="Search" class="btn btn-primary" />
-                    <input type="submit" value="Reset" class="btn btn-warning" />
-                </div>
-            </div>
-        </form>
-
-        @*<form asp-action="ListCars" method="POST">
-
-            <div class="row input-group">
-                <input type="text" name="search" id="search" class="form-control" />
-                <div class="input-group-btn">
-                    <input type="submit" value="Search" class="btn btn-primary" />
-                    <input type="submit" value="Reset" class="btn btn-warning" />
-                </div>
-            </div>
-        </form>*@
-
-        @*<form asp-action="ListCars" method="POST">
-
-            <div class="row input-group">
-                <input type="text" name="search" id="search" class="form-control" />
-                <div class="input-group-btn">
-                    <input type="submit" value="Search" class="btn btn-primary" />
-                    <input type="submit" value="Reset" class="btn btn-warning" />
-                </div>
-            </div>
-        </form>*@
-
-        <div class="row">
-            <!-- Choose Area Content Start -->
-            <div class="col-lg-12">
-                <div class="choose-content-wrap">
-                    <div class="choose-ur-cars">
-                        <div class="row">
-                            <div class="col-lg-3">
-                                <!-- Choose Filtering Menu Start -->
-                                <div class="p-car-thumbnails">
-
-                                    <a asp-action="ListCars" asp-route-sortOrder="@ViewData["NameSortParm"]"> <span class="glyphicon glyphicon-sort"><i class=" fa fa-sort-desc"></i> Name</span>  </a>
-                                    <a asp-action="ListCars" asp-route-sortOrder="@ViewData["PrijsSortParm"]"> <span class="glyphicon glyphicon-sort"><i class=" fa fa-sort-desc"></i> Prijs</span>  </a>
-
-                                </div>
-                                <!-- Choose Filtering Menu End -->
-                            </div>
-
-                            <div class="col-lg-9">
-
-
-                                <!-- Choose Cars Content-wrap -->
-                                <div class="row popular-car-gird">
-
-                                    <!-- Single Popular Car Start -->
-
-                                    <div class="col-lg-4 col-md-6 con suv mpv">
-                                        <div class="single-popular-car">
-                                            @foreach (var car in Model)
-                                            {
-                                                var photoCar = $"~/images/{car.PhotoCar ?? "noimage.png"}";
-                                <div class="p-car-thumbnails">
-
-
-
-                                    <a class="car-hover" href="@photoCar">
-                                        <img class="card-img-top" alt="Cinque Terre" src="@photoCar" asp-append-version="true" />
-
-                                    </a>
-                                </div>
-
-
-                                                <div class="p-car-content">
-                                                    <h3>
-                                                        <a>@car.Name</a>
-                                                        <span class="price"><i class="fa fa-tag"></i>@car.Prijs€</span>
-                                                    </h3>
-
-                                                    <h5>HATCHBACK</h5>
-
-                                                    <div class="p-car-feature">
-                                                        <a>@car.MinLeeftijd years</a>
-                                                        <a>@car.Kw KW</a>
-                                                        <a>AIR CONDITION</a>
-                                                    </div>
-                                                    <br />
-                                                    <div class="book-button text-center">
-                                                        <a asp-action="Details" asp-controller="Cars" asp-route-id="@car.CarId" class="book-now-btn">Details</a>
-                                                        <a asp-action="Delete" asp-controller="Cars" asp-route-id="@car.CarId" class="delete-now-btn">Delete</a>
-                                                    </div>
-
-                                                </div>}
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Single Popular Car End -->
-                            </div>
-                            <!-- Choose Cars Content-wrap -->
-                        </div>
-                        
-                    </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Choose Area Content End -->
-        </div>
-    
+    </div>
 </section>
+
+<br />
+<hr />
+
+<form asp-action="ListCars" method="POST">
+    <div class="row input-group">
+        <input type="text" name="search" id="search" class="form-control" />
+        <div class="input-group-btn">
+            <input type="submit" value="Search" class="btn btn-primary" />
+            <input type="submit" value="Reset" class="btn btn-warning" />
+        </div>
+    </div>
+</form>
+
+@*<form asp-action="ListCars" method="POST">
+
+        <div class="row input-group">
+            <input type="text" name="search" id="search" class="form-control" />
+            <div class="input-group-btn">
+                <input type="submit" value="Search" class="btn btn-primary" />
+                <input type="submit" value="Reset" class="btn btn-warning" />
+            </div>
+        </div>
+    </form>*@
+
+@*<form asp-action="ListCars" method="POST">
+
+        <div class="row input-group">
+            <input type="text" name="search" id="search" class="form-control" />
+            <div class="input-group-btn">
+                <input type="submit" value="Search" class="btn btn-primary" />
+                <input type="submit" value="Reset" class="btn btn-warning" />
+            </div>
+        </div>
+    </form>*@
+
+<div class="row">
+    <!-- Choose Area Content Start -->
+    <div class="col-lg-12">
+        <div class="choose-content-wrap">
+            <div class="choose-ur-cars">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <!-- Choose Filtering Menu Start -->
+                        <div class="p-car-thumbnails">
+
+                            <a asp-action="ListCars" asp-route-sortOrder="@ViewData["NameSortParm"]"> <span class="glyphicon glyphicon-sort"><i class=" fa fa-sort-desc"></i> Name</span>  </a>
+                            <a asp-action="ListCars" asp-route-sortOrder="@ViewData["PrijsSortParm"]"> <span class="glyphicon glyphicon-sort"><i class=" fa fa-sort-desc"></i> Prijs</span>  </a>
+
+                        </div>
+                        <!-- Choose Filtering Menu End -->
+                    </div>
+
+                    <div class="col-lg-9">
+
+
+                        <!-- Choose Cars Content-wrap -->
+                        <div class="row popular-car-gird">
+
+                            <!-- Single Popular Car Start -->
+                            @foreach (var car in Model)
+                            {
+                                var photoCar = $"~/images/{car.PhotoCar ?? "noimage.png"}";
+                <div class="mt-3 con suv mpv">
+                    <div class="single-popular-car">
+
+                        <div class="p-car-thumbnails">
+
+
+
+                            <a class="car-hover" href="@photoCar">
+                                <img class="card-img-top" alt="Cinque Terre" src="@photoCar" asp-append-version="true" />
+
+                            </a>
+                        </div>
+
+
+                        <div class="p-car-content">
+                            <h3>
+                                <a>@car.CarModel.Brand.BrandName</a>
+                                <span class="price"><i class="fa fa-tag"></i>@car.Prijs€</span>
+                            </h3>
+
+                            <h5>HATCHBACK</h5>
+
+                            <div class="p-car-feature">
+                                <a>@car.CarModel.MinLeeftijd years</a>
+                                <a>@car.CarModel.Kw KW</a>
+                                <a>AIR CONDITION</a>
+                            </div>
+                            <br />
+                            <div class="book-button text-center">
+                                <a asp-action="Details" asp-controller="Cars" asp-route-id="@car.CarId" class="book-now-btn">Details</a>
+                               
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>}
+                        </div>
+
+                        <!-- Single Popular Car End -->
+                    </div>
+                    <!-- Choose Cars Content-wrap -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Choose Area Content End -->
 <!--== Choose Car Area End ==-->

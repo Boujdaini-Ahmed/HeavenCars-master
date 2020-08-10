@@ -21,7 +21,11 @@ namespace HeavenCars.DataAccesLayer.Context
         //public DbSet<Msg> Msgs { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Car> Cars { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<CarModel> CarModels { get; set; }
         public DbSet<BookingVehicule> BookingVehicules { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

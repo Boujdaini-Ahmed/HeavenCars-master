@@ -27,18 +27,27 @@
                         <form enctype="multipart/form-data" asp-action="Edit" asp-controller="Cars" method="post" class="mt-3">
                             <input hidden asp-for="CarId" />
                             <input hidden asp-for="ExistingPhotoCar" />
-                            <!--== Pick Up Location ==-->
+
+                            <div class="form-group">
+                                <label asp-for="IsAvailableForRent" class="control-label"></label>
+                                <select asp-for="IsAvailableForRent" class="form-control" asp-items="Model.ListAvaible"></select>
+                            </div>
                             <div class="pickup-location book-item">
-                                <h4>NAME:</h4>
-                                <input asp-for="Name" class="form-control" placeholder="Name" />
-                                <span asp-validation-for="Name" class="text-danger"></span>
+                                <h4>BRAND:</h4>
+                                <input asp-for="@Model.CarModel.Brand.BrandName" class="form-control" placeholder="Name" />
+                                <span asp-validation-for="@Model.CarModel.Brand.BrandName" class="text-danger"></span>
+                            </div>
+                            <div class="pickup-location book-item">
+                                <h4>BRAND:</h4>
+                                <input asp-for="@Model.CarModel.ModelName" class="form-control" placeholder="Name" />
+                                <span asp-validation-for="@Model.CarModel.ModelName" class="text-danger"></span>
                             </div>
                             <!--== Pick Up Location ==-->
                             <!--== Pick Up Location ==-->
                             <div class="pickup-location book-item">
                                 <h4>MINIMUM YEARS:</h4>
-                                <input asp-for="MinLeeftijd" class="form-control" placeholder="Leeftijd" />
-                                <span asp-validation-for="MinLeeftijd" class="text-danger"></span>
+                                <input asp-for="@Model.CarModel.MinLeeftijd" class="form-control" placeholder="Leeftijd" />
+                                <span asp-validation-for="@Model.CarModel.MinLeeftijd" class="text-danger"></span>
                             </div>
                             <!--== Pick Up Location ==-->
                             <!--== Pick Up Location ==-->
@@ -51,14 +60,15 @@
                             <!--== Pick Up Location ==-->
                             <div class="pickup-location book-item">
                                 <h4>KW:</h4>
-                                <input asp-for="Kw" class="form-control" placeholder="KW" />
-                                <span asp-validation-for="Kw" class="text-danger"></span>
+                                <input asp-for="@Model.CarModel.Kw" class="form-control" placeholder="KW" />
+                                <span asp-validation-for="@Model.CarModel.Kw" class="text-danger"></span>
                             </div>
                             <div class="pickup-location book-item">
                                 <h4>Content:</h4>
                                 <textarea id="editor" asp-for="Content"></textarea>
                                 <span asp-validation-for="Content" class="text-danger"></span>
                             </div>
+
                             <!--== Pick Up Location ==-->
                             <!--== Pick Up Location ==-->
                             <div class="pickup-location book-item">
@@ -71,9 +81,10 @@
                             </div>
                             <!--== Pick Up Location ==-->
 
+
                             <div class="book-button text-center">
                                 <button type="submit" class="book-now-btn">Edit</button>
-                                <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Cancel</a>
+                                <a asp-controller="Cars" asp-action="ListCarsAdmin" class="btn btn-secondary">Cancel</a>
                             </div>
                         </form>
                     </div>

@@ -1,0 +1,77 @@
+﻿@model IEnumerable<HeavenCars.DataAccessLayer.Models.Cars.Car>
+
+@{ ViewData["Title"] = "Index Car";
+  
+    Layout = "~/Views/Shared/_AdminPanelLayout.cshtml";}
+
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="overview-wrap">
+                        <h2 class="title-1"><i class="fas fa-car fa-2x"></i> Vehicles</h2>
+                        <!-- Satrtt -->
+                        <a asp-action="Create" asp-controller="Cars" class="au-btn au-btn-icon au-btn--blue" align="Right">  <i class="zmdi zmdi-plus"></i>Add Vehicle</a>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <table class="table table-hover ">
+                <thead>
+                    <tr>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.CarModel.Brand.BrandName)
+
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CarModel.ModelName)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.CarModel.Kw)
+                        </th>
+                        <th>Edit</th>
+                        <th>Details</th>
+                        <th>Delete</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var Car in Model)
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => Car.CarModel.Brand.BrandName)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Car.CarModel.ModelName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Car.CarModel.Kw)
+
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-controller="Cars" asp-route-carid="@Car.CarId"><i style="color:#4272d7;" class="fa fa-edit fa-2x"></i></a>
+                            @*<a asp-controller="Cars" asp-action="Edit" asp-route-carid="@Model.Car.CarId" class="readmore-btn">Edit<i class="fa fa-pencil"></i></a>*@
+                        </td>
+
+                        <td>
+                            <a asp-action="Details" asp-controller="Cars" asp-route-id="@Car.CarId"><i style="color:#4272d7;" class="fa fa-info-circle fa-2x"></i></a> 
+                        </td>
+                        <td>
+                            <a asp-action="Delete" asp-controller="Cars" asp-route-id="@Car.CarId"><i style="color:#4272d7;" class="fa fa-edit fa-2x"></i></a>
+                        </td>
+
+                    </tr>}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,136 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="au theme template">
+    <meta name="author" content="Hau Nguyen">
+    <meta name="keywords" content="au theme template">
+
+
+    <title>Heaven Cars - Dashboard</title>
+
+
+    <link href="~/AdminPanel/css/font-face.css" rel="stylesheet" media="all">
+    <link href="~/AdminPanel/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="~/AdminPanel/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="~/AdminPanel/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+
+
+    <link href="~/AdminPanel/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+
+
+    <link href="~/AdminPanel/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+    <link href="~/AdminPanel/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+    <link href="~/AdminPanel/vendor/wow/animate.css" rel="stylesheet" media="all">
+    <link href="~/AdminPanel/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="~/AdminPanel/vendor/slick/slick.css" rel="stylesheet" media="all">
+    <link href="~/AdminPanel/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="~/AdminPanel/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+
+
+    <link href="~/AdminPanel/css/theme.css" rel="stylesheet" media="all">
+
+</head>
+
+<body class="animsition">
+    <div class="page-wrapper">
+
+     
+
+        <aside class="menu-sidebar d-none d-lg-block">
+            <div class="logo">
+                <a href="#">
+                    <img src="~/Images/Icons/AdminPanel1.png" alt="Admin Panel" />
+                </a>
+            </div>
+            <div class="menu-sidebar__content js-scrollbar1">
+                <nav class="navbar-sidebar">
+                    <ul class="list-unstyled navbar__list">
+                        <li class="active has-sub">
+                            <a class="js-arrow" href="#">
+                                <i class="fas fa-car"></i>Cars
+                            </a>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                <li>
+                                    <a href="~/Cars/ListCarsAdmin">Cars <span class="badge badge-warning"></span> </a>
+                                </li>
+                                <li>
+                                    <a href="~/Cars/Create">Add Car</a>
+                                </li>
+                              
+
+                            </ul>
+                        </li>
+
+                        <li class="has-sub">
+                            <a class="js-arrow" href="#">
+                                <i class="fas fa-users"></i>Users
+                            </a>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                <li>
+                                    <a href="~/Administration/ListUsers">All Users</a>
+                                </li>
+                                <li>
+                                    <a href="~/Administration/ListRoles">Roles</a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+                        <li class="has-sub">
+                            <a class="js-arrow" href="#">
+                                <i class="fas fa-window-restore"></i>Bookings
+                            </a>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                <li>
+                                    <a href="~/Booking/BookingsList">All Bookings</a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+
+
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <div class="page-container">
+
+            @RenderBody()
+
+        </div>
+
+    </div>
+
+
+    <script src="~/AdminPanel/vendor/jquery-3.2.1.min.js"></script>
+
+    <script src="~/AdminPanel/vendor/bootstrap-4.1/popper.min.js"></script>
+    <script src="~/AdminPanel/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+
+    <script src="~/AdminPanel/vendor/slick/slick.min.js"></script>
+    <script src="~/AdminPanel/vendor/wow/wow.min.js"></script>
+    <script src="~/AdminPanel/vendor/animsition/animsition.min.js"></script>
+    <script src="~/AdminPanel/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <script src="~/AdminPanel/vendor/counter-up/jquery.waypoints.min.js"></script>
+    <script src="~/AdminPanel/vendor/counter-up/jquery.counterup.min.js"></script>
+    <script src="~/AdminPanel/vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="~/AdminPanel/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <script src="~/AdminPanel/vendor/select2/select2.min.js"></script>
+
+    <script src="~/js/PostCodeValidation/jspostcode.js"></script>
+
+
+    <script src="~/AdminPanel/js/main.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+
+</html>
+

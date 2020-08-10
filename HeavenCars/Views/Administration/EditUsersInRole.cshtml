@@ -3,16 +3,29 @@
 @{
     var roleId = ViewBag.roleId;
     ViewData["Title"] = "EditUsersInRole";
+    Layout = "~/Views/Shared/_AdminPanelLayout.cshtml";
 }
 
-<form method="post">
-    <div class="card">
-        <div class="card-header">
-            <h2>Add or remove users from this role</h2>
-        </div>
-        <div class="card-body">
-            @for (int i = 0; i < Model.Count; i++)
-            {
+    <form method="post">
+        <div class="main-content">
+            <div class="section__content section__content--p30">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="overview-wrap">
+                                <h2 class="title-1"><i class="fa fa-users fa-2x"></i> Users</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <br />
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Add or remove</h2>
+                        </div>
+                        <div class="card-body">
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
                 <div class="form-check m-1">
                     <input type="hidden" asp-for="@Model[i].UserId" />
                     <input type="hidden" asp-for="@Model[i].UserName" />
@@ -20,14 +33,16 @@
                     <label class="form-check-label" asp-for="@Model[i].IsSelected">
                         @Model[i].UserName
                     </label>
+                </div>            }
+                        </div>
+                        <div class="card-footer">
+                            <input type="submit" value="Update" class="au-btn au-btn-icon au-btn--submit"
+                                   style="width:auto" />
+                            <a asp-action="EditRole" asp-route-id="@roleId"
+                               class="au-btn au-btn-icon au-btn--green" style="width:auto">Cancel</a>
+                        </div>
+                    </div>
+                    </div>
                 </div>
-            }
-        </div>
-        <div class="card-footer">
-            <input type="submit" value="Update" class="btn btn-success"
-                   style="width:auto" />
-            <a asp-action="EditRole" asp-route-id="@roleId"
-               class="btn btn-secondary" style="width:auto">Cancel</a>
-        </div>
-    </div>
-</form>
+            </div>
+    </form>

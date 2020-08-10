@@ -6,7 +6,7 @@ namespace HeavenCars.DataAccessLayer.Repositories.Cars
     public interface ICarRepository
     {
         Car GetCar(int Id);
-        Car GetCarById(int id);
+   
         IEnumerable<Car> GetAllCars();
         Car Add(Car car);
         Car Update(Car carNew);

@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Castle.Core" Version="4.4.1" />
     <PackageReference Include="jQuery.UI.Combined" Version="1.12.1" />
     <PackageReference Include="MailKit" Version="2.8.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="3.0.0" />
@@ -22,9 +23,97 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
     <PackageReference Include="MimeKit" Version="2.9.1" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.0" />
+    <PackageReference Include="SendGrid" Version="9.20.0" />
+    <PackageReference Include="Stripe.net" Version="37.30.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-100.svg" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-100.woff2" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-100italic.svg" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-100italic.woff2" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-200.svg" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-200.woff2" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-200italic.svg" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-200italic.woff2" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-300.svg" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-300.woff2" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-300italic.svg" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-300italic.woff2" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-500.svg" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-500.woff2" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-500italic.svg" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-500italic.woff2" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-600.svg" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-600.woff2" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-600italic.svg" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-600italic.woff2" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-700.svg" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-700.woff2" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-700italic.svg" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-700italic.woff2" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-800.svg" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-800.woff2" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-800italic.svg" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-800italic.woff2" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-900.svg" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-900.woff2" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-900italic.svg" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-900italic.woff2" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-italic.svg" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-italic.woff2" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-regular.svg" />
+    <None Include="wwwroot\AdminPanel\fonts\poppins\poppins-v5-latin-regular.woff2" />
+    <None Include="wwwroot\AdminPanel\js\main.js" />
+    <None Include="wwwroot\AdminPanel\vendor\animsition\animsition.min.js" />
+    <None Include="wwwroot\AdminPanel\vendor\bootstrap-4.1\bootstrap.min.js" />
+    <None Include="wwwroot\AdminPanel\vendor\bootstrap-4.1\popper.min.js" />
+    <None Include="wwwroot\AdminPanel\vendor\bootstrap-progressbar\bootstrap-progressbar.min.js" />
+    <None Include="wwwroot\AdminPanel\vendor\circle-progress\circle-progress.js" />
+    <None Include="wwwroot\AdminPanel\vendor\circle-progress\circle-progress.min.js" />
+    <None Include="wwwroot\AdminPanel\vendor\countdown\countdowntime.js" />
+    <None Include="wwwroot\AdminPanel\vendor\countdown\jquery.countdown.min.js" />
+    <None Include="wwwroot\AdminPanel\vendor\countdown\moment-timezone-with-data.min.js" />
+    <None Include="wwwroot\AdminPanel\vendor\countdown\moment-timezone.min.js" />
+    <None Include="wwwroot\AdminPanel\vendor\countdown\moment.min.js" />
+    <None Include="wwwroot\AdminPanel\vendor\counter-up\jquery.counterup.min.js" />
+    <None Include="wwwroot\AdminPanel\vendor\counter-up\jquery.waypoints.min.js" />
+    <None Include="wwwroot\AdminPanel\vendor\counter-up\waypoints.min.js" />
+    <None Include="wwwroot\AdminPanel\vendor\font-awesome-4.7\fonts\fontawesome-webfont.svg" />
+    <None Include="wwwroot\AdminPanel\vendor\font-awesome-4.7\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\AdminPanel\vendor\font-awesome-5\webfonts\fa-brands-400.svg" />
+    <None Include="wwwroot\AdminPanel\vendor\font-awesome-5\webfonts\fa-brands-400.woff2" />
+    <None Include="wwwroot\AdminPanel\vendor\font-awesome-5\webfonts\fa-regular-400.svg" />
+    <None Include="wwwroot\AdminPanel\vendor\font-awesome-5\webfonts\fa-regular-400.woff2" />
+    <None Include="wwwroot\AdminPanel\vendor\font-awesome-5\webfonts\fa-solid-900.svg" />
+    <None Include="wwwroot\AdminPanel\vendor\font-awesome-5\webfonts\fa-solid-900.woff2" />
+    <None Include="wwwroot\AdminPanel\vendor\jquery-3.2.1.min.js" />
+    <None Include="wwwroot\AdminPanel\vendor\jquery-ui.min.js" />
+    <None Include="wwwroot\AdminPanel\vendor\lightbox2\dist\js\lightbox-plus-jquery.js" />
+    <None Include="wwwroot\AdminPanel\vendor\lightbox2\dist\js\lightbox-plus-jquery.min.js" />
+    <None Include="wwwroot\AdminPanel\vendor\lightbox2\dist\js\lightbox-plus-jquery.min.map" />
+    <None Include="wwwroot\AdminPanel\vendor\lightbox2\dist\js\lightbox.js" />
+    <None Include="wwwroot\AdminPanel\vendor\lightbox2\dist\js\lightbox.min.js" />
+    <None Include="wwwroot\AdminPanel\vendor\lightbox2\dist\js\lightbox.min.map" />
+    <None Include="wwwroot\AdminPanel\vendor\lightbox2\src\js\lightbox.js" />
+    <None Include="wwwroot\AdminPanel\vendor\mdi-font\fonts\Material-Design-Iconic-Font.svg" />
+    <None Include="wwwroot\AdminPanel\vendor\mdi-font\fonts\Material-Design-Iconic-Font.woff2" />
+    <None Include="wwwroot\AdminPanel\vendor\perfect-scrollbar\perfect-scrollbar.js" />
+    <None Include="wwwroot\AdminPanel\vendor\perfect-scrollbar\perfect-scrollbar.min.js" />
+    <None Include="wwwroot\AdminPanel\vendor\progressbar\progressbar.js" />
+    <None Include="wwwroot\AdminPanel\vendor\progressbar\progressbar.min.js" />
+    <None Include="wwwroot\AdminPanel\vendor\select2\select2.min.js" />
+    <None Include="wwwroot\AdminPanel\vendor\slick\config.rb" />
+    <None Include="wwwroot\AdminPanel\vendor\slick\fonts\slick.svg" />
+    <None Include="wwwroot\AdminPanel\vendor\slick\slick-theme.less" />
+    <None Include="wwwroot\AdminPanel\vendor\slick\slick-theme.scss" />
+    <None Include="wwwroot\AdminPanel\vendor\slick\slick.js" />
+    <None Include="wwwroot\AdminPanel\vendor\slick\slick.less" />
+    <None Include="wwwroot\AdminPanel\vendor\slick\slick.min.js" />
+    <None Include="wwwroot\AdminPanel\vendor\slick\slick.scss" />
+    <None Include="wwwroot\AdminPanel\vendor\smk-accordion\accordion.js" />
+    <None Include="wwwroot\AdminPanel\vendor\smk-accordion\accordion.min.js" />
+    <None Include="wwwroot\AdminPanel\vendor\wow\wow.min.js" />
     <None Include="wwwroot\fonts\fontawesome-webfont.svg" />
     <None Include="wwwroot\fonts\fontawesome-webfont.woff2" />
     <None Include="wwwroot\js\bootstrap.min.js" />

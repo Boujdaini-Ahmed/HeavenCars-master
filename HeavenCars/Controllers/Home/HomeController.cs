@@ -19,6 +19,7 @@ using System.Diagnostics;
 using System.Security.Claims;
 using HeavenCars.DataAccessLayer.Repositories;
 using MimeKit.Encodings;
+using Stripe;
 
 namespace HeavenCars.Controllers.Home
 {
@@ -41,6 +42,52 @@ namespace HeavenCars.Controllers.Home
         {
             return View();
         }
+
+        public IActionResult Faq()
+        {
+            return View();
+        }
+
+        //public IActionResult Test()
+        //{
+        //    return View();
+        //}
+
+        //public IActionResult Charge(string stripeEmail, string stripeToken)
+        //{
+        //    var customers = new CustomerService();
+        //    var charges = new ChargeService();
+
+        //    var customer = customers.Create(new CustomerCreateOptions
+        //    {
+        //        Email = stripeEmail,
+        //        Source = stripeToken
+        //    });
+
+        //    var charge = charges.Create(new ChargeCreateOptions
+        //    {
+        //        Amount = 500,
+        //        Description = "Test Payment",
+        //        Currency = "usd",
+        //        Customer = customer.Id,
+        //        ReceiptEmail = stripeEmail,
+        //        Metadata = Metadata
+        //    });
+
+        //    if (charge.Status == "succeeded")
+        //    {
+        //        string BalanceTransactionId = charge.BalanceTransactionId;
+        //        return View();
+        //    }
+        //    else
+        //    {
+
+        //    }
+
+        //    return View();
+        //}
+
+
 
         public async Task<IActionResult> Chat()
         {
@@ -74,16 +121,34 @@ namespace HeavenCars.Controllers.Home
 
 
         [HttpGet]
-        public IActionResult Contact()
+        public async Task <IActionResult> Contact(string id)
         {
-            return View();
+            var user = await _userManager.FindByIdAsync(id);
+            var model = new ContactViewModel
+            {
+
+               
+                Email = user.Email
+                
+
+            };
+
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult Contact(ContactViewModel contactViewModel)
+        public async Task<IActionResult> Contact(ContactViewModel model)
         {
+           
+
             if (ModelState.IsValid)
             {
+                var user = await _userManager.FindByIdAsync(model.Id);
+
+             
+                user.Email = model.Email;
+           
+
                 try
                 {
 
@@ -91,13 +156,14 @@ namespace HeavenCars.Controllers.Home
 
                     message.To.Add(new MailboxAddress("E-mail Recipient Name", "ict.slap@gmail.com")); //va regler le TO email addresse dans le barre
 
-                    message.From.Add(new MailboxAddress("E-mail From Name", "from@domain.com"));   //va regler le FROM email addresse dans la barre
-
-                    message.Subject = contactViewModel.Subject; //C'est le subject de ton email
+                    message.From.Add(new MailboxAddress("E-mail From Name", user.Email));   //va regler le FROM email addresse dans la barre
+                     
+                    message.Subject = model.Subject; //C'est le subject de ton email
 
                     message.Body = new TextPart(TextFormat.Html)  //C'est le body message de ton email
                     {
-                        Text = contactViewModel.Message + " Message was sent by: " + contactViewModel.Name + " E-mail: " + contactViewModel.Email
+                        Text = model.Message
+                        + " Message was sent by: " + model.Name + " E-mail: " + model.Email
                     };
 
                     //Va configurer le email
@@ -116,7 +182,7 @@ namespace HeavenCars.Controllers.Home
                 }
 
             }
-            return View();
+            return View(model);
         }
 
 

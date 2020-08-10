@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HeavenCars.Data;
 using HeavenCars.DataAccesLayer.Context;
 using HeavenCars.DataAccessLayer.Models.Account;
 using HeavenCars.DataAccessLayer.Repositories;
 using HeavenCars.DataAccessLayer.Repositories.Cars;
 using HeavenCars.Hubs;
+using HeavenCars.Services;
 //using HeavenCars.Hubs;
 //using HeavenCars.Security;
 using Microsoft.AspNetCore.Builder;
@@ -17,6 +19,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Stripe;
 
 namespace HeavenCars
 {
@@ -31,7 +34,7 @@ namespace HeavenCars
 
         public void ConfigureServices(IServiceCollection services)
         {
-
+            
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -87,11 +90,18 @@ namespace HeavenCars
                     options.AppSecret = "cec2fb15a9f7c66145e7ae180c6179e9";
                 });
 
+            services.AddTransient<IEmailSender, EmailSender>();
+
+            services.Configure<AuthMessageSenderOptions>(Configuration.GetSection("SendGrid"));
+            services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
+
+
         }
 
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            StripeConfiguration.SetApiKey(Configuration.GetSection("Stripe")["SecretKey"]);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -102,6 +112,7 @@ namespace HeavenCars
                 app.UseStatusCodePagesWithReExecute("/Error/{0}");
             }
 
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();
 

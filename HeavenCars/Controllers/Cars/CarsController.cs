@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.Differencing;
 using Microsoft.EntityFrameworkCore;
 
@@ -39,34 +40,39 @@ namespace HeavenCars.Controllers.Cars
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["PrijsSortParm"] = String.IsNullOrEmpty(sortOrder) ? "prijs_desc" : "";
             var list = from s in _context.Cars
-                     select s;
+                       select s;
 
             switch (sortOrder)
             {
                 case "name_desc":
-                    list = list.OrderByDescending(s => s.Name);
+                    list = list.OrderByDescending(s => s.CarModel.Brand.BrandName);
                     break;
                 case "prijs_desc":
                     list = list.OrderByDescending(s => s.Prijs);
                     break;
                 default:
-                    list = list.OrderBy(s => s.Name);
+                    list = list.OrderBy(s => s.CarModel.Brand.BrandName);
                     break;
 
-                    
+
             }
 
-            
+
 
             if (!string.IsNullOrEmpty(search))
             {
                 var foundCars = _carRepository.SearchCars(search);
                 return View(foundCars);
             }
-            var cars = _carRepository.GetAllCars();
-            return View(list);
+            IEnumerable<Car> car = _carRepository.GetAllCars();
+            return View(car);
         }
 
+        public IActionResult ListCarsAdmin()
+        {
+            IEnumerable<Car> car = _carRepository.GetAllCars();
+            return View(car);
+        }
 
         public ViewResult Details(int Id)
 
@@ -83,7 +89,7 @@ namespace HeavenCars.Controllers.Cars
             {
                 Car = car,
                 PageTitle = "Car Detail",
-                Price1 = Math.Round((car.Prijs * 0.9),0),
+                Price1 = Math.Round((car.Prijs * 0.9), 0),
                 Price2 = Math.Round((car.Prijs * 0.8), 0),
                 Price3 = Math.Round((car.Prijs * 0.7), 0),
             };
@@ -108,10 +114,9 @@ namespace HeavenCars.Controllers.Cars
                 Car newCar = new Car
                 {
 
-                    Name = model.Name,
-                    MinLeeftijd = model.MinLeeftijd,
+                    
+                   CarModel = model.CarModel,
                     Prijs = model.Prijs,
-                    Kw = model.Kw,
                     Content = model.Content,
                     PhotoCar = uniqueFileName,
                     CreatedDate = DateTime.Now,
@@ -128,19 +133,19 @@ namespace HeavenCars.Controllers.Cars
         [HttpGet]
         public ViewResult Edit(int Carid) /*Return Type attend comme reponse */
         {
-            var car = _carRepository.GetCarById(Carid);
+            var car = _carRepository.GetCar(Carid);
             var editCarViewModel = new EditCarViewModel
             {
+                CarModel = car.CarModel,
                 CarId = car.CarId,
-                Name = car.Name,
-                MinLeeftijd = car.MinLeeftijd,
+                IsAvailableForRent = car.IsAvailableForRent,
                 Prijs = car.Prijs,
-                Kw = car.Kw,
                 ExistingPhotoCar = car.PhotoCar,
                 UpdateDate = DateTime.Now
 
 
             };
+          
             return View(editCarViewModel);
         }
 
@@ -151,11 +156,11 @@ namespace HeavenCars.Controllers.Cars
         {
             if (ModelState.IsValid)
             {
-                Car car = _carRepository.GetCarById(model.CarId);
-                car.Name = model.Name;
-                car.MinLeeftijd = model.MinLeeftijd;
+                Car car = _carRepository.GetCar(model.CarId);
+
+                //CarModel = car.CarModel,
+                //car.IsAvailableForRent = model.IsAvailableForRent;
                 car.Prijs = model.Prijs;
-                car.Kw = model.Kw;
                 car.UpdateDate = DateTime.Now;
 
 
@@ -179,8 +184,8 @@ namespace HeavenCars.Controllers.Cars
             return View();
 
         }
-       // public ViewResult Edit(int id)
-       // private string Processupload(datatype du parameter nom du parameter)
+        // public ViewResult Edit(int id)
+        // private string Processupload(datatype du parameter nom du parameter)
         private string ProcessUploadFile(CreateCarViewModel model) // return type
         {
             string uniqueFileName = null; // creer var comme type string dont la valeur et nul.

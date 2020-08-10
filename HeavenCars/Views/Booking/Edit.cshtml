@@ -80,7 +80,7 @@
                         <div class="display-table-cell">
                             <div class="slider-right-text">
                                 <h1>ONLY FOR THE ADMINISTRATION!</h1>
-                                <h2>UPDATE <br> @car.Name</h2>
+                                <h2>UPDATE <br> @car.CarModel.Brand.BrandName</h2>
                             </div>
                         </div>
                     </div>
@@ -97,8 +97,8 @@
 
                             <div class="pickup-location book-item">
                                 <h4>CAR BRAND:</h4>
-                                <input asp-for="@car.Name" class="form-control" placeholder="Car Brand" />
-                                <span asp-validation-for="@car.Name" class="text-danger"></span>
+                                <input asp-for="@car.CarModel.Brand.BrandName" class="form-control" placeholder="Car Brand" />
+                                <span asp-validation-for="@car.CarModel.Brand.BrandName" class="text-danger"></span>
                             </div>
 
                             <div class="pickup-location book-item">

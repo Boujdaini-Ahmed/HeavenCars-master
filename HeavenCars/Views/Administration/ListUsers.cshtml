@@ -1,53 +1,101 @@
-﻿@model IEnumerable<HeavenCars.DataAccessLayer.Models.Account.ApplicationUser>
+﻿@*@model IEnumerable<HeavenCars.DataAccessLayer.Models.Account.ApplicationUser>
 
-    @{
-        ViewBag.Title = "All Users";
-    }
+@{ ViewBag.Title = "All Users"; }
 
-    <h1>All Users</h1>
+<h1>All Users</h1>
 
-    <hr />
+<hr />
 
-    @if (Model.Any())
-    {
-        <a asp-action="CreateUser" asp-controller="Administration"
-           class="btn btn-success mb-3" style="width:auto">
+@if (Model.Any())
+{
+<a asp-action="CreateUser" asp-controller="Administration"
+   class="btn btn-success mb-3" style="width:auto">
+    Add new user
+</a> foreach (var user in Model)
+{
+<div class="card mb-3">
+    <div class="card-header">
+        User Id : @user.Id
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">@user.UserName</h5>
+    </div>
+    <div class="card-footer">
+        <form asp-action="DeleteUser" asp-controller="Administration" asp-route-id="@user.Id" method="post">
+            <a asp-action="EditUser" asp-controller="Administration"
+               asp-route-id="@user.Id" class="readmore-btn">Edit<i class="fa fa-pencil"></i></a>
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+    </div>
+</div> }
+}
+else
+{
+<div class="card">
+    <div class="card-header">
+        No users created yet
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">
+            Use the button below to create a user
+        </h5>
+        <a class="btn btn-success" style="width:auto"
+           asp-controller="Account" asp-action="Register">
             Add new user
         </a>
+    </div>
+</div>}*@
 
-        foreach (var user in Model)
-        {
-            <div class="card mb-3">
-                <div class="card-header">
-                    User Id : @user.Id
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">@user.UserName</h5>
-                </div>
-                <div class="card-footer">
-                    <form asp-action="DeleteUser" asp-controller="Administration" asp-route-id="@user.Id" method="post">
-                        <a asp-action="EditUser" asp-controller="Administration"
-                           asp-route-id="@user.Id" class="readmore-btn">Edit<i class="fa fa-pencil"></i></a>
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
+
+@model IEnumerable<HeavenCars.DataAccessLayer.Models.Account.ApplicationUser>
+@{ ViewData["Title"] = "All Users";
+    Layout = "~/Views/Shared/_AdminPanelLayout.cshtml"; }
+
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="overview-wrap">
+                        <h2 class="title-1"><i class="fa fa-users fa-2x"></i> Users</h2>
+                    </div>
                 </div>
             </div>
-        }
-    }
-    else
-    {
-        <div class="card">
-            <div class="card-header">
-                No users created yet
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">
-                    Use the button below to create a user
-                </h5>
-                <a class="btn btn-success" style="width:auto"
-                   asp-controller="Account" asp-action="Register">
-                    Add new user
-                </a>
-            </div>
+            <hr />
+            <br />
+            <table class="table table-hover ">
+                <thead>
+                    <tr>
+
+                        <th>
+                            Full Name
+                        </th>
+
+                        <th>
+                            Email
+                        </th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var utilisateur in Model)
+                    {
+        <tr>
+
+            <td>
+                @utilisateur.UserName
+            </td>
+            <td>
+                @utilisateur.Email
+            </td>
+            <td>
+                <a asp-action="EditUser" asp-controller="Administration" asp-route-id="@utilisateur.Id"><i style="color:#4272d7;" class="fa fa-edit fa-2x"></i></a>
+                <!-- V2   <a onclick="DeleteUser()"><i style="color:#4272d7;" class="fa fa-trash fa-2x"></i></a>-->
+            </td>
+        </tr>}
+                </tbody>
+            </table>
         </div>
-    }
+    </div>
+</div>
