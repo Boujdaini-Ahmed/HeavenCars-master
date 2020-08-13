@@ -3,48 +3,9 @@
 @{ ViewData["Title"] = "Contact"; }
 
 
-@*<div class="has-error" col-md-12>
-        <form method="post">
-            <div class="row">
-                <div class="form-group col-md-4">
-                    <label asp-for="Name">Name:</label>
-                    <input asp-for="Name" class="form-control" />
-                    <span asp-validation-for="Name" class="text-muted"></span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-4">
-                    <label asp-for="Email">Email:</label>
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-muted"></span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-4">
-                    <label asp-for="Subject">Subject:</label>
-                    <input asp-for="Subject" class="form-control" />
-                    <span asp-validation-for="Subject" class="text-muted"></span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-6">
-                    <label asp-for="Message">Message:</label>
-                    <textarea rows="8" cols="20" asp-for="Message" class="form-control"></textarea>
-                    <span asp-validation-for="Message" class="text-muted"></span>
-                </div>
-            </div>
-            <div>
-                <button type="submit" class="btn btn-success">Send Message</button>
-                <a asp-controller="Home" asp-action="Index" class="btn btn-info">Back</a>
-            </div>
-        </form>
-    </div>*@
-
-<!--== Page Title Area Start ==-->
 <section id="page-title-area" class="section-padding overlay">
     <div class="container">
         <div class="row">
-            <!-- Page Title Start -->
             <div class="col-lg-12">
                 <div class="section-title  text-center">
                     <h2>Contact Us</h2>
@@ -52,12 +13,10 @@
                     <p>Contact Us To Receive The Best Price For Your Location.</p>
                 </div>
             </div>
-            <!-- Page Title End -->
         </div>
     </div>
 </section>
-<!--== Page Title Area End ==-->
-<!--== Contact Page Area Start ==-->
+
 <div class="contact-page-wrao section-padding">
     <div class="container">
         <div class="row">
@@ -97,8 +56,7 @@
                         <div>
                             <button type="submit" class="rent-btn"> Send <i class="fa fa-long-arrow-right"></i></button>
                             <a asp-controller="Home" asp-action="Index" class="rent-btn"> Back <i class="fa fa-home"></i></a>
-                            @*<a asp-action="EditUser" asp-controller="Administration"
-                                asp-route-id="@user.Id" class="btn btn-warning">Edit</a>*@
+
                         </div>
                     </form>
                 </div>
@@ -106,4 +64,4 @@
         </div>
     </div>
 </div>
-<!--== Contact Page Area End ==-->
+

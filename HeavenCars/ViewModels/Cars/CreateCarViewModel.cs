@@ -10,20 +10,9 @@ namespace HeavenCars.ViewModels.Cars
 {
     public class CreateCarViewModel : Car
     {
-        
-        //public string Name { get; set; }
-
-        //public string MinLeeftijd { get; set; }
-
-        //public string Prijs { get; set; }
-
-        //public string Kw { get; set; }
-
-        //public string Content { get; set; }
 
         public IFormFile Photo { get; set; }
 
-        //public DateTime CreatedDate { get; set; }
         public List<SelectListItem> ListAvaible { get; } = new List<SelectListItem>
         {
             new SelectListItem() { Text = "Yes", Value= true.ToString(), Selected = false },
@@ -35,4 +24,4 @@ namespace HeavenCars.ViewModels.Cars
    
 }
 
-// validation (required)
+

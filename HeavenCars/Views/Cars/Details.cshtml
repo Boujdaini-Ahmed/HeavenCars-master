@@ -2,124 +2,12 @@
 @inject SignInManager<HeavenCars.DataAccessLayer.Models.Account.ApplicationUser> signInManager;
 
 @{ ViewData["Title"] = "Details of Car";
-    var car = Model.Car;
-    var photoCar = "~/Images/" + (Model.Car.PhotoCar ?? "noimage.png"); }
-@*
-    <h1>Car Detail</h1>
+    var photoCar = "~/Images/" + (Model.ExistingPhotoCar ?? "noimage.png"); }
 
-    <hr />
-
-    <div class="jumbotron" style="margin-bottom:0">
-        <div class="row justify-content-center m-3">
-            <div class="col-sm-8">
-                <div class="card">
-                    <div class="card-header">
-                        <h1>@Model.Car.Name</h1>
-                    </div>
-
-                    <div class="card-body text-center">
-                        <img class="card-img-top" src="@photoCar" asp-append-version="true" />
-
-                        <h4> Car ID: @Model.Car.CarId</h4>
-                        <h4>Leeftijd: @Model.Car.MinLeeftijd</h4>
-                        <h4>Prijs: @Model.Car.Prijs</h4>
-                        <h4>Vermogen: @Model.Car.Kw</h4>
-                        <h4>Created Date : @Model.Car.CreatedDate</h4>
-
-                    </div>
-
-                    <div class="card-footer text-center">
-                        @if (car.IsAvailableForRent == false) {
-                        <a asp-controller="Booking" asp-action="Create" asp-route-carid="@Model.Car.CarId" class="btn btn-success">Booking</a>
-                        } else
-                        {
-                            <a  asp-controller="Booking" asp-action="Create" asp-route-carid="@Model.Car.CarId" class="btn btn-success disabled" >Booking</a>
-                        }
-                        <a asp-controller="Cars" asp-action="Edit" asp-route-carid="@Model.Car.CarId" class="btn btn-success">Edit</a>
-                        <a asp-controller="Cars" asp-action="ListCars" class="btn btn-info">Back</a>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <h2>Dynamic Tabs</h2>
-        <p>To make the tabs toggleable, add the data-toggle="tab" attribute to each link. Then add a .tab-pane class with a unique ID for every tab and wrap them inside a div element with class .tab-content.</p>
-
-        <ul class="nav nav-tabs">
-            <li><a data-toggle="tab" href="#Rental" class="btn btn-outline-warning">Rental Conditions</a></li>
-            <li><a data-toggle="tab" href="#Description" class="btn btn-outline-warning">Description</a></li>
-            <li><a data-toggle="tab" href="#menu3" class="btn btn-outline-warning">Menu 3</a></li>
-        </ul>
-
-        <div class="tab-content">
-            <div id="Rental" class="tab-pane fade in active">
-                <h3>Rental Conditions</h3>
-                <div class="condition-row">
-                    <p>The rental rate includes mileage, amounting to 150 km per day and the cost of each additional kilometer is 1 €.</p>
-                </div>
-
-                <hr />
-
-                <div class="condition-row">
-                    <p>
-                        For insurance reasons, the minimum age for rent @Model.Car.Name  at least 25 @Model.Car.MinLeeftijd years. A valid driver's license is always required to rent a @Model.Car.Name in Europe, as well as a minimum amount of 5000 € in your credit card, which is blocked on the rental period and released only after the return of the car.
-                        The car insurance system "Car Rental Loss and Damage" (CASCO) which is applied to all vehicles provides collision damage to the rented car, but does not cover the minimum of personal responsibility, generally the 10% of the new car price..
-                    </p>
-                </div>
-
-                <hr />
-
-                <div class="condition-row">
-                    <p>
-                        The rental rate includes mileage, amounting to 150 km per day and the cost of each additional kilometer is 1 €.
-                    </p>
-                </div>
-            </div>
-            <div id="Description" class="tab-pane fade">
-                <h3>Description</h3>
-                <div class="condition-row">
-                    <p>@Html.Raw(Model.Car.Content)</p>
-
-                    <hr />
-
-                    <p></p>
-
-                    <hr />
-
-                    <p></p>
-                </div>
-            </div>
-            <div id="menu2" class="tab-pane fade">
-                <h3>Menu 2</h3>
-                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-            </div>
-            <div id="menu3" class="tab-pane fade">
-                <h3>Menu 3</h3>
-                <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-            </div>
-        </div>
-    </div>
-
-
-
-    @section Scripts{
-        <script src="~/js/CustomScript.js"></script>
-    }*@
-
-
-
-<!--[if lt IE 9]>
-    <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
-<!--== Car List Area Start ==-->
+   
 <section id="page-title-area" class="section-padding overlay">
     <div class="container">
         <div class="row">
-            <!-- Page Title Start -->
             <div class="col-lg-12">
                 <div class="section-title  text-center">
                     <h2>Our Cars</h2>
@@ -127,7 +15,6 @@
                     <p>Rent your car.</p>
                 </div>
             </div>
-            <!-- Page Title End -->
         </div>
     </div>
 </section>
@@ -135,11 +22,13 @@
 <section id="car-list-area" class="section-padding">
     <div class="container">
         <div class="row">
-            <!-- Car List Content Start -->
             <div class="col-lg-8">
                 <div class="car-details-content">
-                    <h2>@Model.Car.CarModel.Brand.BrandName @Model.Car.CarModel.ModelName <span class="price">Rent: <b> Prijs: @Model.Car.Prijs€ </b></span></h2>
+                    <h2>@Model.BrandName @Model.ModelName <span class="price">Rent: <b> Prijs: @Model.Prijs € </b></span></h2>
                     <div class="car-preview-crousel">
+           
+                    
+
                         <div class="single-car-preview">
                             <img class="card-img-top" src="@photoCar" asp-append-version="true" />
 
@@ -151,11 +40,12 @@
                             <img class="card-img-top" src="@photoCar" asp-append-version="true" />
                         </div>
                     </div>
+                        
                     <div class="car-details-info">
                         <h4>Description</h4>
-                        <p>@Html.Raw(Model.Car.Content)</p>
+                        <p>@Html.Raw(Model.Content)</p>
 
-                        <br />
+                        <hr /> 
 
                         <h3>Tarieven</h3>
 
@@ -165,11 +55,11 @@
                                     <div class="tech-info-table">
                                         <table class="table table-bordered">
                                             <tr>
-                                                <th>Dag</th>
-                                                <td> @(Model.Car.Prijs)€</td>
+                                                <th>Day</th>
+                                                <td> @(Model.Prijs)€</td>
                                             </tr>
                                             <tr>
-                                                <th>Week-end</th>
+                                                <th>2 days</th>
                                                 <td>@Model.Price2 €</td> @*Changer le datatype en int au lieu de string et faire diviser par deux (/2) pour avoir le prix (pour que le prix soit diviser par deux). 180 EUR*@
                                             </tr>
                                             <tr>
@@ -178,60 +68,33 @@
                                                 @*Changer le datatype en int au lieu de string et multiplier par 0.8 ( 20pourcent reduction) pour avoir le prix (pour que le prix soit diviser par deux). 160 EUR*@
                                             </tr>
                                             <tr>
-                                                <th>1 Maand</th>
+                                                <th>1 Month</th>
                                                 <td><a href="~/Home/Contact">Quote</a></td>
                                                 @*Changer le datatype en int au lieu de string et faire diviser par deux (/2) pour avoir le prix (pour que le prix soit diviser par deux). 100 EUR*@
                                                 @*Changer le datatype en int au lieu de string et multiplier par 0.6 ( 40pourcent reduction) pour avoir le prix (pour que le prix soit diviser par deux). 120 EUR*@
                                             </tr>
-                                            <tr>
-                                                <th>Waarborg</th>
-                                                <td>Contact Us.</td>
-                                            </tr>
-
                                         </table>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-8">
-                                    <div class="tech-info-list">
-                                        <ul>
-                                            <li>ABS</li>
-                                            <li>Air Bags</li>
-                                            <li>Bluetooth</li>
-                                            <li>Car Kit</li>
-                                            <li>GPS</li>
-                                            <li>Music</li>
-                                            <li>Bluetooth</li>
-                                            <li>ABS</li>
-                                            <li>GPS</li>
-                                        </ul>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="review-area">
-                            <h3>Be the first to review @Model.Car.CarModel.Brand.BrandName </h3>
-                            <div class="review-star">
-                                <p class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star unmark"></i>
-                                    <i class="fa fa-star unmark"></i>
-                                </p>
-                            </div>
+                            <h3>Be the first to review @Model.BrandName </h3>
                             <div class="review-form">
                                 <form action="index.html">
 
                                     <div class="input-submit">
-                                        @if (car.IsAvailableForRent == false || signInManager.IsSignedIn(User))
+                                        @if (Model.IsAvailableForRent == true && signInManager.IsSignedIn(User))
                                         {
-                            <a asp-controller="Booking" asp-action="Create" asp-route-carid="@Model.Car.CarId" class="rent-btn"> Booking <i class="fa fa-long-arrow-right"></i></a> }
-                                        else if (signInManager.IsSignedIn(User))
+                            <a asp-controller="Booking" asp-action="Create" asp-route-carid="@Model.CarId" class="rent-btn"> Booking <i class="fa fa-long-arrow-right"></i></a> }
+                                        else 
                                         {
-            <a asp-controller="Booking" asp-action="Create" asp-route-carid="@Model.Car.CarId" class="readmore-btn"> Booking <i class="fa fa-long-arrow-right"></i></a>}
-                                        <a asp-controller="Cars" asp-action="ListCars" class="btn btn-info">Back</a>
+                                 <a asp-controller="Booking" asp-action="Create" asp-route-carid="@Model.CarId" class="rent-btn disabled" > Booking <i class="fa fa-long-arrow-right"></i></a>
+                                 <p>test</p>
+                                 }
+                                       
+                                        <a asp-controller="Cars" asp-action="ListCars" class="rent-btn" > Back <i class="fa fa-long-arrow-left"></i></a>
 
                                     </div>
                                 </form>
@@ -240,22 +103,18 @@
                     </div>
                 </div>
             </div>
-            <!-- Car List Content End -->
-            <!-- Sidebar Area Start -->
+
             <div class="col-lg-4">
                 <div class="sidebar-content-wrap m-t-50">
-                    <!-- Single Sidebar Start -->
                     <div class="single-sidebar">
                         <h3>For More Informations</h3>
 
                         <div class="sidebar-body">
-                            <p><i class="fa fa-mobile"></i> +32/484.82.13.09</p>
+                            <p><i class="fa fa-mobile"></i> 04/84.82.13.72</p>
                             <p><i class="fa fa-clock-o"></i> Maandag - Zaterdag 8.00u - 18.00u</p>
 
                         </div>
                     </div>
-                    <!-- Single Sidebar End -->
-                    <!-- Single Sidebar Start -->
                     <div class="single-sidebar">
                         <h3>Discount</h3>
 
@@ -266,7 +125,7 @@
                                         <p> <i class="fa fa-percent"></i></p>
                                     </div>
                                     <div class="recent-tip-body">
-                                        <h6>GET 5% FOR A WEEKEND </h6>
+                                        <h6>GET 5% FOR 2 Days </h6>
                                         <span class="date"></span>
                                     </div>
                                 </li>
@@ -294,8 +153,6 @@
                             </ul>
                         </div>
                     </div>
-                    <!-- Single Sidebar End -->
-                    <!-- Single Sidebar Start -->
                     <div class="single-sidebar">
                         <h3>Connect with Us</h3>
 
@@ -308,11 +165,8 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Single Sidebar End -->
                 </div>
             </div>
-            <!-- Sidebar Area End -->
         </div>
     </div>
 </section>
-<!--== Car List Area End ==-->

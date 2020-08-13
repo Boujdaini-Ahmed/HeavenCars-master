@@ -1,64 +1,10 @@
 ﻿@inject UserManager<HeavenCars.DataAccessLayer.Models.Account.ApplicationUser> UserManager;
 
-@{ ViewBag.Title = "Get Started"; }
+@{ ViewBag.Title = "Get Started";
+    var user = await UserManager.GetUserAsync(Context.User);
 
-@*<div class="container">
-        <img src="~/images/Gamg.jpg" alt="Notebook" style="width:100%;">
-        <div class="content">
-            <h1> Heaven Cars</h1>
-            <p>
-                Heaven Cars is an expert in prestigious luxury car rental! We have an extensive fleet of models from the legendary world brands.
-                Only here you will find the most current modifications and new items. In Rent Luxe Car you can order a car rental in any city in Europe, and at the most attractive rates.
-            </p>
-        </div>
-    </div>
-    <div class="jumbotron">
-        <h3 class="display-5">
-            RENT YOUR DREAM CAR
-        </h3>
+    }
 
-        <p class="lead">CAR FROM 149€</p>
-        <hr class="my-4">
-        <p class="lead">
-            <a asp-controller="Cars" asp-action="ListCars" class="btn btn-info m-1">All Cars</a>
-        </p>
-    </div>
-
-    <div class="jumbotron">
-        <p class="lead">Get a quote</p>
-        <hr class="my-4">
-        <p class="lead">
-            <a asp-controller="Home" asp-action="Contact" class="btn btn-info m-1">Offerte</a>
-        </p>
-    </div>
-
-
-    <div class="container section-plan">
-        <div class="row">
-            <div class="col-md-4 col-sm-4 col-xs-12">
-                <div class="row plan-box plan-success text-center">
-                    <div class="col-md-12 section1">
-                        <h2>Basic Plan</h2>
-                    </div>
-                    <div class="col-md-12 section2">
-                        <h3>$ 120 / Month</h3>
-                    </div>
-                    <div class="col-md-12 section3">
-                        <p>Personal use</p>
-                        <p>Unlimited project</p>
-                        <p>20/2 support</p>
-                    </div>
-                    <div class="col-md-12 section4">
-                        <button class="btn btn-danger btn-block">Buy Now</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>*@
-
-
-
-<!--== SlideshowBg Area Start ==-->
 <div id="mobileapp-video-bg"></div>
 <section id="mobile-app-area">
     <div class="container">
@@ -66,23 +12,23 @@
             <div class="col-lg-6">
                 <div class="mobile-app-content">
                     <h2>BOOK A CAR TODAY!</h2>
-                    <p>Easy &amp; Fast - Book a car in 3 steps</p>
-                    <p><i class="fa fa-hand-o-right"></i> CHOOSE - BOOKING - PICK UP</p>
+                    <p>Easy &amp; Fast - Book a car in 4 steps</p>
+                    <p><i class="fa fa-hand-o-right"></i> CHOOSE - BOOKING - PAYEMENT - PICK UP</p>
                     <div class="app-btns">
                         <a asp-controller="Cars" asp-action="ListCars"><i class="fa fa-car"></i> All Cars</a>
-                        <a asp-controller="Home" asp-action="Contact" asp-route-id="@UserManager.GetUserId(User)"><i class="fa fa-envelope"></i> Contact Us</a>
+                        <a asp-controller="Home" asp-action="Contact" asp-route-id="@user.Id"><i class="fa fa-envelope"></i> Contact Us</a>  
+                        <a href="https://wa.me/32484821372"><i class="fa fa-whatsapp"></i>Contact Us</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<!--== SlideshowBg Area End ==-->
-<!--== About Us Area Start ==-->
+
+
 <section id="about-area" class="section-padding">
     <div class="container">
         <div class="row">
-            <!-- Section Title Start -->
             <div class="col-lg-12">
                 <div class="section-title  text-center">
                     <h2>About us</h2>
@@ -93,11 +39,9 @@
                     </p>
                 </div>
             </div>
-            <!-- Section Title End -->
         </div>
 
         <div class="row">
-            <!-- About Content Start -->
             <div class="col-lg-6">
                 <div class="display-table">
                     <div class="display-table-cell">
@@ -110,20 +54,15 @@
                     </div>
                 </div>
             </div>
-            <!-- About Content End -->
-            <!-- About Video Start -->
             <div class="col-lg-6">
                 <div class="about-image">
                     <img src="images/icons/home-2-about.png" alt="JSOFT">
                 </div>
             </div>
-            <!-- About Video End -->
         </div>
 
-        <!-- About Fretutes Start -->
         <div class="about-feature-area">
             <div class="row">
-                <!-- Single Fretutes Start -->
                 <div class="col-lg-4">
                     <div class="about-feature-item active">
                         <i class="fa fa-car"></i>
@@ -134,8 +73,6 @@
                         </p>
                     </div>
                 </div>
-                <!-- Single Fretutes End -->
-                <!-- Single Fretutes Start -->
                 <div class="col-lg-4">
                     <div class="about-feature-item">
                         <i class="fa fa-car"></i>
@@ -146,8 +83,6 @@
                         </p>
                     </div>
                 </div>
-                <!-- Single Fretutes End -->
-                <!-- Single Fretutes Start -->
                 <div class="col-lg-4">
                     <div class="about-feature-item">
                         <i class="fa fa-car"></i>
@@ -158,93 +93,66 @@
                         </p>
                     </div>
                 </div>
-                <!-- Single Fretutes End -->
             </div>
         </div>
-        <!-- About Fretutes End -->
     </div>
 </section>
-<!--== About Us Area End ==-->
-<!--== Partner Area Start ==-->
+
+
 <div id="partner-area">
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="partner-content-wrap">
-                    <!-- Single Partner Start -->
+
                     <div class="single-partner">
                         <div class="display-table">
                             <div class="display-table-cell">
-                                <img src="assets/img/partner/partner-logo-1.png" alt="JSOFT">
+                                <img src="~/images/logos/audi.png" alt="JSOFT">
                             </div>
                         </div>
                     </div>
-                    <!-- Single Partner End -->
-                    <!-- Single Partner Start -->
+
                     <div class="single-partner">
                         <div class="display-table">
                             <div class="display-table-cell">
-                                <img src="assets/img/partner/partner-logo-2.png" alt="JSOFT">
+                                <img src="~/images/logos/bentley.png" alt="JSOFT">
                             </div>
                         </div>
                     </div>
-                    <!-- Single Partner End -->
-                    <!-- Single Partner Start -->
+
                     <div class="single-partner">
                         <div class="display-table">
                             <div class="display-table-cell">
-                                <img src="assets/img/partner/partner-logo-3.png" alt="JSOFT">
+                                <img src="~/images/logos/ferrari.png" alt="JSOFT">
                             </div>
                         </div>
                     </div>
-                    <!-- Single Partner End -->
-                    <!-- Single Partner Start -->
+
                     <div class="single-partner">
                         <div class="display-table">
                             <div class="display-table-cell">
-                                <img src="assets/img/partner/partner-logo-4.png" alt="JSOFT">
+                                <img src="~/images/logos/lamborghini.png" alt="JSOFT">
                             </div>
                         </div>
                     </div>
-                    <!-- Single Partner End -->
-                    <!-- Single Partner Start -->
+
                     <div class="single-partner">
                         <div class="display-table">
                             <div class="display-table-cell">
-                                <img src="assets/img/partner/partner-logo-5.png" alt="JSOFT">
+                                <img src="~/images/logos/mercedes-benz.png" alt="JSOFT">
                             </div>
                         </div>
                     </div>
-                    <!-- Single Partner End -->
-                    <!-- Single Partner Start -->
-                    <div class="single-partner">
-                        <div class="display-table">
-                            <div class="display-table-cell">
-                                <img src="assets/img/partner/partner-logo-1.png" alt="JSOFT">
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Single Partner End -->
-                    <!-- Single Partner Start -->
-                    <div class="single-partner">
-                        <div class="display-table">
-                            <div class="display-table-cell">
-                                <img src="assets/img/partner/partner-logo-4.png" alt="JSOFT">
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Single Partner End -->
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!--== Partner Area End ==-->
-<!--== Services Area Start ==-->
+
 <section id="service-area" class="section-padding">
     <div class="container">
         <div class="row">
-            <!-- Section Title Start -->
             <div class="col-lg-12">
                 <div class="section-title  text-center">
                     <h2>Our Services</h2>
@@ -255,14 +163,11 @@
                     </p>
                 </div>
             </div>
-            <!-- Section Title End -->
         </div>
 
-        <!-- Service Content Start -->
         <div class="row">
             <div class="col-lg-11 m-auto text-center">
                 <div class="service-container-wrap">
-                    <!-- Single Service Start -->
                     <div class="service-item">
                         <i class="fa fa-taxi"></i>
                         <h3>RENTAL CAR</h3>
@@ -271,8 +176,7 @@
                             Only here you will find the most current modifications and new items..
                         </p>
                     </div>
-                    <!-- Single Service End -->
-                    <!-- Single Service Start -->
+
                     <div class="service-item">
                         <i class="fa fa-cog"></i>
                         <h3>CAR REPAIR</h3>
@@ -281,8 +185,7 @@
                             Only here you will find the most current modifications and new items.
                         </p>
                     </div>
-                    <!-- Single Service End -->
-                    <!-- Single Service Start -->
+
                     <div class="service-item">
                         <i class="fa fa-life-ring"></i>
                         <h3>life insurance</h3>
@@ -291,8 +194,7 @@
                             Only here you will find the most current modifications and new items.
                         </p>
                     </div>
-                    <!-- Single Service End -->
-                    <!-- Single Service Start -->
+
                     <div class="service-item">
                         <i class="fa fa-bath"></i>
                         <h3>car wash</h3>
@@ -301,8 +203,7 @@
                             Only here you will find the most current modifications and new items.
                         </p>
                     </div>
-                    <!-- Single Service End -->
-                    <!-- Single Service Start -->
+
                     <div class="service-item">
                         <i class="fa fa-phone"></i>
                         <h3>call Driver</h3>
@@ -311,22 +212,19 @@
                             Only here you will find the most current modifications and new items.
                         </p>
                     </div>
-                    <!-- Single Service End -->
                 </div>
             </div>
         </div>
-        <!-- Service Content End -->
     </div>
 </section>
-<!--== Services Area End ==-->
-<!--== Fun Fact Area Start ==-->
+
+
 <section id="funfact-area" class="overlay section-padding">
     <div class="container">
         <div class="row">
             <div class="col-lg-11 col-md-12 m-auto">
                 <div class="funfact-content-wrap">
                     <div class="row">
-                        <!-- Single FunFact Start -->
                         <div class="col-lg-4 col-md-6">
                             <div class="single-funfact">
                                 <div class="funfact-icon">
@@ -338,8 +236,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Single FunFact End -->
-                        <!-- Single FunFact Start -->
+
                         <div class="col-lg-4 col-md-6">
                             <div class="single-funfact">
                                 <div class="funfact-icon">
@@ -351,8 +248,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Single FunFact End -->
-                        <!-- Single FunFact Start -->
+
                         <div class="col-lg-4 col-md-6">
                             <div class="single-funfact">
                                 <div class="funfact-icon">
@@ -364,11 +260,10 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Single FunFact End -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<!--== Fun Fact Area End ==-->
+

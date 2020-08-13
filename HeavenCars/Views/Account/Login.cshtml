@@ -3,87 +3,9 @@
 @{ ViewBag.Title = "User Login"; }
 
 
-@*<div class="container">
-        <div class="row">
-            <div class="col-sm-6 col-md-6 col-md-offset-4">
-                <h1>Local Login</h1>
-                <div class="account-wall">
-                    <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
-                         alt="">
-                    <form method="post">
-                        <div asp-validation-summary="All" class="text-danger"></div>
-                        <div class="form-group">
-                            <label asp-for="Email"></label>
-                            <input asp-for="Email" class="form-control" />
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Password"></label>
-                            <input asp-for="Password" class="form-control" />
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <div class="checkbox">
-                                <label asp-for="RememberMe">
-                                    <input asp-for="RememberMe" />
-                                    @Html.DisplayNameFor(m => m.RememberMe)
-                                </label>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Login</button>
-
-                        <div>
-                            <a asp-action="ForgotPassword">Forgot Password?</a>
-                        </div>
-                    </form>
-                </div>
-                </div>
-
-
-
-
-                <div class="row omb_row-sm-offset-3 omb_loginOr">
-                    <div class="col-sm-6 col-md-6 col-md-offset-4">
-                        <hr class="omb_hrOr">
-                    </div>
-                </div>
-
-
-        <div class="col-sm-6 col-md-6 col-md-offset-4">
-            <h1>External Login</h1>
-            <div class="account-wall">
-                <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
-                     alt="">
-                <hr />
-                @{ if (Model.ExternalLogins.Count == 0)
-                    {
-        <div>No external logins conf</div> }
-    else
-    {
-
-        <form method="post" asp-action="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl">
-            <div>
-                @foreach (var provider in Model.ExternalLogins)
-                {
-        <button type="submit" class="btn btn-primary" style="width:auto"
-                name="provider" value="@provider.Name"
-                title="Login usin your @provider.DisplayName account">
-            @provider.DisplayName
-        </button>}
-            </div>
-        </form> } }
-            </div>
-        </div>
-                    </div>
-               </div>*@
-
-
-
-<!--== Page Title Area Start ==-->
 <section id="page-title-area" class="section-padding overlay">
     <div class="container">
         <div class="row">
-            <!-- Page Title Start -->
             <div class="col-lg-12">
                 <div class="section-title  text-center">
                     <h2>Login</h2>
@@ -91,12 +13,10 @@
                     <p>Login To Your Account.</p>
                 </div>
             </div>
-            <!-- Page Title End -->
         </div>
     </div>
 </section>
-<!--== Page Title Area End ==-->
-<!--== Login Page Content Start ==-->
+
 <section id="lgoin-page-wrap" class="section-padding">
     <div class="container">
         <div class="row">
@@ -137,20 +57,10 @@
                         if (provider.DisplayName == "Google")
                         {
     <button type="submit" class="book-now-btn" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">  <i class="fa fa-google fa-2x"></i>oogle</button> }
-
-    @*<button type="submit" class="login-with-btn facebook" style="width:auto"
-            name="provider" value="@provider.Name"
-            title="Login usin your @provider.DisplayName account">
-        <i class=" fa fa-facebook"></i>
-        @provider.DisplayName
-    </button>*@}
+        }
     </div>
 </form> } }
                     </div>
-                    @*<a href="#" class="login-with-btn facebook"><i class="fa fa-facebook"></i> Login With Facebook</a>
-                        <a href="#" class="login-with-btn google"><i class="fa fa-google"></i> Login With Google</a>*@
-
-
                     <div class="create-ac">
                         <p>Don't have an account? <a asp-action="Register">Sign Up</a></p>
                         <a asp-action="ForgotPassword">Forgot Password?</a>
@@ -166,13 +76,11 @@
         </div>
 
     </div>
-
-
-
 </section>
-<!--== Login Page Content End ==-->
-<!--== Scroll Top Area Start ==-->
+
+
+
+
 <div class="scroll-top">
     <img src="~/images/Icons/scroll-top.jpg" alt="JSOFT">
 </div>
-<!--== Scroll Top Area End ==-->

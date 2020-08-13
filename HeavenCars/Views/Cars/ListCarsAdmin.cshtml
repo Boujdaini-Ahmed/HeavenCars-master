@@ -12,7 +12,6 @@
                 <div class="col-md-12">
                     <div class="overview-wrap">
                         <h2 class="title-1"><i class="fas fa-car fa-2x"></i> Vehicles</h2>
-                        <!-- Satrtt -->
                         <a asp-action="Create" asp-controller="Cars" class="au-btn au-btn-icon au-btn--blue" align="Right">  <i class="zmdi zmdi-plus"></i>Add Vehicle</a>
                     </div>
                 </div>
@@ -34,7 +33,7 @@
                             @Html.DisplayNameFor(model => model.CarModel.Kw)
                         </th>
                         <th>Edit</th>
-                        <th>Details</th>
+                        <th>View</th>
                         <th>Delete</th>
                         <th></th>
                     </tr>
@@ -56,14 +55,13 @@
                         </td>
                         <td>
                             <a asp-action="Edit" asp-controller="Cars" asp-route-carid="@Car.CarId"><i style="color:#4272d7;" class="fa fa-edit fa-2x"></i></a>
-                            @*<a asp-controller="Cars" asp-action="Edit" asp-route-carid="@Model.Car.CarId" class="readmore-btn">Edit<i class="fa fa-pencil"></i></a>*@
                         </td>
 
                         <td>
-                            <a asp-action="Details" asp-controller="Cars" asp-route-id="@Car.CarId"><i style="color:#4272d7;" class="fa fa-info-circle fa-2x"></i></a> 
+                            <a asp-action="Details" asp-controller="Cars" asp-route-carid="@Car.CarId"><i style="color:#4272d7;" class="fa fa-info-circle fa-2x"></i></a> 
                         </td>
                         <td>
-                            <a asp-action="Delete" asp-controller="Cars" asp-route-id="@Car.CarId"><i style="color:#4272d7;" class="fa fa-edit fa-2x"></i></a>
+                            <a asp-action="Delete" asp-controller="Cars" asp-route-carid="@Car.CarId"><i style="color:#4272d7;" class="fa fa-trash fa-2x"></i></a>
                         </td>
 
                     </tr>}

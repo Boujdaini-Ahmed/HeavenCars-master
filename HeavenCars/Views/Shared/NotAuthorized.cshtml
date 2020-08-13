@@ -13,14 +13,11 @@
 
                         @if (User.IsInRole("Admin"))
                         {
-            <a asp-action="AdminIndex" asp-controller="Home" class="btn btn-success">Back to overview</a>}
+            <a asp-action="Index" asp-controller="Home" class="btn btn-success">Back to overview</a>}
                         @if (User.IsInRole("User"))
                         {
-            <a asp-action="UserIndex" asp-controller="Home" class="btn btn-success">Back to overview</a>}
+            <a asp-action="Index" asp-controller="Home" class="btn btn-success">Back to overview</a>}
 
-                        @if (User.IsInRole("SuperAdmin"))
-                        {
-            <a asp-action="UserIndex" asp-controller="Home" class="btn btn-success m-2">Back to overview</a>}
                     </h6>
                 </div>
             </div>

@@ -17,7 +17,6 @@ namespace HeavenCars.DataAccessLayer.Models.Account
         }
         // one to many pour applicationUser || message
         public virtual ICollection<Message> Messages { get; set; }
-        //public virtual ICollection<ChatUser> Chats { get; set; }
 
         [ForeignKey("Car")]
         public int? CarId { get; set; }
@@ -25,15 +24,16 @@ namespace HeavenCars.DataAccessLayer.Models.Account
         [Required]
         [StringLength(50, ErrorMessage = "Maximum 50 characters")]
         public string FirstName { get; set; }
+
         [Required]
         [StringLength(50, ErrorMessage = "Maximum 50 characters")]
         public string LastName { get; set; }
 
+        [Required]
         public string City { get; set; }
+        [Required]
         public string Address { get; set; }
-
         public bool Delete { get; set; }
-
         public virtual Car Car { get; set; }
 
 

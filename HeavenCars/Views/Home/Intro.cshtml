@@ -1,37 +1,4 @@
-﻿@*@model IEnumerable<HeavenCars.DataAccessLayer.Models.Account.ApplicationUser>
-
-    @{ ViewBag.Title = "All Users";}
-
-    <h1>All Users</h1>
-
-    <hr />
-
-
-
-    <div class="card-footer">
-        @foreach (var user in Model)
-        {
-        <a asp-action="Edit" asp-controller="Home"
-           asp-route-id="@user.Id" class="btn btn-warning">Edit</a>
-        }
-        <button type="submit" class="btn btn-danger">Delete</button>
-
-    </div>*@
-
-@*@model IEnumerable<HeavenCars.DataAccessLayer.Models.Chat>
-
-    @{ ViewBag.Title = "Chat";
-        }
-
-    <div class="chat-body">
-        @foreach (var chat in Model)
-        {
-            <a class="room-button" asp-controller="Home" asp-action="Intro" asp-route-id="@chat.Id">
-                @chat.Name
-            </a>
-        }
-    </div>*@
-
+﻿
 @model IEnumerable<HeavenCars.DataAccessLayer.Models.Account.ApplicationUser>
 
 @{ ViewBag.Title = "All Users"; }

@@ -1,0 +1,58 @@
+﻿@model IEnumerable<HeavenCars.DataAccessLayer.Models.Bookings.BookingVehicule>
+@{ ViewBag.Title = "History Booking";
+ Layout = "~/Views/Shared/_Layout.cshtml";}
+
+
+<section id="page-title-area" class="section-padding overlay">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="section-title  text-center">
+                    <h2>Your History Bookings</h2>
+                    <br />
+                    <span class="title-line"><i class="fa fa-book fa-2x"></i></span>
+                    <p>Your Bookings</p>
+                    <table class="table" style="color:#ffd000;">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Car
+                                </th>
+                                <th>
+                                    Start Date
+                                </th>
+
+                                <th>
+                                    End Date
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var booking in Model)
+                            {
+                            <tr>
+                                <td>@booking.Car.CarModel.Brand.BrandName @booking.Car.CarModel.ModelName</td>
+                                <td>@booking.StartDate</td>
+                                <td>@booking.EndDate</td>
+                                <td>@booking.BookingVanStatus</td>
+
+                                <td>
+                                    <a asp-action="Details" asp-controller="Booking" asp-route-id="@booking.BookingId"><i style="color:#4272d7;" class="fa fa-info-circle fa-2x"></i></a>
+                            </tr>}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+

@@ -8,6 +8,6 @@ namespace HeavenCars.ViewModels.Booking
 {
     public class EditBookingViewModel : CreateBookingViewModel
     {
-        
+
     }
 }

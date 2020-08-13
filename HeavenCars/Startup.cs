@@ -8,9 +8,6 @@ using HeavenCars.DataAccessLayer.Models.Account;
 using HeavenCars.DataAccessLayer.Repositories;
 using HeavenCars.DataAccessLayer.Repositories.Cars;
 using HeavenCars.Hubs;
-using HeavenCars.Services;
-//using HeavenCars.Hubs;
-//using HeavenCars.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -75,7 +72,6 @@ namespace HeavenCars
 
             services.AddScoped<ICarRepository, CarRepository>();
             services.AddScoped<IBookingRepository, BookingRepository>();
-            //services.AddScoped<IChatRepository, ChatRepository>();
 
             services.AddAuthentication()
                 .AddGoogle(options =>
@@ -90,9 +86,9 @@ namespace HeavenCars
                     options.AppSecret = "cec2fb15a9f7c66145e7ae180c6179e9";
                 });
 
-            services.AddTransient<IEmailSender, EmailSender>();
+ 
 
-            services.Configure<AuthMessageSenderOptions>(Configuration.GetSection("SendGrid"));
+ 
             services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
 
 

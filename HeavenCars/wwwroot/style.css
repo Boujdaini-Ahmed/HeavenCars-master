@@ -217,6 +217,13 @@ header.fixTotop #header-bottom {
 	display: inline-block;
 }
 
+.inputsearch {
+	position: relative;
+	align-items: stretch;
+	width: 60%;
+	margin: auto;
+}
+
 .mainmenu ul li {
 	float: left;
 	position: relative;
@@ -230,6 +237,27 @@ header.fixTotop #header-bottom {
 	text-transform: uppercase;
 	-webkit-transition: all 0.4s ease 0s;
 	transition: all 0.4s ease 0s;
+}
+
+	.navlinksecond {
+		display: block;
+		font-weight: 700;
+		margin-left: 270px;
+		padding: 14px 0;
+		text-transform: uppercase;
+		-webkit-transition: all 0.4s ease 0s;
+		transition: all 0.4s ease 0s;
+	}
+
+.btnforlog {
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	user-select: none;
+	border: 1px solid transparent;
+	line-height: 1.5;
+	border-radius: .25rem;
+	background-color: transparent;
 }
 
 .mainmenu ul li ul {
@@ -383,6 +411,23 @@ a.slicknav_btn {
 	padding: 30px 50px;
 }
 
+.book-a-carselection {
+	background-color: rgba(255, 255, 255, 0.8);
+	margin-top: 20px;
+	padding: 30px 50px;
+}
+
+.book-a-carpayement {
+	background-color: rgba(255, 255, 255, 0.8);
+	margin-top: 2px;
+	padding: 30px 50px;
+}
+
+.book-payement {
+	padding: 21px 23px;
+	background: #F8F8F8;
+	margin-bottom: 40px;
+}
 .book-a-car select.custom-select {
 	background-image: url("assets/img/caret-cion.png");
 	background-position: right 13px center;
@@ -447,6 +492,20 @@ a.slicknav_btn {
 	border: none;
 	cursor: pointer;
 	text-transform: uppercase;
+}
+
+.booksecond-now-btn {
+	background-color: #aaaa;
+	color: #222;
+	display: inline-block;
+	font-size: 15px;
+	font-weight: 600;
+	padding: 11px 14px;
+	border: none;
+	cursor: pointer;
+	width: 100%;
+	text-transform: uppercase;
+	text-align: center;
 }
 .delete-now-btn {
 	background-color: #df0b0b;
@@ -539,7 +598,7 @@ a.slicknav_btn {
 /*== Partner Area CSS Start ==*/
 
 #partner-area {
-	background-color: #eaeaea;
+	background-color: #030708;
 	padding: 20px 0;
 }
 
@@ -825,8 +884,9 @@ a.slicknav_btn {
 
 .single-popular-car {
 	-webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
 	margin-bottom: 30px;
+	letter-spacing: normal;
 }
 
 .p-car-thumbnails a.car-hover {
@@ -887,7 +947,13 @@ a.slicknav_btn {
 }
 
 .p-car-content {
-	padding: 25px 20px;
+	padding: 25px ;
+	text-align: left;
+}
+
+.p-car-contentsecond {
+	padding: 25px;
+	text-align: right;
 }
 
 .single-popular-car h3 {
@@ -907,6 +973,14 @@ a.slicknav_btn {
 	font-weight: 700;
 }
 
+	.single-popular-carsecond h3 span.pricesecond {
+		color: #ffd000;
+		float: right;
+		font-size: 19px;
+		font-weight: 700;
+		padding: 20px 90px
+	}
+
 .single-popular-car h5 {
 	color: #828282;
 	font-size: 11px;
@@ -920,6 +994,17 @@ a.slicknav_btn {
 	font-size: 11px;
 	font-weight: 600;
 	padding: 3px 8px;
+	text-transform: uppercase;
+	-webkit-transition: 0.3s;
+	transition: 0.3s;
+}
+
+.p-car-featuresecond a {
+	border: 1px solid #e2e2e2;
+	color: #828282;
+	font-size: 16px;
+	font-weight: 600;
+	padding: 3px 40px;
 	text-transform: uppercase;
 	-webkit-transition: 0.3s;
 	transition: 0.3s;
@@ -1373,6 +1458,7 @@ a.slicknav_btn {
 
 .newsletter-area {
 	margin-top: 20px;
+	margin-left: 300px;
 }
 
 .newsletter-area form {
@@ -1383,25 +1469,41 @@ a.slicknav_btn {
 	background-color: transparent;
 	border: 1px solid #ffd000;
 	border-radius: 2px;
-	color: #fff;
+/*	color: #fff;*/
 	height: 55px;
 	padding: 10px;
 	padding-right: 70px;
-	width: 100%;
+	width: 50%;
+	margin: auto;
 }
+
+
 
 .newsletter-area .newsletter-btn {
 	background-color: #ffd000;
 	border: 0 none;
 	color: #fff;
 	cursor: pointer;
-	font-size: 17px;
+	font-size: 14px;
 	height: 100%;
 	position: absolute;
-	right: 1px;
+/*	right: 1px;*/
 	top: 0;
-	width: 50px;
+	width: 60px;
 }
+
+	.newsletter-area .newsletter-btnsecond {
+		background-color: #378036;
+		border: 0 none;
+		color: #fff;
+		cursor: pointer;
+		font-size: 14px;
+		height: 100%;
+		position: absolute;
+			right: 522px;
+		top: 0;
+		width: 60px;
+	}
 
 .recent-post li {
 	background-color: #000;
@@ -3128,6 +3230,16 @@ body,
 
 .btn-404-home {
 	background-color: #ffd000;
+	color: #000;
+	display: inline-block;
+	font-size: 13px;
+	margin-top: 20px;
+	padding: 12px 30px;
+	text-transform: uppercase;
+}
+
+.btn-delete-home {
+	background-color: #ff0000;
 	color: #000;
 	display: inline-block;
 	font-size: 13px;

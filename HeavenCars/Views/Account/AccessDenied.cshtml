@@ -1,9 +1,27 @@
-﻿@{
-    ViewData["Title"] = "Access Denied";
-}
+﻿
+@{ ViewData["Title"] = "Access Denied"; }
 
-<div class="text-center">
-    <h1 class="text-danger">Access Denied</h1>
-    <h6 class="text-danger">No access to view this resource!!!</h6>
-    <img src="~/images/AccessDenied.png" style="height:300px; width:300px;" />
-</div>
+<section id="page-404-wrap" class="section-padding overlay">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="page-404-content">
+                    <div class="number">
+                        <div class="four">4</div>
+                        <div class="zero">
+                            <img src="~/images/Icons/404.png" alt="JSOFT">
+                        </div>
+                        <div class="four">3</div>
+                    </div>
+                    <h4>Acced Denied!</h4>
+                    <p>YOU DON'T HAVE PERMISSION TO ACCES THIS PAGE!</p>
+                    <a asp-controller="Home" asp-action="Index" class="btn-404-home">
+                        <i class="fa fa-home"></i>
+                        To the home page
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

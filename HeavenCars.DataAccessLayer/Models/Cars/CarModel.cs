@@ -11,8 +11,11 @@ namespace HeavenCars.DataAccessLayer.Models.Cars
         
         [Key]
         public int ModelId { get; set; }
+        [Required]
         public string ModelName { get; set; }
+        [Required]
         public int Kw { get; set; }
+        [Required]
         public int MinLeeftijd { get; set; }
 
         [ForeignKey("Brand")]

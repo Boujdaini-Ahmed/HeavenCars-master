@@ -1,23 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using HeavenCars.DataAccesLayer.Context;
-using HeavenCars.DataAccessLayer.Models;
 using HeavenCars.DataAccessLayer.Models.Account;
 using HeavenCars.DataAccessLayer.Models.Bookings;
-using HeavenCars.DataAccessLayer.Models.Cars;
 using HeavenCars.DataAccessLayer.Repositories;
 using HeavenCars.DataAccessLayer.Repositories.Cars;
-using HeavenCars.Services;
 using HeavenCars.ViewModels.Booking;
-using HeavenCars.ViewModels.Home;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Stripe;
 
@@ -30,7 +23,6 @@ namespace HeavenCars.Controllers.Bookings
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<BookingController> _logger;
-        private readonly IEmailSender _emailSender;
         private readonly AppDbContext _context;
 
 
@@ -39,15 +31,14 @@ namespace HeavenCars.Controllers.Bookings
                                  ICarRepository carRepository,
                                  UserManager<ApplicationUser> userManager,
                                  ILogger<BookingController> logger,
-                                 AppDbContext context,
-                                 IEmailSender emailSender)
+                                 AppDbContext context
+                             )
         {
             _bookingRepository = bookingRepository;
             _carRepository = carRepository;
             _webHostEnvironment = webHostEnvironment;
             _logger = logger;
             _userManager = userManager;
-            _emailSender = emailSender;
             _context = context;
         }
 
@@ -73,103 +64,90 @@ namespace HeavenCars.Controllers.Bookings
 
         }
 
-        public IActionResult BookingsList(string search = null)
+
+        [HttpGet]
+        public IActionResult Details(int id)
+          
         {
-            if (!string.IsNullOrEmpty(search))
-            {
-                var foundCars = _carRepository.SearchCars(search);
-                return View(foundCars);
-            }
-            var booking = _bookingRepository.GetAllBookings();
-            return View(booking);
-        }
-
-
-
-        [HttpGet("/Booking/Details/{id}")]
-        public async Task<IActionResult> Details(int id)
-
-        {
-
-
-            {
-                
-                BookingVehicule _jours = _context.BookingVehicules.Find(id);
-                Car Car = _context.Cars.Find(_jours.CarId);
-                var car = _carRepository.GetCar(_jours.CarId);
-                BookingVehicule bestelling = await _context.BookingVehicules.FindAsync(id);
-               
-
+            
                 var booking = _bookingRepository.GetBooking(id);
-                var currentuser = await _userManager.GetUserAsync(HttpContext.User);
-                double Total ;
-                int Days = (_jours.EndDate - _jours.StartDate).Days;
+                //var car = _carRepository.GetCar(booking.CarId);
+
+
+                //var currentuser = await _userManager.GetUserAsync(HttpContext.User);
+                double Total  = 1000;
+                //int Days = 0;
+
+                //Days = (booking.EndDate - booking.StartDate).Days;
 
                
-                {
-                    if (Days == 1)
-                    {
-                        Total = Days * car.Prijs;
-                    }
-                    else if (Days == 2)
-                    {
-                        Total = Days * Math.Round((car.Prijs * 0.8), 0);
-                    };
+              
+                    //if (Days == 1)
+                    //{
+                    //    Total = Days * booking.Car.Prijs;
+                    //}
+                    //else if (Days == 2)
+                    //{
+                    //    Total = Days * Math.Round((booking.Car.Prijs * 0.8), 0);
+                    //}
+                    //else 
+                    //{
+                    //    Total = Days * booking.Car.Prijs;
+                    //}
+                    if(booking != null) { 
 
-                    var _User = await _context.Users.FirstOrDefaultAsync();
-
-                    DetailBookingViewModel detailBookingViewModel = new DetailBookingViewModel()
+                    DetailBookingViewModel model = new DetailBookingViewModel()
                     {
-                        BookingVehicule = booking,
-                        Days = Days.ToString(),
-                        Price = Car.Prijs.ToString(),
+                        BookingId = booking.BookingId,
+                        BrandName = booking.Car.CarModel.Brand.BrandName,
+                        ModelName = booking.Car.CarModel.ModelName,
+                        StartDate = booking.StartDate,
+                        EndDate = booking.EndDate,
+                        BookingVanStatus = booking.BookingVanStatus,
+                        Prijs = booking.Car.Prijs,
+                        ExistingPhotoCar = booking.Car.PhotoCar,
+                        ApplicationUser = booking.ApplicationUser,
+                        Days = "0",
                         Total = Total.ToString(),
-                        FirstName = _User.FirstName,
-                        LastName = _User.LastName,
-                        Email = _User.Email,
-                        Mobile = _User.PhoneNumber,
-                        TotalOrder = bestelling.TotalAmount,
-                        OrderId = bestelling.BookingId,
-                        VehicleId = bestelling.CarId
+                        //FirstName = currentuser.FirstName,
+                        //LastName = currentuser.LastName,
+                        //Email = currentuser.Email,
+                        //PhoneNumber = currentuser.PhoneNumber
+                        FirstName = "",
+                        LastName ="",
+                        Email = "",
+                       PhoneNumber = ""
+
+
 
                         //Total = _jours.TotalPrijs.ToString()
                         //Price = _jours.PricePerHour.ToString(),
 
 
                     };
-                    return View(detailBookingViewModel);
-                }
-                ////return View("NotAuthorized");
 
-            }
+                return View(model);
+            };
+            return View();
+
+
         }
 
-        public IActionResult PaymentConfirmation(int id)
-        {
-            ErrorViewModel errorViewModel = new ErrorViewModel();
-            if (id.Equals(0))
-            {
-                errorViewModel.ErrorMessage = "Something went wrong while confirming your order.Contact Support";
-                return RedirectToAction("ErrorPagina", "Home", errorViewModel);//error message 
-            }
-            BookingVehicule bestelling = new BookingVehicule();
-            bestelling = _context.BookingVehicules.Find(id);
-            return View(bestelling);
-        }
-
-
-
-        public async Task<IActionResult> PaymentCard(string stripeEmail, string stripeToken, DetailBookingViewModel model)
+        [HttpGet]
+        public IActionResult PayementConfirmation()
         {
             
-            var currentuser =  _userManager.GetUserId(HttpContext.User);
-            int? _amount = 0;
-            if (!string.IsNullOrEmpty(model.TotalOrder.ToString()))
             {
-                double n;
-                bool isNumeric = double.TryParse(model.TotalOrder.ToString(), out n);
-                _amount = isNumeric ? (int)(Convert.ToDecimal(model.TotalOrder.ToString()) * 100) : -1;
+                return View();
+
             }
+        }
+
+
+
+        public IActionResult Charge(string stripeEmail, string stripeToken/*, DetailBookingViewModel model*/)
+        {
+
             var customers = new CustomerService();
             var charges = new ChargeService();
 
@@ -184,16 +162,10 @@ namespace HeavenCars.Controllers.Bookings
                 
             var charge = charges.Create(new ChargeCreateOptions
             {
-                Amount = _amount,
-                Description = model.Comment,
+                Amount = 500,
+                Description = "Test payement",
                 Currency = "usd",
                 Customer = customer.Id,
-                ReceiptEmail = model.Email,
-                Metadata = new Dictionary<String, String>()
-                {
-                   { "OrderId", model.OrderId.ToString()},
-                           
-                },
 
 
             });
@@ -201,40 +173,7 @@ namespace HeavenCars.Controllers.Bookings
             if (charge.Status == "succeeded")
             {
                 string BalanceTransactionId = charge.BalanceTransactionId;
-                BookingVehicule bestelling = await _context.BookingVehicules.FindAsync(model.BookingId);
-
-                Transaction _Transaction = new Transaction
-                {
-                    TransactionId = BalanceTransactionId,
-                    UserId = currentuser,
-                    OrderId = model.OrderId,
-                    Amount = model.TotalOrder,
-                    Status = "succeeded",
-                    Date = DateTime.Now,
-                    FullName = model.FirstName + " " + model.LastName
-                };
-
-                await _context.AddAsync(_Transaction);
-                await _context.SaveChangesAsync();
-
-                Car car = await _context.Cars.FindAsync(model.CarId);
-
-
-                ReceiptEmailBodyViewModel EmailReceipt = new ReceiptEmailBodyViewModel()
-                {
-                    OrderNum = model.OrderId.ToString(),
-                    CustomerName = model.FirstName + " " + model.LastName,
-                    CustomerEmail = model.Email,
-                    Price = car.Prijs.ToString(),
-                    Total = model.TotalOrder.ToString(),
-                   
-                };
-
-                string EmailReciptsBody = EmailReceiptsBody(EmailReceipt);
-                await _emailSender.SendEmailAsync(model.Email, "Car Share Service", EmailReciptsBody);
-
-               
-                //return RedirectToAction("PayementConfirmation", "Booking", new { id = model.BookingId }); 
+                return RedirectToAction("PayementConfirmation", "Booking");
             }
             else
             {
@@ -248,45 +187,36 @@ namespace HeavenCars.Controllers.Bookings
 
 
         [HttpGet]
+        [Authorize]
 
         public async Task<IActionResult> CreateAsync(int carid)
         {
-            
-                {
-                    var car = _carRepository.GetCar(carid);
+            // Viewmodel =>calander avec les dates et heurres -> les dates et heures deja present dans banque de données pour voiture x => viewmodel calender et dropdown heures soit grisés.
+            {
+                var car = _carRepository.GetCar(carid);
                     var currentuser = await _userManager.GetUserAsync(HttpContext.User);
 
-                    // var dispnibilité : repository.get.booking(voiture x). -> viewmodel
-                    // Viewmodel =>calander avec les dates et heurres -> les dates et heures deja present dans banque de données pour voiture x => viewmodel calender et dropdown heures soit grisés.
-
-                    //if (car == null)
-                    //{
-                    //    Response.StatusCode = 404;
-                    //    return View("../Cars/CarNotFound", carid);
-                    //}
-                    //else if (User.IsInRole("SuperAdmin") ||
-                    //   User.IsInRole("Admin") && carid == currentuser.CarId)
-
-
-                  
-
                     {
-                        CreateBookingViewModel createBookingViewModel = new CreateBookingViewModel()
-                        {
+                    CreateBookingViewModel createBookingViewModel = new CreateBookingViewModel()
+                    {
 
-                            Car = car,
-
+                        BrandName = car.CarModel.Brand.BrandName,
+                        ModelName = car.CarModel.ModelName,
+                        Prijs = car.Prijs,
+                        MinLeeftijd = car.CarModel.MinLeeftijd,
+                        Kw = car.CarModel.Kw,
+                        ExistingPhotoCar = car.PhotoCar
+                        
+                           
                         };
                         return View(createBookingViewModel);
                     }
-                    //return View("NotAuthorized");
-
-                }
-            
+                }       
         }
 
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
 
         public async Task<IActionResult> CreateAsync(CreateBookingViewModel formulaire) //  Method(class nom de l'object)
@@ -322,7 +252,7 @@ namespace HeavenCars.Controllers.Bookings
 
                     if (response != null && response.BookingId != 0)
                     {
-                        return RedirectToAction("details", new { id = nouveaubookingquidoitallerdansbanquededonnees.BookingId });
+                        return RedirectToAction("details", "Booking", new { id = nouveaubookingquidoitallerdansbanquededonnees.BookingId });
                     }
 
                     return View("NotAuthorized");
@@ -333,12 +263,14 @@ namespace HeavenCars.Controllers.Bookings
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Edit(int bookingid)
         {
+            try
+            {
 
-            
-                var booking = _bookingRepository.GetBooking(id);
-               
+                var booking = _bookingRepository.GetBooking(bookingid);
+
                 var currentuser = await _userManager.GetUserAsync(HttpContext.User);
 
 
@@ -356,60 +288,132 @@ namespace HeavenCars.Controllers.Bookings
                 };
 
                 return View(editBookingViewModel);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"When retrieving to edit booking.");
+                throw;
 
             }
+
+        }
         
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(EditBookingViewModel editModel)
         {
-            
 
-                    if (ModelState.IsValid)
-                    {
-                        BookingVehicule booking = _bookingRepository.GetBooking(editModel.BookingId);
-                        var currentuser = await _userManager.GetUserAsync(HttpContext.User);
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    BookingVehicule booking = _bookingRepository.GetBooking(editModel.BookingId);
+                    var currentuser = await _userManager.GetUserAsync(HttpContext.User);
 
-                        booking.StartDate = editModel.StartDate;
-                        booking.EndDate = editModel.EndDate;
-                        booking.BookingVanStatus = editModel.BookingVanStatus;
+                    booking.Car = editModel.Car;
+                    booking.StartDate = editModel.StartDate;
+                    booking.EndDate = editModel.EndDate;
+                    booking.BookingVanStatus = editModel.BookingVanStatus;
 
 
 
-                         _bookingRepository.Update(booking);
+                    _bookingRepository.Update(booking);
 
-                       
-                            return RedirectToAction("BookingsList", new { id = booking.BookingId });
-                        
-                      
-                    
+
+                    return RedirectToAction("BookingsList", "Booking");
+
+
+
                 }
                 return View();
             }
-
-        private string EmailReceiptsBody(ReceiptEmailBodyViewModel _EmailReceipts)
-        {
-            var webRoot = _webHostEnvironment.WebRootPath;
-
-            string body = string.Empty;
-            string TemplePath = webRoot + "/Pages/EmailReceipts.html";
-            using (StreamReader reader = new StreamReader(TemplePath))
+            catch (Exception ex)
             {
-                body = reader.ReadToEnd();
-            }
-            body = body.Replace("{InvoiceNumber}", _EmailReceipts.OrderNum);
-            body = body.Replace("{Date}", DateTime.Now.ToShortDateString());
-            body = body.Replace("{CustomerName}", _EmailReceipts.CustomerName);
-            body = body.Replace("{CustomerEmail}", _EmailReceipts.CustomerEmail);
-            body = body.Replace("{ServiceName}", _EmailReceipts.ServiceName);
-            body = body.Replace("{Hours}", _EmailReceipts.Hours);
-            body = body.Replace("{Price}", _EmailReceipts.Price);
-            body = body.Replace("{Total}", _EmailReceipts.Total);
-   
-     
+                _logger.LogError(ex, $"When retrieving to edit booking.");
+                throw;
 
-            return body;
+            }
+        }
+
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult BookingsList()
+        {
+            try
+            {
+               
+                var booking = _bookingRepository.GetAllBookings();
+                return View(booking);
+                
+            }
+    
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"When retrieving booking list admin.");
+                throw;
+
+            }
+        }
+
+
+        public IActionResult HistoryBooking()
+        {
+            try
+            {
+                var currentuser = _userManager.GetUserId(HttpContext.User);
+                var booking = _context.BookingVehicules.Where(user => user.ApplicationUserId == currentuser);
+                var car = _carRepository.GetAllCars();
+                return View(booking);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"When retrieving booking list user.");
+                throw;
+
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public IActionResult Delete(int Bookingid)
+        {
+            try
+            {
+                BookingVehicule bookingVehicule = _bookingRepository.GetBooking(Bookingid);
+
+                return View(bookingVehicule);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"When getting the delete page of a booking.");
+                throw;
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public IActionResult DeleteShure(int BookingId)
+        {
+            try
+            {
+            
+                var booking = _bookingRepository.GetBooking(BookingId);
+                var response = _bookingRepository.Delete(booking);
+
+                if (response != null && response.CarId != 0)
+                {
+                    return RedirectToAction("BookingsList");
+                }
+
+                return View("Delete", booking);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"When deleting a booking.");
+                throw;
+            }
         }
     }
     }

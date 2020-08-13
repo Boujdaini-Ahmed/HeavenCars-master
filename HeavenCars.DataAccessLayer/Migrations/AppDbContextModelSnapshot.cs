@@ -28,12 +28,14 @@ namespace HeavenCars.DataAccessLayer.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("CarId")
                         .HasColumnType("int");
 
                     b.Property<string>("City")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -133,12 +135,6 @@ namespace HeavenCars.DataAccessLayer.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("TotalAmount")
-                        .HasColumnType("float");
-
-                    b.Property<double>("TotalPrijs")
-                        .HasColumnType("float");
-
                     b.HasKey("BookingId");
 
                     b.HasIndex("ApplicationUserId");
@@ -156,6 +152,7 @@ namespace HeavenCars.DataAccessLayer.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("BrandName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("BrandId");
@@ -174,6 +171,7 @@ namespace HeavenCars.DataAccessLayer.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Content")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
@@ -218,6 +216,7 @@ namespace HeavenCars.DataAccessLayer.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ModelName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ModelId");
@@ -253,34 +252,6 @@ namespace HeavenCars.DataAccessLayer.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("Messages");
-                });
-
-            modelBuilder.Entity("HeavenCars.DataAccessLayer.Models.Transaction", b =>
-                {
-                    b.Property<string>("TransactionId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FullName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("TransactionId");
-
-                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

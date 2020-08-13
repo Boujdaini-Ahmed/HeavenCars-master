@@ -2,107 +2,94 @@
 @inject UserManager<HeavenCars.DataAccessLayer.Models.Account.ApplicationUser> userManager;
 
 @{ ViewData["Title"] = "Create";
-    var user = await userManager.GetUserAsync(Context.User); }
+    var user = await userManager.GetUserAsync(Context.User);
+    var photoCar = "~/Images/" + (Model.ExistingPhotoCar ?? "noimage.png");}
 
 
-<h1>Create</h1>
 
-<h4>Booking</h4>
-<hr />
+<section id="slider-area">
+    <div class="single-slide-item overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="book-a-car">
+                        <form asp-action="Create" asp-controller="Booking">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="CarId" />
+                            <input type="hidden" asp-for="BookingId" />
 
-<div class="row my-auto d-flex justify-content-center text-center">
-    <h1>Create Board for @Model.Car.CarModel.Brand.BrandName @Model.Car.CarModel.ModelName</h1>
-</div>
-<hr />
-<div class="row my-auto d-flex justify-content-center">
-    <div class=" col-md-8 my-auto d-flex justify-content-center">
-        <form asp-action="Create" asp-controller="Booking">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="CarId" />
-            <input type="hidden" asp-for="BookingId" />
+                            <div class="pickup-location book-item">
+                                <h4>START DATE:</h4>
+                                <input asp-for="StartDate" class="form-control" placeholder="Start Date" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                <span asp-validation-for="StartDate" class="text-danger"></span>
+                            </div>
 
-            <div class="form-group">
-                <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" type="date" id="startDate" placeholder="Pick Up Date" min="@DateTime.Now.ToString("yyyy-MM-dd")"/>
-                <span asp-validation-for="StartDate" class="text-danger"></span>
+                            <div class="pickup-location book-item">
+                                <h4>END DATE:</h4>
+                                <input asp-for="EndDate" class="form-control" rows="3" cols="20" placeholder="End Date" min="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")" max="@DateTime.Now.AddDays(30).ToString("yyyy-MM-dd")" />
+                                <span asp-validation-for="EndDate" class="text-danger"></span>
+                            </div>
+
+                            <div>
+                                @if (await userManager.IsInRoleAsync(user, "Admin"))
+                                {
+                        <input type="submit" value="Create" class="book-now-btn" />
+                                        <a asp-action="ListCars" asp-controller="Cars" class="booksecond-now-btn">Back to overview</a> }
+                                    else
+                                    {
+                        <input type="submit" value="Create" class="book-now-btn" />
+                                        <a asp-action="ListCars" asp-controller="Cars" class="booksecond-now-btn">Back to List</a>}
+                            </div>
+
+
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-lg-7 text-right">
+                    <div class="book-a-car">
+                        <h5>Vehicule</h5>
+                       
+
+                        <div class="mt-3 con suv mpv">
+                            <div class="single-popular-car">
+
+                                <div class="p-car-thumbnails">
+
+
+
+                                    <a class="car-hover" href="@photoCar">
+                                        <img class="card-img-top" alt="Cinque Terre" src="@photoCar" asp-append-version="true" />
+
+                                    </a>
+                                </div>
+
+
+                                <div class="p-car-content text-center" >
+                                    <h3>
+                                        <a>@Model.BrandName</a>
+                                        <a>@Model.ModelName</a>
+                                        -
+                                        <span class="pricesecond"><i class="fa fa-tag"></i>@Model.Prijs €</span>
+                                    </h3>
+
+                                    <h5>HATCHBACK</h5>
+
+                                    <div class="p-car-featuresecond">
+                                        <a>@Model.MinLeeftijd years</a>
+                                        <a>@Model.Kw KW</a>
+                                     
+                                    </div>
+                                    <br />
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="EndDate" class="control-label"></label>
-                <input asp-for="EndDate" class="form-control" type="date" id="startDate" placeholder="Pick Up Date" min="" max="@DateTime.Now.AddDays(30).ToString("yyyy-MM-dd")" />
-                <span asp-validation-for="EndDate" class="text-danger"></span>
-            </div>
-
-            <div>
-                @if (await userManager.IsInRoleAsync(user, "Admin"))
-                {
-    <input type="submit" value="Create" class="btn btn-primary mr-1" />
-                    <a asp-action="ListCars" asp-controller="Cars" class="btn btn-secondary mr-1">Back to overview</a> }
-                else
-                {
-    <input type="submit" value="Create" class="btn btn-primary mr-1" />
-                    <a asp-action="ListCars" asp-controller="Cars" class="btn btn-secondary mr-1">Back to List</a>}
-            </div>
-
-        </form>
-    </div>
-</div>
-
-@section scripts{ 
-
-    <scripts>
-        Jquery / javascript = 
-        function on chnage datedepart(){
-        var datedepart = valuer de Datedepart.
-
-        var datime min de fin = datededepart
-        => append valuer vers html
-        
-        }
-    </scripts>
-
-}
-
-
-@*<div class="row">
-        <div class="col-md-4">
-            <form method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="StartDate" class="control-label"></label>
-                    <input asp-for="StartDate" class="form-control" />
-                    <span asp-validation-for="StartDate" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="EndDate" class="control-label"></label>
-                    <input asp-for="EndDate" class="form-control" />
-                    <span asp-validation-for="EndDate" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Car id</label>
-                    <select class="form-control" id="CarId" placeholder="CarId" required>
-                        <option>Please Select</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                        <label asp-for="CarId" class="control-label"></label>
-                        <select asp-for="CarId" class="form-control" asp-items="ViewBag.CarId"></select>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="BookingStatusId" class="control-label"></label>
-                        <select asp-for="BookingStatusId" class="form-control" asp-items="ViewBag.BookingStatusId"></select>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CarId" class="control-label"></label>
-                        <select asp-for="CarId" class="form-control" asp-items="ViewBag.CarId"></select>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="ApplicationUserId" class="control-label"></label>
-                        <select asp-for="ApplicationUserId" class="form-control" asp-items="ViewBag.ApplicationUserId"></select>
-                    </div>
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                </div>
-            </form>
         </div>
-    </div>*@
-
+    </div>
+</section>

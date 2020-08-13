@@ -4,108 +4,102 @@
 
 
 
-                <!--== Header Area Start ==-->
+
                 <header id="header-area" class="fixed-top">
-                    <!--== Header Top Start ==-->
                     <div id="header-top" class="d-none d-xl-block">
                         <div class="container">
                             <div class="row">
-                                <!--== Single HeaderTop Start ==-->
                                 <div class="col-lg-3 text-left">
                                     <i class="fa fa-map-marker"></i> Portugeesstraat 2, Affligem
                                 </div>
-                                <!--== Single HeaderTop End ==-->
-                                <!--== Single HeaderTop Start ==-->
                                 <div class="col-lg-3 text-center">
-                                    <i class="fa fa-mobile"></i>  02/055.54.54
+                                    <i class="fa fa-mobile"></i>  04/84.82.13.72
                                 </div>
-                                <!--== Single HeaderTop End ==-->
-                                <!--== Single HeaderTop Start ==-->
                                 <div class="col-lg-3 text-center">
                                     <i class="fa fa-clock-o"></i>  Ma-Zat 8.00u-18.00u
                                 </div>
-                                <!--== Single HeaderTop End ==-->
-                                <!--== Social Icons Start ==-->
                                 <div class="col-lg-3 text-right">
                                     <div class="header-social-icons">
                                         <a href="https://wa.me/32484821372"><i class="fa fa-whatsapp"></i></a>
-                                        <a href="https://fr-fr.facebook.com/zermi.notest"><i class="fa fa-facebook"></i></a>
-                                       
+                                        <a href="https://fr-fr.facebook.com/zermi.notest"><i class="fa fa-facebook"></i></a>          
                                     </div>
                                 </div>
-                                <!--== Social Icons End ==-->
                             </div>
                         </div>
                     </div>
-                    <!--== Header Top End ==-->
-                    <!--== Header Bottom Start ==-->
+
                     <div id="header-bottom">
                         <div class="container">
                             <div class="row">
-                                <!--== Logo Start ==-->
-                                <div class="col-lg-1">
-                                    <a asp-action="Index" asp-controller="Home" class="navbar-brand">
+                                <div class="col-lg-3">
+                                    <a  asp-action="Index" asp-controller="Home" class="logo">
                                         <img src="~/images/HCLogoo.jpg" height="40" width="40" asp-append-version="false" />
                                     </a>
-                                </div>
-                                <!--== Logo End ==-->
-                                <!--== Main Menu Start ==-->
-                                @*<div class="col-lg-10 d-none d-xl-block">*@
-                                    <nav class="mainmenu aligncenter">
-                                        <ul>
-                                            @if (signInManager.IsSignedIn(User))
-                                            {
-                                                <li>
-                                                    <a>Profile</a>
-                                                    <ul>
-                                                        <li><a class="dropdown-item" asp-controller="Home" asp-action="Edit" asp-route-id="@UserManager.GetUserId(User)">My Profile</a></li>
-                                                        <li><a class="dropdown-item" asp-controller="Account" asp-action="ChangePassword">Change Password</a></li>
-                                                        <li><a class="dropdown-item" asp-controller="Home" asp-action="Private">Private</a></li>
-                                                    </ul>
-                                                </li>
-                                            }
 
+                                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                                        <span class="navbar-toggler-icon"></span>
+                                    </button>
 
+                                    </div>
 
-                                            <li><a href="/Cars/ListCars">Cars</a></li>
+                                    <div class="col-lg-9 d-none d-xl-block">
+                                        <nav class="mainmenu aligncenter">
+                                            <ul>
+                                                <li><a href="/Home/Index">Home</a></li>
 
-                                            @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin")@*|| User.IsInRole("SubAdmin")*@)
+                                                <li><a href="/Cars/ListCars">Cars</a></li>
+
+                                                @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin")@*|| User.IsInRole("SubAdmin")*@)
 {
-                                        <li><a href="/Administration/Index">Admin Panel</a></li>
-                                    }
+                                            <li><a href="/Administration/Index">Admin Panel</a></li>
+                                        }
 
-                                            <li><a href="/Home/Faq">Faq</a></li>
+                                                <li><a href="/Home/Faq">Faq</a></li>
 
-                                            <li><a href="https://wa.me/32484821372">Whatsapp</a></li>
+                                                @if (signInManager.IsSignedIn(User))
+                                                {
+                                                    string currentuser = UserManager.GetUserId(User);
+                                                    var user = await UserManager.FindByIdAsync(currentuser);
+                                                    <li>
+                                                        <a>Hello, @user.FirstName</a>
+                                                        <ul>
+                                                            <li><a class="dropdown-item" asp-controller="Home" asp-action="Edit" asp-route-id="@UserManager.GetUserId(User)">My Profile</a></li>
+                                                            <li><a class="dropdown-item" asp-controller="Account" asp-action="ChangePassword">Change Password</a></li>
+                                                            <li><a class="dropdown-item" asp-controller="Booking" asp-action="HistoryBooking" asp-route-id="@UserManager.GetUserId(User)">History Booking</a></li>
+                                                        </ul>
+                                                    </li>
+                                                }
 
-                                            @if (signInManager.IsSignedIn(User))
-                                            {
-                                                <li>
-                                                    <form method="post" asp-action="logout" asp-controller="Account">
-                                                        <button type="submit" class="nav-link btn btn-link text-light">
-                                                            Logout
-                                                        </button>
-                                                    </form>
-                                                </li>
-                                            }
-                                            else
-                                            {
-                                                <li>
-                                                    <a asp-action="register" asp-controller="account" class="nav-link">Register</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a asp-action="Login" asp-controller="account" class="nav-link">Login</a>
-                                                </li>
-                                            }
-                                        </ul>
-                                    </nav>
-                                </div>
+                                                @if (signInManager.IsSignedIn(User))
+                                                {
+                                                    <li>
+                                                        <form method="post" asp-action="logout" asp-controller="Account">
+                                                            <button type="submit" class="navlinksecond btnforlog text-light text-right">
+                                                                Logout
+                                                            </button>
+                                                        </form>
+                                                    </li>
+                                                }
+                                                else
+                                                {
+                                                    <li>
+                                                        <a asp-action="register" asp-controller="account" class="nav-link">Register</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a asp-action="Login" asp-controller="account" class="active">Login</a>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </nav>
 
-                               
+                                    </div>
+
+
+
                                     <!--== Main Menu End ==-->
                                 </div>
                             </div>
-                        @*</div>*@
+                        </div>
                         <!--== Header Bottom End ==-->
                     </header>
                     <!--== Header Area End ==-->

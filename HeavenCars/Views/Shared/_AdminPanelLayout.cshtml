@@ -43,27 +43,25 @@
 
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
-                <a href="#">
+                <a href="/home/index">
                     <img src="~/Images/Icons/AdminPanel1.png" alt="Admin Panel" />
                 </a>
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
+
+                        <li class="has-sub">
+                            <a class="js-arrow" href="~/Home/Index">
+                                <i class="fas fa-home"></i>Home
+                            </a>
+                        </li>
+
+
                         <li class="active has-sub">
-                            <a class="js-arrow" href="#">
+                            <a class="js-arrow" href="~/Cars/ListCarsAdmin">
                                 <i class="fas fa-car"></i>Cars
                             </a>
-                            <ul class="list-unstyled navbar__sub-list js-sub-list">
-                                <li>
-                                    <a href="~/Cars/ListCarsAdmin">Cars <span class="badge badge-warning"></span> </a>
-                                </li>
-                                <li>
-                                    <a href="~/Cars/Create">Add Car</a>
-                                </li>
-                              
-
-                            </ul>
                         </li>
 
                         <li class="has-sub">
@@ -82,18 +80,10 @@
 
 
                         <li class="has-sub">
-                            <a class="js-arrow" href="#">
+                            <a class="js-arrow" href="~/Booking/BookingsList">
                                 <i class="fas fa-window-restore"></i>Bookings
                             </a>
-                            <ul class="list-unstyled navbar__sub-list js-sub-list">
-                                <li>
-                                    <a href="~/Booking/BookingsList">All Bookings</a>
-                                </li>
-                            </ul>
                         </li>
-
-
-
 
                     </ul>
                 </nav>

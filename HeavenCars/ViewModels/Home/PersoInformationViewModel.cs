@@ -21,12 +21,10 @@ namespace HeavenCars.ViewModels.Home
         [Display(Name = "Phone number")]
         public string PhoneNumber { get; set; }
 
-
         [EmailAddress]
         [RegularExpression(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$",
             ErrorMessage = "Email must be a valid Address Email.")]
-        //[ValidEmailDomain(allowedDomain: "info.be",
-        //    ErrorMessage = "Email domain must be test.com")]
+
         public string Email { get; set; }
 
         public string Address { get; set; }

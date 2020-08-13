@@ -7,7 +7,6 @@
 <link href="~/lib/Trumbowyg-master/dist/ui/trumbowyg.min.css" rel="stylesheet" />
 
 <section id="slider-area">
-    <!--== slide Item One ==-->
     <div class="single-slide-item overlay">
         <div class="container">
 
@@ -29,7 +28,7 @@
                             <input hidden asp-for="ExistingPhotoCar" />
 
                             <div class="form-group">
-                                <label asp-for="IsAvailableForRent" class="control-label"></label>
+                                <h4>AVAILABLE:</h4>
                                 <select asp-for="IsAvailableForRent" class="form-control" asp-items="Model.ListAvaible"></select>
                             </div>
                             <div class="pickup-location book-item">
@@ -38,53 +37,40 @@
                                 <span asp-validation-for="@Model.CarModel.Brand.BrandName" class="text-danger"></span>
                             </div>
                             <div class="pickup-location book-item">
-                                <h4>BRAND:</h4>
+                                <h4>MODEL:</h4>
                                 <input asp-for="@Model.CarModel.ModelName" class="form-control" placeholder="Name" />
                                 <span asp-validation-for="@Model.CarModel.ModelName" class="text-danger"></span>
                             </div>
-                            <!--== Pick Up Location ==-->
-                            <!--== Pick Up Location ==-->
                             <div class="pickup-location book-item">
                                 <h4>MINIMUM YEARS:</h4>
                                 <input asp-for="@Model.CarModel.MinLeeftijd" class="form-control" placeholder="Leeftijd" />
                                 <span asp-validation-for="@Model.CarModel.MinLeeftijd" class="text-danger"></span>
                             </div>
-                            <!--== Pick Up Location ==-->
-                            <!--== Pick Up Location ==-->
                             <div class="pickup-location book-item">
                                 <h4>PRICE:</h4>
                                 <input asp-for="Prijs" class="form-control" placeholder="Price" />
                                 <span asp-validation-for="Prijs" class="text-danger"></span>
                             </div>
-                            <!--== Pick Up Location ==-->
-                            <!--== Pick Up Location ==-->
                             <div class="pickup-location book-item">
                                 <h4>KW:</h4>
                                 <input asp-for="@Model.CarModel.Kw" class="form-control" placeholder="KW" />
                                 <span asp-validation-for="@Model.CarModel.Kw" class="text-danger"></span>
                             </div>
+                      
                             <div class="pickup-location book-item">
                                 <h4>Content:</h4>
-                                <textarea id="editor" asp-for="Content"></textarea>
+                                <textarea id="editor" asp-for="Content" class="form-control" placeholder="Content"></textarea>
                                 <span asp-validation-for="Content" class="text-danger"></span>
                             </div>
-
-                            <!--== Pick Up Location ==-->
-                            <!--== Pick Up Location ==-->
                             <div class="pickup-location book-item">
                                 <h4>PICTURE:</h4>
-                                <div class="custom-file">
-                                    <input asp-for="Photo" class="form-control custom-file-input" />
-                                    <label class="custom-file-label">Choose File...</label>
-                                </div>
+                                <input asp-for="Photo" class="col-sm-3"/>
                                 <span asp-validation-for="Photo" class="text-danger"></span>
                             </div>
-                            <!--== Pick Up Location ==-->
-
-
                             <div class="book-button text-center">
-                                <button type="submit" class="book-now-btn">Edit</button>
-                                <a asp-controller="Cars" asp-action="ListCarsAdmin" class="btn btn-secondary">Cancel</a>
+                                <button type="submit" class="book-now-btn">Save</button>
+                                
+                                <a asp-controller="Cars" asp-action="ListCarsAdmin" class="rent-btn"> Cancel <i class="fa fa-long-arrow-left"></i></a>
                             </div>
                         </form>
                     </div>
@@ -92,73 +78,8 @@
             </div>
         </div>
     </div>
-    <!--== slide Item One ==-->
 </section>
-<!--== Slider Area End ==-->
-@*<form enctype="multipart/form-data" asp-action="Edit" asp-controller="Cars" method="post" class="mt-3">
-        <input hidden asp-for="CarId" />
-        <input hidden asp-for="ExistingPhotoCar" />
 
-        <div class="form-group row">
-            <label asp-for="Name" class="col-sm-2 col-form-label"></label>
-            <div class="col-sm-10">
-                <input asp-for="Name" class="form-control" placeholder="Name" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="MinLeeftijd" class="col-sm-2 col-form-label"></label>
-            <div class="col-sm-10">
-                <input asp-for="MinLeeftijd" class="form-control" placeholder="Minimum Leeftijd" />
-                <span asp-validation-for="MinLeeftijd" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="Prijs" class="col-sm-2 col-form-label"></label>
-            <div class="col-sm-10">
-                <input asp-for="Prijs" class="form-control" placeholder="Prijs" />
-                <span asp-validation-for="Prijs" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="Kw" class="col-sm-2 col-form-label"></label>
-            <div class="col-sm-10">
-                <input asp-for="Kw" class="form-control" placeholder="Vermogen" />
-                <span asp-validation-for="Kw" class="text-danger"></span>
-            </div>
-        </div>
-
-
-        <div class="form-group row">
-            <label asp-for="Photo" class="col-sm-2 col-form-label"></label>
-            <div class="col-sm-10">
-                <div class="custom-file">
-                    <input asp-for="Photo" class="form-control custom-file-input" />
-                    <label class="custom-file-label">Click here to change Photo</label>
-                </div>
-                <span asp-validation-for="Photo" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group row col-sm-4 offset-4">
-            <img class="imageThumbnail" src="@photoPath"
-                 asp-append-version="true" />
-        </div>
-
-        <div asp-validation-summary="All" class="text-danger"></div>
-
-        <div class="form-group row">
-            <div class="col-sm-10">
-                <button type="submit" class="btn btn-success">Update</button>
-                <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Cancel</a>
-            </div>
-        </div>
-    </form>*@
-
-@*This script is required to display the selected file in the file upload element*@
 
 @section Scripts {
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

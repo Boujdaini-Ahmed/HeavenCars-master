@@ -5,7 +5,7 @@ using System.Text;
 
 namespace HeavenCars.DataAccessLayer.Models
 {
-   public class Transaction
+    public class Transaction
     {
         [Key]
         public string TransactionId { get; set; }

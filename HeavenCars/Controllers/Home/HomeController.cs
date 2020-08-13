@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mail;
 using System.Threading.Tasks;
 using HeavenCars.DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
-using MailKit.Net.Smtp;
 using MimeKit;
 using HeavenCars.ViewModels.Home;
 using MimeKit.Text;
@@ -13,13 +9,9 @@ using HeavenCars.DataAccessLayer.Models.Account;
 using Microsoft.AspNetCore.Identity;
 using HeavenCars.DataAccesLayer.Context;
 using Microsoft.EntityFrameworkCore;
-using NLog.LayoutRenderers.Wrappers;
 using Microsoft.AspNetCore.Authorization;
 using System.Diagnostics;
-using System.Security.Claims;
-using HeavenCars.DataAccessLayer.Repositories;
-using MimeKit.Encodings;
-using Stripe;
+using Microsoft.Extensions.Logging;
 
 namespace HeavenCars.Controllers.Home
 {
@@ -29,14 +21,15 @@ namespace HeavenCars.Controllers.Home
         public readonly AppDbContext _context;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        //private readonly IChatRepository _chatRepository;
+        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(AppDbContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager/*, IChatRepository chatRepository*/)
+        public HomeController(AppDbContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ILogger<HomeController> logger)
         {
             _context = context;
             _signInManager = signInManager;
             _userManager = userManager;
-            //_chatRepository = chatRepository;
+            _logger = logger;
+
         }
         public IActionResult Index()
         {
@@ -48,47 +41,7 @@ namespace HeavenCars.Controllers.Home
             return View();
         }
 
-        //public IActionResult Test()
-        //{
-        //    return View();
-        //}
-
-        //public IActionResult Charge(string stripeEmail, string stripeToken)
-        //{
-        //    var customers = new CustomerService();
-        //    var charges = new ChargeService();
-
-        //    var customer = customers.Create(new CustomerCreateOptions
-        //    {
-        //        Email = stripeEmail,
-        //        Source = stripeToken
-        //    });
-
-        //    var charge = charges.Create(new ChargeCreateOptions
-        //    {
-        //        Amount = 500,
-        //        Description = "Test Payment",
-        //        Currency = "usd",
-        //        Customer = customer.Id,
-        //        ReceiptEmail = stripeEmail,
-        //        Metadata = Metadata
-        //    });
-
-        //    if (charge.Status == "succeeded")
-        //    {
-        //        string BalanceTransactionId = charge.BalanceTransactionId;
-        //        return View();
-        //    }
-        //    else
-        //    {
-
-        //    }
-
-        //    return View();
-        //}
-
-
-
+   
         public async Task<IActionResult> Chat()
         {
             var currentUser = await _userManager.GetUserAsync(User);
@@ -102,6 +55,8 @@ namespace HeavenCars.Controllers.Home
 
         public async Task<IActionResult> Create(Message message)
         {
+            try
+            { 
             if (ModelState.IsValid)
             {
                 message.UserName = User.Identity.Name;
@@ -112,6 +67,13 @@ namespace HeavenCars.Controllers.Home
                 return Ok();
             }
             return Error();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"When trying to create a new message.");
+                throw;
+            }
+
         }
 
         public IActionResult Error()
@@ -123,41 +85,44 @@ namespace HeavenCars.Controllers.Home
         [HttpGet]
         public async Task <IActionResult> Contact(string id)
         {
-            var user = await _userManager.FindByIdAsync(id);
-            var model = new ContactViewModel
-            {
 
-               
-                Email = user.Email
-                
+                var user = await _userManager.FindByIdAsync(id);
+                var model = new ContactViewModel
+                {
 
-            };
 
-            return View(model);
-        }
+                    Email = user.Email
+
+
+                };
+
+                return View(model);
+            }
+
 
         [HttpPost]
         public async Task<IActionResult> Contact(ContactViewModel model)
         {
-           
 
-            if (ModelState.IsValid)
+            try
             {
-                var user = await _userManager.FindByIdAsync(model.Id);
 
-             
-                user.Email = model.Email;
-           
-
-                try
+                if (ModelState.IsValid)
                 {
+                    var user = await _userManager.FindByIdAsync(model.Id);
+
+
+                    user.Email = model.Email;
+
+
+
 
                     var message = new MimeMessage(); //instancie un nouveau mimeMessage
 
                     message.To.Add(new MailboxAddress("E-mail Recipient Name", "ict.slap@gmail.com")); //va regler le TO email addresse dans le barre
 
                     message.From.Add(new MailboxAddress("E-mail From Name", user.Email));   //va regler le FROM email addresse dans la barre
-                     
+
                     message.Subject = model.Subject; //C'est le subject de ton email
 
                     message.Body = new TextPart(TextFormat.Html)  //C'est le body message de ton email
@@ -174,265 +139,107 @@ namespace HeavenCars.Controllers.Home
                         emailClient.Send(message);
                         emailClient.Disconnect(true);
                     }
+
+
                 }
-                catch (Exception ex)
-                {
-                    ModelState.Clear();
-                    ViewBag.Message = $" Oops! We have a problem here {ex.Message}";
-                }
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"When retrieving to contact the admin.");
+                throw;
 
             }
-            return View(model);
         }
 
 
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            var user = await _userManager.FindByIdAsync(id);
-
-            if (user == null)
+            try
             {
-                ViewBag.ErrorMessage = $"User with Id = {id} cannot be found";
-                return View("NotFound");
+                var user = await _userManager.FindByIdAsync(id);
+
+                if (user == null)
+                {
+                    ViewBag.ErrorMessage = $"User with Id = {id} cannot be found";
+                    return View("NotFound");
+                }
+
+
+
+
+                var model = new PersoInformationViewModel
+                {
+                    UserName = user.UserName,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    EmailConfirmed = user.EmailConfirmed,
+                    PhoneNumber = user.PhoneNumber,
+                    Address = user.Address
+
+                };
+
+                return View(model);
             }
-
-
-
-
-            var model = new PersoInformationViewModel
+            catch (Exception ex)
             {
-                UserName = user.UserName,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                EmailConfirmed = user.EmailConfirmed,
-                PhoneNumber = user.PhoneNumber,
-                Address = user.Address
+                _logger.LogError(ex, $"When retrieving to edit your profile.");
+                throw;
 
-            };
-
-            return View(model);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(PersoInformationViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var user = await _userManager.FindByIdAsync(model.Id);
-
-                if (user == null)
+                if (ModelState.IsValid)
                 {
-                    ViewBag.ErrorMessage = $"User with Id = {model.Id} cannot be found";
-                    return View("NotFound");
+                    var user = await _userManager.FindByIdAsync(model.Id);
+
+                    if (user == null)
+                    {
+                        ViewBag.ErrorMessage = $"User with Id = {model.Id} cannot be found";
+                        return View("NotFound");
+                    }
+
+                    user.FirstName = model.FirstName;
+                    user.LastName = model.LastName;
+                    user.Email = model.Email;
+                    user.PhoneNumber = model.PhoneNumber;
+                    user.Address = model.Address;
+
+
+
+                    var result = await _userManager.UpdateAsync(user);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
                 }
 
-                user.FirstName = model.FirstName;
-                user.LastName = model.LastName;
-                user.Email = model.Email;
-                user.PhoneNumber = model.PhoneNumber;
-                user.Address = model.Address;
-
-
-
-                var result = await _userManager.UpdateAsync(user);
-
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
+                return View(model);
             }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"When retrieving to edit your profile.");
+                throw;
 
-            return View(model);
+            }
         }
 
-        //public IActionResult Intro()
-        //{
-        //    var users = _userManager.Users.ToList();
-        //    return View(users);
-        //}
-
-
-        //[HttpPost]
-        //public async Task<IActionResult> CreateRoom(string name)
-        //{
-
-
-        //    _context.Chats.Add(new Chat
-        //    {
-        //        Name = name,
-        //        Type = ChatType.Private
-        //    });
-
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction("Intro");
-        //}
-
-        //[HttpGet]
-
-        //public IActionResult Chatter(int id)
-        //{
-        //    var chat = _context.Chats
-        //        .Include(x => x.Msgs)
-        //        .FirstOrDefault(x => x.Id == id);
-            
-        //    return View(chat);
-        //}
-
-        //[HttpPost]
-
-        //public async Task<IActionResult> CreateMessage(int chatId, string message)
-        //{
-        //    var Message = new Msg
-        //    {
-        //        ChatId = chatId,
-        //        Text = message,
-        //        Name = "Default",
-        //        Timestamp = DateTime.Now
-        //    };
-
-        //    _context.Msgs.Add(Message);
-        //    await _context.SaveChangesAsync();
-
-        //    return RedirectToAction("Chatter", new { id = chatId });
-        //}
-
-
-
-        //public IActionResult RoomsDefault()
-        //{
-
-        //    var chats = _chatRepository.GetAllChat();
-        //    return View(chats);
-        //}
-        //public IActionResult Find()
-        //{
-        //    var users = _context.Users
-        //        .Where(x => x.Id != User.FindFirst(ClaimTypes.NameIdentifier).Value)
-        //        .ToList();
-
-        //    return View(users);
-        //}
-
-        //public IActionResult Private()
-        //{
-        //    var chats = _context.Chats
-        //        .Include(x => x.ApplicationUsers)
-        //        .ThenInclude(x => x.User)
-        //        .ToList();
-
-        //    return View(chats);
+        
         }
-        //public IActionResult CreatePrivateRoom(string userId)
-        //{
-        //    var chat = new Chat
-        //    {
-        //        Type = ChatType.Private
-        //    };
 
-        //    chat.ApplicationUsers.Add(new ChatUser
-        //    {
-        //        UserId = userId
-        //    });
-
-        //    return View(users);
-        //}
-        //    [HttpGet]
-        //    public async Task<IActionResult> Edit()
-        //    {
-        //        var user = await _userManager.GetUserAsync(User);
-        //        if (user == null)
-        //        {
-        //            throw new ApplicationException($"Unable to load user with ID ' { _userManager.GetUserId(User)} '.");
-        //        }
-        //        var model = new PersoInformationViewModel
-        //        {
-        //            UserName = user.UserName,
-        //            Email = user.Email,
-        //            EmailConfirmed = user.EmailConfirmed,
-        //            PhoneNumber = user.PhoneNumber,
-        //            Address = user.Address
-
-        //        };
-
-        //        return View(model);
-        //    }
-
-        //    [HttpPost]
-        //    [ValidateAntiForgeryToken]
-        //    public async Task<IActionResult> Edit(PersoInformationViewModel model)
-        //    {
-        //    //    if (ModelState.IsValid)
-        //    //    {
-        //    //        return View(model);
-        //    //    }
-
-        //    //    var user = await _userManager.GetUserAsync(User);
-        //    //    user.Address = model.Address;
-        //    //    if (user == null)
-        //    //    {
-        //    //        throw new ApplicationException($"Unable to load user with ID ' { _userManager.GetUserId(User)} '.");
-        //    //    }
-
-        //    //    var email = model.Email;
-        //    //    if (model.Email != email)
-        //    //    {
-        //    //        var setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
-        //    //        if (!setEmailResult.Succeeded)
-        //    //        {
-        //    //            throw new ApplicationException($"Unexpected error occured setting email' {user.Id} '.");
-        //    //        }
-
-        //    //    }
-
-        //    //    var phoneNumber = model.PhoneNumber;
-        //    //    if (model.PhoneNumber != phoneNumber)
-        //    //    {
-        //    //        var setPhoneNumberResult = await _userManager.SetPhoneNumberAsync(user, model.PhoneNumber);
-        //    //        if (!setPhoneNumberResult.Succeeded)
-        //    //        {
-        //    //            throw new ApplicationException($"Unexpected error occured setting phone number with user with ID' {user.Id} '.");
-        //    //        }
-
-        //    //    }
-        //    //    await _userManager.UpdateAsync(user);
-
-        //    //    return RedirectToAction("Edit", "Home");
-        //    //}
-
-        //    //    if (user == null)
-        //    //    {
-        //    //        ViewBag.ErrorMessage = $"User with Id = {model.Id} cannot be found";
-        //    //        return View("NotFound");
-        //    //    }
-        //    //    user.FirstName = model.FirstName;
-        //    //    user.LastName = model.LastName;
-        //    //    user.Email = model.Email;
-        //    //    user.EmailConfirmed = model.EmailConfirmed;
-        //    //    user.UserName = model.UserName;
-        //    //    user.City = model.City;
-
-        //    //    var result = await _userManager.UpdateAsync(user);
-
-        //    //    if (result.Succeeded)
-        //    //    {
-        //    //        return RedirectToAction("Index", "Home");
-        //    //    }
-
-        //    //    foreach (var error in result.Errors)
-        //    //    {
-        //    //        ModelState.AddModelError(string.Empty, error.Description);
-        //    //    }
-        //    //}
-
-
-        //}
     }
 
 

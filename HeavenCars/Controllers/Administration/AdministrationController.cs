@@ -9,26 +9,30 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace HeavenCars.Controllers.Administration
 {
-    //[Authorize(Roles = "Admin, SubAdmin")]
+
     public class AdministrationController : Controller
     {
         private readonly AppDbContext _context;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ILogger<AdministrationController> _logger;
 
-        public AdministrationController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager, AppDbContext context)
+
+        public AdministrationController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager, AppDbContext context, ILogger<AdministrationController> logger)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             _context = context;
+            _logger = logger;
         }
 
         public IActionResult Index()
         {
-            //Last 24 Hours
+
             DateTime Last24Hours = DateTime.Now.Date.AddHours(-24);
             AdminPanelViewModel model = new AdminPanelViewModel()
             {
@@ -36,8 +40,8 @@ namespace HeavenCars.Controllers.Administration
                 NumberOfBookings = _context.BookingVehicules.Count(),
                 NumberOfUsers = _context.Users.Count(),
                 NumberOfCars = _context.Cars.Count(),
-               
-             
+
+
             };
 
             return View(model);
@@ -192,42 +196,51 @@ namespace HeavenCars.Controllers.Administration
         [HttpGet]
         public async Task<IActionResult> EditUsersInRole(string roleId)
         {
-            ViewBag.roleId = roleId;
-
-            var role = await _roleManager.FindByIdAsync(roleId);
-
-            if (role == null)
+            try
             {
-                ViewBag.ErrorMessage = $"Role with Id = {roleId} cannot be found!";
-                return View("NotFound");
-            }
+                ViewBag.roleId = roleId;
 
-            var model = new List<RoleUserViewModel>();
-            var listUsers = await _userManager.Users.ToListAsync();
+                var role = await _roleManager.FindByIdAsync(roleId);
 
-            foreach (var user in listUsers)
-            {
-                var roleUserViewModel = new RoleUserViewModel()
+                if (role == null)
                 {
-                    UserId = user.Id,
-                    UserName = user.UserName,
-                };
-
-                var isInRole = await _userManager.IsInRoleAsync(user, role.Name);
-
-                if (isInRole)
-                {
-                    roleUserViewModel.IsSelected = true;
-                }
-                else
-                {
-                    roleUserViewModel.IsSelected = false;
+                    ViewBag.ErrorMessage = $"Role with Id = {roleId} cannot be found!";
+                    return View("NotFound");
                 }
 
-                model.Add(roleUserViewModel);
+                var model = new List<RoleUserViewModel>();
+                var listUsers = await _userManager.Users.ToListAsync();
+
+                foreach (var user in listUsers)
+                {
+                    var roleUserViewModel = new RoleUserViewModel()
+                    {
+                        UserId = user.Id,
+                        UserName = user.UserName,
+                    };
+
+                    var isInRole = await _userManager.IsInRoleAsync(user, role.Name);
+
+                    if (isInRole)
+                    {
+                        roleUserViewModel.IsSelected = true;
+                    }
+                    else
+                    {
+                        roleUserViewModel.IsSelected = false;
+                    }
+
+                    model.Add(roleUserViewModel);
+                }
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"When trying to update an user");
+                throw;
             }
 
-            return View(model);
         }
 
         [HttpPost]
@@ -280,92 +293,116 @@ namespace HeavenCars.Controllers.Administration
         [HttpGet]
         public async Task<IActionResult> EditUser(string id)
         {
-            var user = await _userManager.FindByIdAsync(id);
-
-            if (user == null)
+            try
             {
-                ViewBag.ErrorMessage = $"User with Id = {id} cannot be found";
-                return View("NotFound");
+                var user = await _userManager.FindByIdAsync(id);
+
+                if (user == null)
+                {
+                    ViewBag.ErrorMessage = $"User with Id = {id} cannot be found";
+                    return View("NotFound");
+                }
+
+
+                var userClaims = await _userManager.GetClaimsAsync(user);
+                var userRoles = await _userManager.GetRolesAsync(user);
+
+                var model = new EditUserViewModel
+                {
+                    Id = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    UserName = user.UserName,
+                    City = user.City,
+                    Claims = userClaims.Select(c => c.Value).ToList(),
+                    Roles = userRoles
+                };
+
+                return View(model);
             }
-
-
-            var userClaims = await _userManager.GetClaimsAsync(user);
-            var userRoles = await _userManager.GetRolesAsync(user);
-
-            var model = new EditUserViewModel
+            catch (Exception ex)
             {
-                Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                UserName = user.UserName,
-                City = user.City,
-                Claims = userClaims.Select(c => c.Value).ToList(),
-                Roles = userRoles
-            };
-
-            return View(model);
+                _logger.LogError(ex, $"When trying to get the details to update an user");
+                throw;
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> EditUser(EditUserViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var user = await _userManager.FindByIdAsync(model.Id);
+                if (ModelState.IsValid)
+                {
+                    var user = await _userManager.FindByIdAsync(model.Id);
+
+                    if (user == null)
+                    {
+                        ViewBag.ErrorMessage = $"User with Id = {model.Id} cannot be found";
+                        return View("NotFound");
+                    }
+                    user.FirstName = model.FirstName;
+                    user.LastName = model.LastName;
+                    user.Email = model.Email;
+                    user.UserName = model.UserName;
+                    user.City = model.City;
+
+                    var result = await _userManager.UpdateAsync(user);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("ListUsers");
+                    }
+
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"When trying to update an user");
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteUserAsync(string id)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(id);
 
                 if (user == null)
                 {
-                    ViewBag.ErrorMessage = $"User with Id = {model.Id} cannot be found";
+                    ViewBag.ErrorMessage = $"User with Id = {id} cannot be found";
                     return View("NotFound");
                 }
-                user.FirstName = model.FirstName;
-                user.LastName = model.LastName;
-                user.Email = model.Email;
-                user.UserName = model.UserName;
-                user.City = model.City;
 
-                var result = await _userManager.UpdateAsync(user);
+                var result = await _userManager.DeleteAsync(user);
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("ListUsers");
+                    return RedirectToAction("ListUsers", "Administration");
                 }
 
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
+
+                return View("ListUsers", "Administration");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"When trying to delete an user");
+                throw;
             }
 
-            return View(model);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> DeleteUserAsync(string id)
-        {
-            var user = await _userManager.FindByIdAsync(id);
-
-            if (user == null)
-            {
-                ViewBag.ErrorMessage = $"User with Id = {id} cannot be found";
-                return View("NotFound");
-            }
-
-            var result = await _userManager.DeleteAsync(user);
-
-            if (result.Succeeded)
-            {
-                return RedirectToAction("ListUsers", "Administration");
-            }
-
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
-
-            return View("ListUsers", "Administration");
-        }
-
     }
 }

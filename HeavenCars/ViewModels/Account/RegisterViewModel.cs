@@ -22,8 +22,6 @@ namespace HeavenCars.ViewModels.Account
                 ErrorMessage = "Email must be a valid Address Email.")]
             [Remote(action: "IsEmailInUse",
                 controller: "Account")]
-            //[ValidEmailDomain(allowedDomain: "test.com",
-            //    ErrorMessage = "Email domain must be test.com")]
             public string Email { get; set; }
 
             [Required]
@@ -38,6 +36,5 @@ namespace HeavenCars.ViewModels.Account
 
             public string City { get; set; }
 
-        //public DateTime Birthday { get; set; }
     }
     }

@@ -1,6 +1,7 @@
 ﻿using HeavenCars.DataAccesLayer.Context;
 using HeavenCars.DataAccessLayer.Models.Cars;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,12 @@ namespace HeavenCars.DataAccessLayer.Repositories.Cars
     {
 
         private readonly AppDbContext context;
+        private readonly ILogger<CarRepository> _logger;
 
-        public CarRepository(AppDbContext context)
+        public CarRepository(AppDbContext context, ILogger<CarRepository> logger)
         {
             this.context = context;
+            _logger = logger;
         }
 
         public Car Add(Car car)
@@ -27,13 +30,23 @@ namespace HeavenCars.DataAccessLayer.Repositories.Cars
 
         public Car Delete(Car car)
         {
-            Car carToBeDeleted = context.Cars.Find(car.CarId);
-            if (carToBeDeleted != null)
+            //Car carToBeDeleted = context.Cars.Find(car.CarId);
+            var caretresupprimer = context.Cars.Remove(car);
+
+            if (caretresupprimer != null && caretresupprimer.State == EntityState.Deleted)
             {
-                context.Cars.Update(carToBeDeleted);
-                context.SaveChanges();
+                //context.Cars.Update(carToBeDeleted);
+                //context.SaveChanges();
+                var affectedRows = context.SaveChanges();
+
+                if (affectedRows > 0)
+                {
+                    _logger.LogInformation($"The {car.CarModel.Brand.BrandName} was deleted.");
+                    return caretresupprimer.Entity;
+                }
             }
-            return carToBeDeleted;
+            return null;
+            //return carToBeDeleted;
         }
 
 
